@@ -1,0 +1,101 @@
+.jacquard-12-regular {
+    font-family: "Jacquard 12", system-ui;
+    font-weight: 400;
+    font-style: normal;
+}
+
+body {
+    background-color: #111;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 20px;
+}
+
+header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.top-right select {
+    background-color: #333;
+    color: white;
+    border: 2px solid #666;
+    padding: 5px;
+    font-size: 16px;
+}
+
+.title {
+    /* Nur eine font-family Definition */
+    font-family: "Jacquard 12", sans-serif;
+    font-size: 5em;
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #bada55;
+    text-shadow: 2px 2px #000;
+}
+
+.currency-display {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #ffd700;
+}
+
+main {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: calc(100vh - 100px);
+}
+
+.game-area {
+    flex-grow: 1;
+    background-color: #222;
+    border: 2px solid #444;
+    margin-right: 20px;
+    position: relative;
+    /* Damit Bilder darin richtig angezeigt werden */
+    overflow: hidden;
+}
+
+/* Füge diese neue Regel hinzu, um das Bild anzupassen */
+.game-area img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Bildverhältnis beibehalten und den Container füllen */
+    display: block;
+}
+
+.upgrade-panel {
+    width: 400px;
+    background-color: #222;
+    border: 2px solid #444;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.upgrades-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.upgrades-list div {
+    background-color: #333;
+    padding: 10px;
+    border: 2px solid #555;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.upgrades-list div:hover {
+    background-color: #444;
+}
