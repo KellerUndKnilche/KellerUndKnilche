@@ -24,10 +24,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `pluender_pesos`
+-- Tabellenstruktur für Tabelle `beute_batzen`
 --
 
-CREATE TABLE `pluender_pesos` (
+CREATE TABLE `beute_batzen` (
   `user_id` int(11) NOT NULL,
   `amount` bigint(50) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -63,9 +63,9 @@ CREATE TABLE `user_upgrades` (
 --
 
 --
--- Indizes für die Tabelle `pluender_pesos`
+-- Indizes für die Tabelle `beute_batzen`
 --
-ALTER TABLE `pluender_pesos`
+ALTER TABLE `beute_batzen`
   ADD PRIMARY KEY (`user_id`);
 
 --
@@ -97,10 +97,10 @@ ALTER TABLE `users`
 --
 
 --
--- Constraints der Tabelle `pluender_pesos`
+-- Constraints der Tabelle `beute_batzen`
 --
-ALTER TABLE `pluender_pesos`
-  ADD CONSTRAINT `pluender_pesos_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+ALTER TABLE `beute_batzen`
+  ADD CONSTRAINT `beute_batzen_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints der Tabelle `user_upgrades`
