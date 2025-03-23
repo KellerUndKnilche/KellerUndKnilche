@@ -1,0 +1,17 @@
+[
+    {
+      "id": "upgrade_gold_1",
+      "name": "Goldvermehrer I",
+      "cost": 100,
+      "effect": "increase_gold_generation",
+      "value": 1.2
+    },
+    {
+      "id": "upgrade_gold_2",
+      "name": "Goldvermehrer II",
+      "cost": 500,
+      "effect": "increase_gold_generation",
+      "value": 1.5
+    }
+  ]
+  
