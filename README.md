@@ -11,11 +11,12 @@ Technisch setzen wir auf **HTML, CSS/Bootstrap, PHP und Javascript**. Spielstän
 
 ## Überblick über Repo
 
-| Ordner | Verwendung |
+| Ordner | Beschreibung |
 | ------ | ---------- |
 | src | Quellcode der Website (Unterordner für css, js, images, etc.) |
-| config | Konfigurationsdateien (z.B. sql-Skripte) |
-| tests| Tests (z.B. Unit-Tests oder Integrationstests)|
+| config | Konfigurationsdateien (z.B. SQL-Skripte) |
+| tests| Testfälle (z.B. Unit-Tests oder Integrationstests)|
 | doc | Dokumentationen |
 | logs | Log-Dateien (z.B. Error-Logs) |
-| production | derzeitige gehostete Live-Version |
+| production | aktuelle Live-Version der Website |
+
