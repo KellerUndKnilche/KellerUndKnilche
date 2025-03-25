@@ -36,7 +36,7 @@ function increaseCurrency() {
 }
 
 function updateCurrencyDisplay() {
-    document.getElementById("currency").textContent = currency + " ₱";
+    document.getElementById("currency").textContent = currency + " ";
 }
 
 function handleAutoClickerDetection() {
@@ -54,3 +54,28 @@ function handleAutoClickerDetection() {
     // Klickverlauf zurücksetzen
     clickHistory = [];
 }
+
+document.getElementById("user-actions").addEventListener("change", function() {
+    var selectedValue = this.value;
+
+    if (selectedValue === "login") {
+        console.log("Login selected");
+        window.location.href = "login.html";
+    }
+});
+
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    var username = document.getElementById('username').value;
+    var password = document.getElementById('password').value;
+    var errorMessage = document.getElementById('errorMessage');
+
+    if (username === '' || password === '') {
+        errorMessage.style.display = 'block';
+    } else {
+        errorMessage.style.display = 'none';
+        // Hier können Sie die Daten an den Server senden
+        console.log('Benutzername:', username);
+        console.log('Passwort:', password);
+    }
+});
