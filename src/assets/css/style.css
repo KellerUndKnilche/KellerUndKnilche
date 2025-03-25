@@ -70,14 +70,15 @@ main {
 .game-area img {
     width: 100%;
     height: 100%;
+
     object-fit: cover; /* Bildverhältnis beibehalten und den Container füllen */
     display: block;
 }
 
 .upgrade-panel {
     width: 400px;
-    background-color: #222;
-    border: 2px solid #444;
+    background-color: #354f52;
+    border: 2px solid #222;
     padding: 10px;
     overflow-y: auto;
 }
@@ -89,7 +90,7 @@ main {
 }
 
 .upgrades-list div {
-    background-color: #333;
+    background-color: #52796f;
     padding: 10px;
     border: 2px solid #555;
     cursor: pointer;
@@ -97,21 +98,21 @@ main {
 }
 
 .upgrades-list div:hover {
-    background-color: #444;
+    background-color: #84a98c;
 }
 
 
 /* Login Styles */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    background-color: #2f3e46;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
 }
 .login-container {
-    background-color: #fff;
+    background-color: #354f52;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -123,24 +124,75 @@ body {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
-    border: 1px solid #ccc;
+    border: 1px solid #354f52;
     border-radius: 5px;
 }
 .login-container button {
     width: 100%;
     padding: 10px;
-    background-color: #007BFF;
+    background-color: #52796f;
     border: none;
     color: #fff;
     border-radius: 5px;
     cursor: pointer;
 }
 .login-container button:hover {
-    background-color: #0056b3;
+    background-color: #84a98c;
 }
 .error {
     color: red;
     display: none;
 }
 
-/* */
+/* Registration Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #2f3e46;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.reg-container {
+    background-color: #354f52;
+    padding: 20px 25px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+}
+
+.reg-container h2 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.reg-container input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #354f52;
+    border-radius: 5px;
+}
+
+.reg-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #52796f; 
+    border: none;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.reg-container button:hover {
+    background-color: #84a98c;
+}
+
+.error {
+    color: red;
+    display: none;
+    margin-top: 10px;
+    text-align: center;
+}

@@ -15,6 +15,8 @@
             <button type="submit">Einloggen</button>
             <p class="error" id="errorMessage">Bitte füllen Sie alle Felder aus.</p>
         </form>
+        <!-- Link für Registrierung -->
+        <p>Noch keinen Account? <a href="registration.php">Jetzt registrieren</a></p>
     </div>
     <script src="./assets/js/script.js"></script>
 </body>

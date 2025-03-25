@@ -55,14 +55,45 @@ function handleAutoClickerDetection() {
     clickHistory = [];
 }
 
-document.getElementById("user-actions").addEventListener("change", function() {
-    var selectedValue = this.value;
 
-    if (selectedValue === "login") {
-        console.log("Login selected");
-        window.location.href = "login.html";
-    }
+document.getElementById("user-actions").addEventListener("change", function () {
+    var selectedValue = this.value;
+    
+    setTimeout(function() {
+        if (selectedValue === "login") {
+            console.log("Login selected");
+            window.location.href = "login.php";
+            this.value = "home";
+
+        } else if (selectedValue === "register") {
+            console.log("Register selected");
+            window.location.href = "registration.php";
+            this.value = "home";
+
+        } else if (selectedValue === "home") {
+            console.log("Home selected");
+            window.location.href = "index.php";
+            this.value = "home";
+
+        } else if (selectedValue === "statistics") {
+            console.log("Statistics selected");
+            window.location.href = "statistics.php";
+            this.value = "home";
+
+        } else if (selectedValue === "profile") {
+            console.log("Profile selected");
+            window.location.href = "profile.php";
+            this.value = "home";
+
+        } else if (selectedValue === "logout") {
+            console.log("Logout selected");
+            window.location.href = "index.php";
+            this.value = "home";
+        }
+    }, 200); 
 });
+
+
 
 document.getElementById('loginForm').addEventListener('submit', function(event) {
     event.preventDefault();
@@ -79,3 +110,4 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
         console.log('Passwort:', password);
     }
 });
+  
