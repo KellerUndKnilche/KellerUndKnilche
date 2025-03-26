@@ -99,3 +99,21 @@ main {
 .upgrades-list div:hover {
     background-color: #444;
 }
+
+/* Styling für login.html und registration.php */
+
+.login-container p {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.9em;
+    color: #666;
+}
+
+.login-container p a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+.login-container p a:hover {
+    text-decoration: underline;
+}
