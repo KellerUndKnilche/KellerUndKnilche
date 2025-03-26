@@ -4,23 +4,27 @@
     font-style: normal;
 }
 
+/* Allgemeine Schriftart */
 body {
+    font-family: "Jacquard 12", sans-serif; /* Einheitliche Schriftart */
     background-color: #111;
     color: #fff;
+    margin: 0; /* Entferne Standard-Margin */
+    padding: 0; /* Entferne Standard-Padding */
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    padding: 20px;
+    min-height: 100vh; /* Stelle sicher, dass der Inhalt die gesamte Höhe einnimmt */
 }
 
 header {
-    width: 100%;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    margin-bottom: 20px;
+    height: auto; /* Entferne feste Höhe */
+    padding: 20px 10px; /* Dynamisches Padding */
+    text-align: center;
+    background-color: transparent; /* Optional: Hintergrundfarbe */
 }
 
 .top-right select {
@@ -32,41 +36,52 @@ header {
 }
 
 .title {
-    /* Nur eine font-family Definition */
-    font-family: "Jacquard 12", sans-serif;
-    font-size: 5em;
-    text-align: center;
+/* Nur eine font-family Definition */
+    font-size: clamp(2rem, 5vw, 4rem); /* Dynamische Schriftgröße */
     font-weight: bold;
     letter-spacing: 2px;
     text-transform: uppercase;
     color: #bada55;
     text-shadow: 2px 2px #000;
+    margin: 0; /* Entferne Standard-Margin */
+    padding: 0; /* Entferne Standard-Padding */
 }
 
 .currency-display {
-    font-size: 1.5em;
+    font-size: 1.2rem; /* Kleinere Schriftgröße für mobile Geräte */
     font-weight: bold;
     color: #ffd700;
+    margin-top: 10px;
+}
+.stat-display {
+    font-size: 1.2rem; /* Kleinere Schriftgröße für mobile Geräte */
+    font-weight: bold;
+    color: #bada55;
+    margin-top: 10px;
 }
 
+/* Platz für die Navbar schaffen */
 main {
+    flex: 1; /* Hauptinhalt nimmt den verbleibenden Platz ein */
+    margin-top: 60px; /* Platz für die fixierte Navbar */
+    padding: 20px;
+    margin-bottom: 60px; /* Platz für den fixierten Footer */
     display: flex;
-    justify-content: space-between;
-    width: 100%;
-    height: calc(100vh - 100px);
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 .game-area {
-    flex-grow: 1;
+    flex: 2; /* Größerer Bereich für das Spiel */
     background-color: #222;
     border: 2px solid #444;
-    margin-right: 20px;
     position: relative;
-    /* Damit Bilder darin richtig angezeigt werden */
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Füge diese neue Regel hinzu, um das Bild anzupassen */
 .game-area img {
     width: 100%;
     height: 100%;
@@ -75,17 +90,32 @@ main {
     display: block;
 }
 
-.upgrade-panel {
-    width: 400px;
+.side-panel {
+    flex: 1; /* Kleinere Breite für Side Panels */
+    max-width: 300px;
     background-color: #354f52;
     border: 2px solid #222;
     padding: 10px;
+    border-radius: 5px;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column; /* Staple Inhalte untereinander */
+    gap: 10px; /* Abstand zwischen den Elementen */
+}
+
+@media (max-width: 992px) { /* Für kleinere Bildschirme */
+    .side-panel {
+        display: none; /* Standardmäßig ausgeblendet */
+    }
+
+    .side-panel.active {
+        display: block; /* Zeige das Panel, wenn es aktiv ist */
+    }
 }
 
 .upgrades-list {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Dynamisches Grid */
     gap: 10px;
 }
 
@@ -104,7 +134,7 @@ main {
 
 /* Login Styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: "Jacquard 12", sans-serif; /* Einheitliche Schriftart */
     background-color: #2f3e46;
     display: flex;
     justify-content: center;
@@ -144,9 +174,8 @@ body {
     display: none;
 }
 
-/* Registration Styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: "Jacquard 12", sans-serif; /* Einheitliche Schriftart */
     background-color: #2f3e46;
     display: flex;
     justify-content: center;
@@ -195,4 +224,225 @@ body {
     display: none;
     margin-top: 10px;
     text-align: center;
+}
+
+/* Navbar Styling */
+.navbar {
+    position: fixed; /* Fixiere die Navbar oben */
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #222;
+    z-index: 1000; /* Sicherstellen, dass die Navbar über anderen Elementen liegt */
+    padding: 10px 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.navbar-nav {
+    display: flex;
+    flex-wrap: wrap; /* Ermögliche Zeilenumbruch bei kleinen Bildschirmen */
+    justify-content: center; /* Zentriere die Navigation */
+    gap: 10px; /* Abstand zwischen den Links */
+}
+
+.nav-item {
+    flex: 1 1 auto; /* Flexibles Verhalten für responsive Layouts */
+    text-align: center;
+}
+
+/* Footer Styling */
+footer {
+    position: fixed; /* Fixiere den Footer unten */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #222;
+    color: #fff;
+    text-align: center;
+    padding: 10px 15px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
+}
+
+footer .nav {
+    display: flex;
+    flex-wrap: wrap; /* Ermögliche Zeilenumbruch bei kleinen Bildschirmen */
+    justify-content: center;
+    gap: 10px;
+}
+
+footer .nav-item {
+    flex: 1 1 auto; /* Flexibles Verhalten für responsive Layouts */
+    text-align: center;
+}
+
+/* Toggle Button Styling */
+#toggle-side-panels {
+    position: fixed;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #52796f;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+#toggle-side-panels:hover {
+    background-color: #84a98c;
+}
+
+/* Side Panels auf kleinen Schirmen */
+@media (max-width: 992px) {
+    #side-panels {
+        display: none; /* Standardmäßig ausgeblendet */
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); /* Zentriere das Panel */
+        width: 90%; /* Passe die Breite an die Displaygröße an */
+        max-width: 400px; /* Begrenze die maximale Breite */
+        height: 80%; /* Passe die Höhe an die Displaygröße an */
+        background-color: #354f52;
+        z-index: 999;
+        overflow-y: auto; /* Ermögliche Scrollen */
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 10px; /* Runde die Ecken */
+        display: flex;
+        flex-direction: column; /* Staple Inhalte untereinander */
+        gap: 20px; /* Abstand zwischen den Abschnitten */
+        visibility: hidden; /* Unsichtbar, wenn nicht aktiv */
+        opacity: 0; /* Unsichtbar, wenn nicht aktiv */
+        transition: visibility 0s, opacity 0.3s ease-in-out;
+    }
+
+    #side-panels.active {
+        display: flex; /* Zeige das Panel, wenn aktiv */
+        visibility: visible; /* Sichtbar, wenn aktiv */
+        opacity: 1; /* Sichtbar, wenn aktiv */
+    }
+}
+
+.side-panel {
+    background-color: #52796f;
+    border: 2px solid #222;
+    padding: 10px;
+    border-radius: 5px;
+    overflow-y: auto; /* Ermögliche Scrollen innerhalb jedes Abschnitts */
+    flex: 1;
+    display: flex;
+    flex-direction: column; /* Staple Inhalte untereinander */
+    gap: 10px; /* Abstand zwischen den Elementen */
+}
+
+.side-panel h2 {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    color: #fff;
+    text-align: center;
+}
+
+.currency-display {
+    font-size: 1rem;
+    color: #ffd700;
+    text-align: center;
+    margin-top: 10px;
+}
+
+#currency-display {
+    text-align: center;
+    margin: 10px 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #ffd700;
+    margin-bottom: 10px;
+}
+
+@media (min-width: 992px) {
+    #currency-display {
+        order: 0; 
+        margin-bottom: 0px;
+        z-index: 1000;
+        position: fixed;
+        top: 10px;
+    }
+}
+
+.upgrades-list {
+    display: flex;
+    flex-direction: column; /* Staple Upgrades untereinander */
+    gap: 10px;
+}
+
+.upgrades-list div {
+    background-color: #354f52;
+    padding: 10px;
+    border: 2px solid #555;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.upgrades-list div:hover {
+    background-color: #84a98c;
+}
+
+/* Side Panels auf größeren Bildschirmen */
+@media (min-width: 992px) {
+    #side-panels {
+        display: flex;
+        position: static;
+        width: auto;
+        height: auto;
+        background-color: transparent;
+        box-shadow: none;
+        overflow: visible;
+        padding: 0;
+    }
+
+    #side-panels.active {
+        display: flex; 
+    }
+}
+
+.side-panel {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #52796f;
+    border: 2px solid #222;
+    overflow-y: auto;
+    flex: 1;
+}
+
+@media (max-width: 992px) {
+    .side-panel {
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 992px) {
+    main {
+        flex-direction: column; /* Staple Inhalte untereinander */
+    }
+
+    .game-area {
+        flex: none;
+        width: 100%; /* Volle Breite auf mobilen Geräten */
+        height: 300px; /* Feste Höhe für mobile Geräte */
+    }
+
+    .side-panel {
+        width: 100%; /* Volle Breite auf mobilen Geräten */
+        max-width: none;
+    }
 }

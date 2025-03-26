@@ -1,40 +1,58 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Keller & Knilche</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="./assets/css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Jacquard+12&display=swap" rel="stylesheet">
-</head>
-<body>
-    <header>
-        <div class="top-right">
-            <select id="user-actions">
-                <option value="home">Spiel</option>
-                <option value="login">Anmelden</option>
-                <option value="register">Registrieren</option>
-                <option value="statistics">Statistiken</option>
-                <option value="profile">Profil</option>
-                <option value="logout">Abmelden</option>
-            </select>
-        </div>
-        <h1 class="title">Keller & Knilche</h1>
-        <div class="currency-display">
-            <span id="currency"></span>
+<?php 
+$pageTitle = 'Keller & Knilche Homepage';
+require_once('includes/header.php'); 
+?>
+<header class="d-flex flex-column justify-content-center align-items-center text-center">
+    <h1 class="title display-1">Keller & Knilche</h1>
+</header>
+<?php require_once('includes/nav.php'); ?>
+<main class="container">
+    
+    <section class="game-area">
+        <img id="click_button" src="/assets/img/gamearea_platzhalter.png" alt="Dungeon">
+    </section>
+    
+    <!-- Toggle Button fuer Side Panels -->
+    <button id="toggle-side-panels" class="btn btn-primary d-lg-none">☰</button>
+    
+    <div id="side-panels" class="d-lg-flex flex-lg-column mt-4">
+        <div id="currency-display" class="currency-display">
+            <span id="currency-label">Beute Batzen: </span>
+            <span id="currency">0</span>
             <span id="currency-label"> BB</span>
         </div>
-    </header>
+        <div class="side-panel mb-3">
+            <h2>Stats</h2>
+            <div class="stat-display mt-3 mb-3">
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <span id="stat-label">Helden besiegt: </span>
+                        <span id="stat">0</span>
+                    </div>
+                </div>
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <span id="stat-label">Fallen ausgelöst: </span>
+                        <span id="stat">0</span>
+                    </div>
+                </div>
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <span id="stat-label">Schaden: </span>
+                        <span id="stat">0</span>
+                    </div>
+                </div>
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <span id="stat-label">Monster rekrutiert: </span>
+                        <span id="stat">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <main>
-        <section class="game-area">
-            <img id = "click_button" src="./assets/img/gamearea_platzhalter.png" alt="Dungeon">
-        </section>
-
-        <aside class="upgrade-panel">
+        <!-- Upgrades Panel -->
+        <div class="side-panel">
             <h2>Upgrades</h2>
             <div class="upgrades-list">
                 <div>Upgrade 1</div>
@@ -47,10 +65,25 @@
                 <div>Upgrade 8</div>
                 <div>Upgrade 9</div>
                 <div>Upgrade 10</div>
-
             </div>
-        </aside>
-    </main>
-    <script src="./assets/js/script.js"></script>
-</body>
-</html>  
+        </div>
+    </div>
+</main>
+<?php require_once('includes/footer.php'); ?>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const toggleButton = document.getElementById("toggle-side-panels");
+        const sidePanels = document.getElementById("side-panels");
+
+        if (toggleButton && sidePanels) {
+            toggleButton.addEventListener("click", () => {
+                sidePanels.classList.toggle("active");
+                toggleButton.setAttribute(
+                    "aria-expanded",
+                    sidePanels.classList.contains("active")
+                );
+            });
+        }
+    });
+</script>
+<script src="./assets/js/script.js"></script>
