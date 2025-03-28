@@ -4,43 +4,52 @@ require_once('../../config/dbAccess.php');
 require_once('../../includes/header.php');
 require_once('../../includes/nav.php');
 
-$message = "";
-$usernameErr = $emailErr = $passwordErr = $confirmPasswordErr = "";
+
+// Initialisierung der Variablen
+$username = $email = $password = $confirmPassword = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $username = trim($_POST["username"]);
     $email = trim($_POST["email"]);
     $password = $_POST["password"];
     $confirmPassword = $_POST["confirm_password"];
+    $errors = [];
 
     // Eingaben pruefen
     if (empty($username)) {
-        $usernameErr = "Benutzername ist erforderlich.";
+        $errors[] = "Benutzername ist erforderlich.";
     } elseif (userExists($db, $username, $email)) {
-        $usernameErr = "Benutzername oder E-Mail ist bereits vergeben.";
+        $errors[] = "Benutzername oder E-Mail ist bereits vergeben.";
     }
 
     if (empty($email)) {
-        $emailErr = "E-Mail ist erforderlich.";
+        $errors[] = "E-Mail ist erforderlich.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $emailErr = "Ungültige E-Mail-Adresse.";
+        $errors[] = "Ungültige E-Mail-Adresse.";
     }
 
     if (empty($password)) {
-        $passwordErr = "Passwort ist erforderlich.";
+        $errors[] = "Passwort ist erforderlich.";
     } elseif (strlen($password) < 6) {
-        $passwordErr = "Das Passwort muss mindestens 6 Zeichen lang sein.";
+        $errors[] = "Das Passwort muss mindestens 6 Zeichen lang sein.";
     }
 
     if (empty($confirmPassword)) {
-        $confirmPasswordErr = "Passwortbestätigung ist erforderlich.";
+        $errors[] = "Passwortbestätigung ist erforderlich.";
     } elseif ($password !== $confirmPassword) {
-        $confirmPasswordErr = "Passwörter stimmen nicht überein.";
+        $errors[] = "Passwörter stimmen nicht überein.";
     }
 
-    // Falls keine Fehler vorhanden sind, Benutzer registrieren
-    if (empty($usernameErr) && empty($emailErr) && empty($passwordErr) && empty($confirmPasswordErr)) {
+    if (empty($errors)) {
+        // Falls keine Fehler vorhanden sind, Benutzer registrieren
         $message = registerUser($db, $username, $email, $password);
+    } else {
+        // Fehler anzeigen
+        echo "<div class='alert alert-danger'><ul>";
+        foreach ($errors as $error) {
+            echo "<li>$error</li>";
+        }
+        echo "</ul></div>";
     }
 }
 ?>
@@ -49,28 +58,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <form method="post" action="">
         <div class="mb-3">
             <label for="username" class="form-label">Benutzername</label>
-            <input type="text" class="form-control" id="username" name="username" placeholder="Benutzername" required>
-            <span class="text-danger"><?php echo htmlspecialchars($usernameErr); ?></span>
+            <input type="text" class="form-control" id="username" name="username" placeholder="Benutzername" value="<?php echo $username?>" required>
         </div>
         <div class="mb-3">
             <label for="email" class="form-label">E-Mail</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="E-Mail" required>
-            <span class="text-danger"><?php echo htmlspecialchars($emailErr); ?></span>
+            <input type="email" class="form-control" id="email" name="email" placeholder="E-Mail" value="<?php echo $email?>" required>
         </div>
         <div class="mb-3">
             <label for="password" class="form-label">Passwort</label>
             <input type="password" class="form-control" id="password" name="password" placeholder="Passwort" required>
-            <span class="text-danger"><?php echo htmlspecialchars($passwordErr); ?></span>
         </div>
         <div class="mb-3">
             <label for="confirm_password" class="form-label">Passwort bestätigen</label>
             <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Passwort bestätigen" required>
-            <span class="text-danger"><?php echo htmlspecialchars($confirmPasswordErr); ?></span>
         </div>
         <div class="d-grid">
             <button type="submit" class="btn btn-primary">Registrieren</button>
         </div>
-        <p class="text-danger mt-3"><?php echo htmlspecialchars($message); ?></p>
     </form>
     <p class="text-center mt-3">Schon registriert? <a href="login.php">Hier einloggen</a></p>
 </div>

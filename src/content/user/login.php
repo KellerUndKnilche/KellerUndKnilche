@@ -4,27 +4,36 @@ require_once('../../config/dbAccess.php');
 require_once('../../includes/header.php');
 require_once('../../includes/nav.php');
 
-$usernameErr = $passwordErr = $loginErr = "";
 $username = $password = "";
 
+if(isset($_SESSION["user"]) && isset($_COOKIE["user_id"])) {
+    // Bereits eingeloggt
+    header("Location: /content/user/profile.php");
+    exit();
+}
+
+
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $errors = [];
+
     if (empty($_POST["username"])) {
-        $usernameErr = "Benutzername ist erforderlich.";
+        $errors[] = "Benutzername ist erforderlich.";
     } else {
         $username = trim($_POST["username"]);
     }
 
     if (empty($_POST["password"])) {
-        $passwordErr = "Passwort ist erforderlich.";
+        $errors[] = "Passwort ist erforderlich.";
     } else {
         $password = $_POST["password"];
     }
 
-    if (empty($usernameErr) && empty($passwordErr)) {
+    if (empty($errors)) {
         $user = fetchUserByUsername($db, $username);
         if ($user && password_verify($password, $user['password_hash'])) {
             if ($user['isLocked']) {
-                $loginErr = "Ihr Konto ist gesperrt. Bitte wenden Sie sich an den Support.";
+                $errors[] = "Ihr Konto ist gesperrt. Bitte wenden Sie sich an den Support.";
             } else {
                 session_set_cookie_params([
                     'lifetime' => 2592000, // 30 Tage in Sekunden
@@ -33,7 +42,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     'httponly' => true, // Stellt sicher, dass das Cookie nicht über JavaScript zugänglich ist
                     'samesite' => 'Strict'
                 ]);
-                session_start();
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
                 // User Information in Session speichern
                 $_SESSION["user"] = [
                     "id" => $user["id"],
@@ -59,9 +70,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 exit();
             }
         } else {
-            $loginErr = "Ungültiger Benutzername oder Passwort.";
+            $errors[] = "Ungültiger Benutzername oder Passwort.";
         }
     }
+    // Fehler anzeigen
+    echo "<div class='alert alert-danger'><ul>";
+    foreach ($errors as $error) {
+        echo "<li>$error</li>";
+    }
+    echo "</ul></div>";
 }
 ?>
 <div class="login-container">
@@ -69,13 +86,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <form id="login-form" method="post" action="">
         <div class="mb-3">
             <label for="username" class="form-label">Benutzername</label>
-            <input type="text" class="form-control" id="username" name="username" placeholder="Benutzername" required>
-            <span class="text-danger"><?php echo htmlspecialchars($usernameErr); ?></span>
+            <input type="text" class="form-control" id="username" name="username" placeholder="Benutzername" value="<?php echo $username?>" required>
         </div>
         <div class="mb-3">
             <label for="password" class="form-label">Passwort</label>
             <input type="password" class="form-control" id="password" name="password" placeholder="Passwort" required>
-            <span class="text-danger"><?php echo htmlspecialchars($passwordErr); ?></span>
         </div>
         <div class="mb-3">
             <h5 class="form-label">Optionen</h5>
@@ -87,7 +102,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <div class="d-grid">
             <button type="submit" class="btn btn-primary">Einloggen</button>
         </div>
-        <p class="text-danger mt-3"><?php echo htmlspecialchars($loginErr); ?></p>
     </form>
     <p class="text-center mt-3">Noch keinen Account? <a href="registration.php">Jetzt registrieren</a></p>
 </div>
