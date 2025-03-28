@@ -70,20 +70,5 @@ require_once('includes/header.php');
     </div>
 </main>
 <?php require_once('includes/footer.php'); ?>
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const toggleButton = document.getElementById("toggle-side-panels");
-        const sidePanels = document.getElementById("side-panels");
-
-        if (toggleButton && sidePanels) {
-            toggleButton.addEventListener("click", () => {
-                sidePanels.classList.toggle("active");
-                toggleButton.setAttribute(
-                    "aria-expanded",
-                    sidePanels.classList.contains("active")
-                );
-            });
-        }
-    });
-</script>
+<script src="./assets/js/sidePanels.js"></script>
 <script src="./assets/js/script.js"></script>

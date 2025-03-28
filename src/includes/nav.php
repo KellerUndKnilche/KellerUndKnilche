@@ -33,6 +33,18 @@
             <a class="nav-link" href="/content/user/login.php">Login</a>
           </li>
         <?php } ?>
+        <li class="nav-item">
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="fontDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                Change Font
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="fontDropdown">
+                <li><a class="dropdown-item" href="#" onclick="changeFont('font-medieval')">Medieval Sharp</a></li>
+                <li><a class="dropdown-item" href="#" onclick="changeFont('font-uncial')">Uncial Antiqua</a></li>
+                <li><a class="dropdown-item" href="#" onclick="changeFont('font-jacquard')">Jacquard 12</a></li>
+              </ul>
+            </div>
+        </li>
       </ul>
     </div>
   </div>

@@ -1,12 +1,11 @@
 .jacquard-12-regular {
-    font-family: "Jacquard 12", system-ui;
+    font-family: system-ui;
     font-weight: 400;
     font-style: normal;
 }
 
 /* Allgemeine Schriftart */
 body {
-    font-family: "Jacquard 12", sans-serif; /* Einheitliche Schriftart */
     background-color: #111;
     color: #fff;
     margin: 0; /* Entferne Standard-Margin */
@@ -133,7 +132,6 @@ main {
 
 /* Login Styles */
 body {
-    font-family: "Jacquard 12", sans-serif; /* Einheitliche Schriftart */
     background-color: #2f3e46;
     display: flex;
     justify-content: center;
@@ -174,7 +172,6 @@ body {
 }
 
 body {
-    font-family: "Jacquard 12", sans-serif; /* Einheitliche Schriftart */
     background-color: #2f3e46;
     display: flex;
     justify-content: center;
@@ -274,30 +271,6 @@ footer .nav-item {
     text-align: center;
 }
 
-/* Toggle Button Styling */
-#toggle-side-panels {
-    position: fixed;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 1000;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    background-color: #52796f;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
-}
-
-#toggle-side-panels:hover {
-    background-color: #84a98c;
-}
 
 /* Side Panels auf kleinen Schirmen */
 @media (max-width: 992px) {
@@ -323,7 +296,39 @@ footer .nav-item {
         opacity: 0; /* Unsichtbar, wenn nicht aktiv */
         transition: visibility 0s, opacity 0.3s ease-in-out;
     }
+    
+    /* Toggle Button Styling */
+    #toggle-side-panels {
+        position: fixed;
+        align-self: center;
+        top: 83%;
+        left: 50%; /* Zentriere den Button horizontal */
+        transform: translate(-50%, -50%); /* Zentriere den Button vollständig */
+        z-index: 1000;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        background-color: #52796f;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+    }
 
+    #toggle-side-panels:hover {
+        background-color: #84a98c;
+    }
+
+    /* Bei moved Klasse wird Toggle Button verschoben */
+    #toggle-side-panels.moved {
+        top: 10%;
+    }
+
+    /* Toggle Button wenn Fenster offen */
     #side-panels.active {
         display: flex; /* Zeige das Panel, wenn aktiv */
         visibility: visible; /* Sichtbar, wenn aktiv */

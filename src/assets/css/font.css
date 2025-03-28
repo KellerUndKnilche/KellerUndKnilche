@@ -1,0 +1,46 @@
+@font-face {
+    font-family: "MedievalSharp";
+    src: url("/assets/fonts/MedievalSharp-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "UncialAntiqua";
+    src: url("/assets/fonts/UncialAntiqua-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Jacquard12";
+    src: url("/assets/fonts/Jacquard12-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Standard Schrifart */
+body {
+    font-family: "MedievalSharp", sans-serif;
+    font-size: 14px; /* Grundgroesse */
+    line-height: 1.5; /* Konsistente Zeilenhoehe */
+}
+
+/* FontSwitcher Klassen */
+.font-medieval {
+    font-family: "MedievalSharp", sans-serif;
+    font-size: inherit;
+    line-height: inherit;
+    }
+
+.font-uncial {
+    font-family: "UncialAntiqua", sans-serif;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+.font-jacquard {
+    font-family: "Jacquard12", sans-serif;
+    font-size: inherit;
+    line-height: inherit;
+}
