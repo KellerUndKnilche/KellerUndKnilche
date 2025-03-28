@@ -13,10 +13,10 @@ if (ini_get("session.use_cookies")) {
 
 // Custom-Cookies löschen
 if (isset($_COOKIE['user_id'])) {
-    setcookie('user_id', '', time() - 3600, '/'); // Cookie ablaufen lassen
+    setcookie('user_id', '', time() - 3600, '/', '', true, true); // Secure und HttpOnly
 }
 if (isset($_COOKIE['username'])) {
-    setcookie('username', '', time() - 3600, '/'); // Cookie ablaufen lassen
+    setcookie('username', '', time() - 3600, '/', '', true, true); // Secure und HttpOnly
 }
 
 // Zurück zur Startseite

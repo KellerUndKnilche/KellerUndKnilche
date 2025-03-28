@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Erstellungszeit: 23. Mrz 2025 um 12:33
--- Server-Version: 10.4.32-MariaDB
--- PHP-Version: 8.0.30
+-- Host: localhost
+-- Generation Time: Mar 28, 2025 at 02:24 PM
+-- Server version: 10.11.11-MariaDB-hetzner1
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Datenbank: `keller_und_knilche`
+-- Database: `keller_knilche_main_db`
 --
 
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `beute_batzen`
+-- Table structure for table `beute_batzen`
 --
 
 CREATE TABLE `beute_batzen` (
@@ -35,7 +35,7 @@ CREATE TABLE `beute_batzen` (
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -43,13 +43,13 @@ CREATE TABLE `users` (
   `username` varchar(50) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password_hash` varchar(255) NOT NULL,
+  `isAdmin` tinyint(4) NOT NULL DEFAULT 0,
+  `isLocked` tinyint(4) NOT NULL DEFAULT 0,
   `last_login` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
 --
--- Tabellenstruktur für Tabelle `user_upgrades`
+-- Table structure for table `user_upgrades`
 --
 
 CREATE TABLE `user_upgrades` (
@@ -59,17 +59,17 @@ CREATE TABLE `user_upgrades` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Indizes der exportierten Tabellen
+-- Indexes for dumped tables
 --
 
 --
--- Indizes für die Tabelle `beute_batzen`
+-- Indexes for table `beute_batzen`
 --
 ALTER TABLE `beute_batzen`
   ADD PRIMARY KEY (`user_id`);
 
 --
--- Indizes für die Tabelle `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
@@ -77,33 +77,33 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- Indizes für die Tabelle `user_upgrades`
+-- Indexes for table `user_upgrades`
 --
 ALTER TABLE `user_upgrades`
   ADD PRIMARY KEY (`user_id`,`upgrade_id`);
 
 --
--- AUTO_INCREMENT für exportierte Tabellen
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT für Tabelle `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- Constraints der exportierten Tabellen
+-- Constraints for dumped tables
 --
 
 --
--- Constraints der Tabelle `beute_batzen`
+-- Constraints for table `beute_batzen`
 --
 ALTER TABLE `beute_batzen`
   ADD CONSTRAINT `beute_batzen_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints der Tabelle `user_upgrades`
+-- Constraints for table `user_upgrades`
 --
 ALTER TABLE `user_upgrades`
   ADD CONSTRAINT `user_upgrades_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;

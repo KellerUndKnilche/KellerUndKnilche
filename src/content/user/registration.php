@@ -1,6 +1,8 @@
 <?php
 $pageTitle = 'Keller & Knilche Registrierung';
 require_once('../../config/dbAccess.php');
+require_once('../../includes/header.php');
+require_once('../../includes/nav.php');
 
 $message = "";
 $usernameErr = $emailErr = $passwordErr = $confirmPasswordErr = "";
@@ -42,8 +44,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 ?>
-<?php require_once('../../includes/header.php'); ?>
-<?php require_once('../../includes/nav.php'); ?>
 <div class="login-container">
     <h2>Registrierung</h2>
     <form method="post" action="">
