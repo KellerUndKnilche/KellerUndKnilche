@@ -7,7 +7,7 @@
       <a class="nav-link text-light" href="/content/user/statistics.php">Statistiken</a>
     </li>
     <?php if (isset($_SESSION['user'])) { 
-          if ($_SESSION['user']['admin'] == 1) { ?>
+          if ($_SESSION['user']['isAdmin'] == 1) { ?>
             <li class="nav-item">
               <a class="nav-link text-light" href="/content/user/adminDashboard.php">Admin-Dashboard</a>
             </li>

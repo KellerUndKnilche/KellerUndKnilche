@@ -1,11 +1,12 @@
 <?php 
 $pageTitle = 'Keller & Knilche Homepage';
+require_once('config/dbAccess.php');
 require_once('includes/header.php'); 
+require_once('includes/nav.php'); 
 ?>
 <header class="d-flex flex-column justify-content-center align-items-center text-center">
     <h1 class="title display-1">Keller & Knilche</h1>
 </header>
-<?php require_once('includes/nav.php'); ?>
 <main class="container">
     
     <section class="game-area">

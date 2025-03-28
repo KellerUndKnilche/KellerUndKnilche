@@ -1,8 +1,15 @@
 <?php 
   $pageTitle = 'Keller & Knilche Profile';
-  require_once('../../includes/header.php'); 
+  require_once('../../includes/header.php');
+  require_once('../../includes/nav.php');
+  require_once('../../config/dbAccess.php');
+
+  if(!isset($_SESSION['user']) || !isset($_COOKIE['user_id']) || $_COOKIE['user_id'] != $_SESSION['user']['id']) {
+    // Session und Cookies sind nicht gesetzt oder stimmen nicht überein
+    header("Location: /content/user/login.php");
+    exit();
+  }
 ?>
-<?php require_once('../../includes/nav.php'); ?>
 <div class="profile-container">
   <h2>DungeonMaster_666</h2>
   
@@ -43,4 +50,5 @@
     </div>
   </div>
 </div>
+
 <?php require_once('../../includes/footer.php'); ?>

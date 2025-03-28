@@ -1,4 +1,7 @@
 <?php
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    } 
     // Lade Datenbank-Zugangsdaten aus der .env-Datei
     $envPath = __DIR__ . '/../config/.env';
     if (!file_exists($envPath)) {
@@ -78,6 +81,26 @@
         }
         return "Fehler bei der Registrierung.";
     }
+
+    
+    // Funktion, um Adminklasse abzurufen
+    function fetchIsAdmin($db, $userId) {
+        $stmt = $db->prepare("SELECT isAdmin FROM users WHERE id = ?");
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc()['isAdmin'] ?? 0; // Gibt 1 zurück, wenn Admin, sonst 0
+    }
+
+    // Funktion, um Lockstatus/Ban abzurufen
+    function fetchUserStatus($db, $userId) {
+        $stmt = $db->prepare("SELECT isLocked FROM users WHERE id = ?");
+
+    }
+
+    // Funktion, um Benutzer zu sperren oder entsperren
+
+
 
     // Funktion, um Beute-Batzen eines Benutzers abzurufen
     function fetchUserCurrency($db, $userId) {

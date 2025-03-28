@@ -1,9 +1,8 @@
 <?php
 $pageTitle = 'Keller & Knilche Statistiken';
+require_once('../../config/dbAccess.php');
 require_once('../../includes/header.php');
 require_once('../../includes/nav.php');
-require_once('../../config/dbAccess.php');
-
 $statistics = fetchUserStatistics($db);
 ?>
 <div class="container">

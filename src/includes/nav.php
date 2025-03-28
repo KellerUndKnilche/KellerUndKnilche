@@ -1,3 +1,8 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" role="navigation" aria-label="Primary navigation">
   <div class="container-fluid">
     <a class="navbar-brand" href="/index.php">Keller &amp; Knilche</a>
@@ -14,7 +19,7 @@
           <a class="nav-link" href="/content/user/statistics.php">Statistiken</a>
         </li>
         <?php if (isset($_SESSION['user'])) { 
-          if ($_SESSION['user']['admin'] == 1) { ?>
+          if ($_SESSION['user']['isAdmin'] == 1) { ?>
             <li class="nav-item">
               <a class="nav-link" href="/content/user/adminDashboard.php">Admin-Dashboard</a>
             </li>
