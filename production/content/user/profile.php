@@ -1,28 +1,30 @@
 <?php 
-  $pageTitle = 'Keller & Knilche Profile';
   require_once('../../config/dbAccess.php');
-  require_once('../../includes/header.php');
-  require_once('../../includes/nav.php');
-
+  require_once('../../includes/helpers.php');
+  
   if (!isset($_SESSION['user'])) {
     // Session nicht gesetzt
-    header("Location: /content/user/login.php");
+    header("Location: " . getBaseUrl() . "/content/user/login.php");
     exit();
   }
-
+  
   if (isset($_COOKIE['user_id']) && $_COOKIE['user_id'] != $_SESSION['user']['id']) {
     // Cookie ist gesetzt aber stimmt nicht mit Session überein
     session_destroy();
-    setcookie('user_id', '', time() - 3600, '/'); // Cookie löschen (eine Stunde in der Vergangenheit setzen)
-    setcookie('username', '', time() - 3600, '/'); // Cookie löschen
-    header("Location: /content/user/login.php");
+    setcookie('user_id', '', time() - 3600, '/', '', true, true); // Cookie löschen (eine Stunde in der Vergangenheit)
+    setcookie('username', '', time() - 3600, '/', '', true, true); 
+    header("Location: " . getBaseUrl() . "/content/user/login.php");
     exit();
   }
-
+  
+  $pageTitle = 'Keller & Knilche Profile';
   $username = $_SESSION['user']['username'];
   $email = $_SESSION['user']['email'];
   $last_login = $_SESSION['user']['last_login'];
-?>
+
+  require_once('../../includes/header.php');
+  require_once('../../includes/nav.php');
+  ?>
 <div class="profile-container">
   <h1><?php echo $username?></h1>
   <div class="card mb-3">

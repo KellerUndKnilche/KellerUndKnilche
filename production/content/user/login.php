@@ -1,34 +1,32 @@
 <?php
-$pageTitle = 'Keller & Knilche Login';
 require_once('../../config/dbAccess.php');
-require_once('../../includes/header.php');
-require_once('../../includes/nav.php');
+require_once('../../includes/helpers.php');
 
-$username = $password = "";
-
-if(isset($_SESSION["user"]) && isset($_COOKIE["user_id"])) {
-    // Bereits eingeloggt
-    header("Location: /content/user/profile.php");
+// Prüfen, ob der Benutzer bereits eingeloggt ist
+if (isset($_SESSION["user"])) {
+    header("Location: " . getBaseUrl() . "/content/user/profile.php");
     exit();
 }
 
+$pageTitle = 'Keller & Knilche Login';
 
+$username = $password = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $errors = [];
-
+    
     if (empty($_POST["username"])) {
         $errors[] = "Benutzername ist erforderlich.";
     } else {
         $username = trim($_POST["username"]);
     }
-
+    
     if (empty($_POST["password"])) {
         $errors[] = "Passwort ist erforderlich.";
     } else {
         $password = $_POST["password"];
     }
-
+    
     if (empty($errors)) {
         $user = fetchUserByUsername($db, $username);
         if ($user && password_verify($password, $user['password_hash'])) {
@@ -54,19 +52,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     "isLocked" => $user["isLocked"],
                     "last_login" => $user["last_login"]
                 ];
-
+                
                 // Cookie setzen falls remember_me geklickt wurde
                 if (!empty($_POST["remember_me"])) {
                     setcookie("user_id", $user["id"], time() + 2592000, "/"); // 30 Tage in Sekunden
                     setcookie("username", $user["username"], time() + 2592000, "/");
                 }
-
+                
                 // Update last login timestamp
                 $stmt = $db->prepare("UPDATE users SET last_login = NOW() WHERE id = ?");
                 $stmt->bind_param("i", $user["id"]);
                 $stmt->execute();
-
-                header("Location: /index.php");
+                
+                header("Location: " . getBaseUrl() . "/index.php");
                 exit();
             }
         } else {
@@ -80,6 +78,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
     echo "</ul></div>";
 }
+require_once('../../includes/header.php');
+require_once('../../includes/nav.php');
 ?>
 <div class="login-container">
     <h2>Login</h2>
