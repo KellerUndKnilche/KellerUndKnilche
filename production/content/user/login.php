@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 // Cookie setzen falls remember_me geklickt wurde
                 if (!empty($_POST["remember_me"])) {
-                    setcookie("user_id", $user["id"], time() + 2592000, "/"); // 30 days
+                    setcookie("user_id", $user["id"], time() + 2592000, "/"); // 30 Tage in Sekunden
                     setcookie("username", $user["username"], time() + 2592000, "/");
                 }
 
@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $stmt->bind_param("i", $user["id"]);
                 $stmt->execute();
 
-                header("Location: ../../index.php");
+                header("Location: /index.php");
                 exit();
             }
         } else {
