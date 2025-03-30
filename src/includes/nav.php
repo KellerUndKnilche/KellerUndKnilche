@@ -41,7 +41,7 @@ if (session_status() === PHP_SESSION_NONE) {
         <li class="nav-item">
             <div class="dropdown">
               <button class="btn btn-secondary dropdown-toggle" type="button" id="fontDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                Change Font
+                Schriftart ändern
               </button>
               <ul class="dropdown-menu" aria-labelledby="fontDropdown">
                 <li><a class="dropdown-item" href="#" onclick="changeFont('font-medieval')">Medieval Sharp</a></li>
