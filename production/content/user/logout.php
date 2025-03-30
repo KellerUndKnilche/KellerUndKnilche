@@ -1,5 +1,10 @@
 <?php
-session_start();
+require_once('../../config/dbAccess.php');
+require_once('../../includes/helpers.php');
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // Session zerstören
 session_unset();
@@ -20,6 +25,6 @@ if (isset($_COOKIE['username'])) {
 }
 
 // Zurück zur Startseite
-header("Location: /index.php");
+header("Location: " . getBaseUrl() . "/index.php");
 exit();
 ?>

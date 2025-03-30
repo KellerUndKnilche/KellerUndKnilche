@@ -1,9 +1,14 @@
 <?php
-$pageTitle = 'Keller & Knilche Registrierung';
 require_once('../../config/dbAccess.php');
-require_once('../../includes/header.php');
-require_once('../../includes/nav.php');
+require_once('../../includes/helpers.php');
 
+// Prüfen, ob der Benutzer bereits eingeloggt ist
+if (isset($_SESSION["user"])) {
+    header("Location: " . getBaseUrl() . "/content/user/profile.php");
+    exit();
+}
+
+$pageTitle = 'Keller & Knilche Registrierung';
 
 // Initialisierung der Variablen
 $username = $email = $password = $confirmPassword = "";
@@ -52,6 +57,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         echo "</ul></div>";
     }
 }
+require_once('../../includes/header.php');
+require_once('../../includes/nav.php');
 ?>
 <div class="login-container">
     <h2>Registrierung</h2>
