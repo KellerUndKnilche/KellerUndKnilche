@@ -1,0 +1,5 @@
+# Schützt .gitignore
+.gitignore    @StefanBerecz
+
+# Schützt production-Ordner
+/production/  @StefanBerecz
