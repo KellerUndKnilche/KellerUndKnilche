@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $message = registerUser($db, $username, $email, $password);
     } else {
         // Fehler anzeigen
-        echo "<div class='alert alert-danger'><ul>";
+        echo "<div class='error' style='display: block;'><ul>";
         foreach ($errors as $error) {
             echo "<li>$error</li>";
         }
@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 require_once('../../includes/header.php');
 require_once('../../includes/nav.php');
 ?>
-<div class="login-container">
+<div class="loginRegister-container">
     <h2>Registrierung</h2>
     <form method="post" action="">
         <div class="mb-3">
@@ -80,7 +80,7 @@ require_once('../../includes/nav.php');
             <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Passwort bestätigen" required>
         </div>
         <div class="d-grid">
-            <button type="submit" class="btn btn-primary">Registrieren</button>
+            <button type="submit">Registrieren</button>
         </div>
     </form>
     <p class="text-center mt-3">Schon registriert? <a href="login.php">Hier einloggen</a></p>
