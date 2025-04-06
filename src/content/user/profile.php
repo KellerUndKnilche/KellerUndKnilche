@@ -1,41 +1,143 @@
 <?php 
-  require_once('../../config/dbAccess.php');
-  require_once('../../includes/helpers.php');
-  
-  if (!isset($_SESSION['user'])) {
-    // Session nicht gesetzt
+require_once('../../config/dbAccess.php');
+require_once('../../includes/helpers.php');
+
+if (!isset($_SESSION['user'])) {
     header("Location: " . getBaseUrl() . "/content/user/login.php");
     exit();
-  }
-  
-  if (isset($_COOKIE['user_id']) && $_COOKIE['user_id'] != $_SESSION['user']['id']) {
-    // Cookie ist gesetzt aber stimmt nicht mit Session überein
+}
+
+if (isset($_COOKIE['user_id']) && $_COOKIE['user_id'] != $_SESSION['user']['id']) {
     session_destroy();
-    setcookie('user_id', '', time() - 3600, '/', '', true, true); // Cookie löschen (eine Stunde in der Vergangenheit)
+    setcookie('user_id', '', time() - 3600, '/', '', true, true);
     setcookie('username', '', time() - 3600, '/', '', true, true); 
     header("Location: " . getBaseUrl() . "/content/user/login.php");
     exit();
-  }
-  
-  $pageTitle = 'Keller & Knilche Profile';
-  $username = $_SESSION['user']['username'];
-  $email = $_SESSION['user']['email'];
-  $last_login = $_SESSION['user']['last_login'];
+}
 
-  require_once('../../includes/header.php');
-  require_once('../../includes/nav.php');
-  ?>
-<div class="profile-container">
-  <h1><?php echo $username?></h1>
-  <div class="card mb-3">
-    <p>Email: <?php echo $email?></p>
+$pageTitle = 'Keller & Knilche Profile';
+$userId = $_SESSION['user']['id'];
+$username = $_SESSION['user']['username'];
+$email = $_SESSION['user']['email'];
+$last_login = $_SESSION['user']['last_login'];
+$rank = $_SESSION['user']['rank'] ?? 'Kellermeister';
+
+$successMsg = "";
+$errors = [];
+
+// Formulardaten verarbeiten
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $newUsername = trim($_POST['username']);
+    $newEmail = trim($_POST['email']);
+    $newPassword = trim($_POST['password']);
+    $passwordConfirm = trim($_POST['password_confirm'] ?? '');
+
+    // Passwort Validierung
+    if (!empty($newPassword)) {
+        if (strlen($newPassword) < 6) {
+            $errors[] = "Das Passwort muss mindestens 6 Zeichen lang sein.";
+        }
+        if ($newPassword !== $passwordConfirm) {
+            $errors[] = "Die Passwörter stimmen nicht überein.";
+        }
+    }
+
+    // Check auf unique Username
+    $stmt = $db->prepare("SELECT id FROM users WHERE username = ? AND id != ?");
+    $stmt->bind_param("si", $newUsername, $userId);
+    $stmt->execute();
+    $stmt->store_result();
+    if ($stmt->num_rows > 0) {
+        $errors[] = "Der Benutzername ist bereits vergeben.";
+    }
+    $stmt->close();
+
+    // Check auf unique Email
+    $stmt = $db->prepare("SELECT id FROM users WHERE email = ? AND id != ?");
+    $stmt->bind_param("si", $newEmail, $userId);
+    $stmt->execute();
+    $stmt->store_result();
+    if ($stmt->num_rows > 0) {
+        $errors[] = "Die E-Mail-Adresse ist bereits vergeben.";
+    }
+    $stmt->close();
+
+    // Wenn keine Fehler, dann updaten
+    if (empty($errors)) {
+        if (!empty($newPassword)) {
+            $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+            $stmt = $db->prepare("UPDATE users SET username=?, password_hash=?, email=? WHERE id=?");
+            $stmt->bind_param("sssi", $newUsername, $hashedPassword, $newEmail, $userId);
+        } else {
+            $stmt = $db->prepare("UPDATE users SET username=?, email=? WHERE id=?");
+            $stmt->bind_param("ssi", $newUsername, $newEmail, $userId);
+        }
+
+        if ($stmt->execute()) {
+            $_SESSION['user']['username'] = $newUsername;
+            $_SESSION['user']['email'] = $newEmail;
+            $username = $newUsername;
+            $email = $newEmail;
+            $successMsg = "Profil erfolgreich aktualisiert.";
+        } else {
+            $errors[] = "Fehler beim Aktualisieren des Profils.";
+        }
+
+        $stmt->close();
+    }
+}
+
+require_once('../../includes/header.php');
+require_once('../../includes/nav.php');
+?>
+
+<div class="profile-wrapper">
+  <h1 class="profile-title">Mein Profil</h1>
+
+  <?php if (!empty($successMsg)): ?>
+    <div class="success-box"><?php echo $successMsg; ?></div>
+  <?php endif; ?>
+
+  <?php if (!empty($errors)): ?>
+    <div class="error-box">
+      <ul>
+        <?php foreach ($errors as $error): ?>
+          <ul><?php echo $error; ?></ul>
+        <?php endforeach; ?>
+      </ul>
+    </div>
+  <?php endif; ?>
+
+  <form method="POST" class="profile-form">
+    <label class="profile-input-label" for="username">Benutzername</label>
+    <input type="text" name="username" id="username" value="<?php echo htmlspecialchars($username); ?>" required>
+
+    <label class="profile-input-label" for="email">E-Mail-Adresse</label>
+    <input type="email" name="email" id="email" value="<?php echo htmlspecialchars($email); ?>" required>
+
+    <label class="profile-input-label" for="password">Neues Passwort <small>(leer für keine Änderung)</small></label>
+    <input type="password" name="password" id="password">
+
+    <label class="profile-input-label" for="password_confirm">Passwort wiederholen</label>
+    <input type="password" name="password_confirm" id="password_confirm">
+
+
+    <button type="submit">Profil speichern</button>
+  </form>
+
+  <div class="rank-display">
+    <p><strong>Rang:</strong></p>
+    <div class="rank-badge"><?php echo $rank; ?> 🏆</div>
   </div>
-  <div class="card mb-3">
-    <p>Letzter Login: <?php echo $last_login?></p>
-  </div>
-  <div class="card mb-3">
-    <p>Rang: <span class="badge bg-primary">Kellermeister</span></p>
-  </div>
+
+  <?php if (!empty($last_login) && strtotime($last_login)): ?>
+    <p class="last-login">Letzter Login: <?php echo date("d.m.Y H:i", strtotime($last_login)); ?></p>
+  <?php else: ?>
+    <p class="last-login">Letzter Login: -</p>
+  <?php endif; ?>
+
+
+  <!-- Profil-Stats -->
   <div class="profile-stats">
     <div class="stat-item">
       <p class="stat-label">Heroes Vanquished</p>
@@ -54,22 +156,14 @@
       <p class="stat-value">120</p>
     </div>
   </div>
-  
+
+  <!-- Aktive Upgrades -->
   <div class="upgrade-info">
-    <h3>Active Upgrades</h3>
-    <div class="upgrade-list">
-      <div class="upgrade">
-        <span class="upgrade-name">Poison Traps</span>
-        <span class="upgrade-level">Lvl 3</span>
-      </div>
-      <div class="upgrade">
-        <span class="upgrade-name">Minion Horde</span>
-        <span class="upgrade-level">Lvl 5</span>
-      </div>
-      <div class="upgrade">
-        <span class="upgrade-name">Spike Pits</span>
-        <span class="upgrade-level">Lvl 2</span>
-      </div>
+    <h3>Aktive Upgrades</h3>
+    <div class="upgrades-list">
+      <div>Poison Traps – Lvl 3</div>
+      <div>Minion Horde – Lvl 5</div>
+      <div>Spike Pits – Lvl 2</div>
     </div>
   </div>
 </div>

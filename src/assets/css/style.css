@@ -451,10 +451,138 @@ footer .nav-item {
     }
 }
 
+
+/* Profil Styling */
+.profile-wrapper {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 30px;
+    text-align: center;
+}
+
+.profile-title {
+    font-size: 2.4rem;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+.profile-form {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.profile-form input {
+    width: 80%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #888;
+    background-color: #cad2c5;
+    color: #000;
+}
+
+.profile-form button {
+    padding: 10px 20px;
+    background-color: #52796f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.profile-form button:hover {
+    background-color: #84a98c;
+}
+
+.profile-input-label {
+    font-size: 1.1rem;
+    margin-top: 10px;
+    margin-bottom: -5px;
+    color: #ffffff;
+}
+
+.error-box, .success-box {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    max-width: 600px;
+    margin: 0 auto 20px;
+    text-align: center;
+}
+
+.error-box {
+    background-color: #b00020;
+    color: white;
+    width: 80%;
+}
+.error-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.success-box {
+    background-color: #2e7d32;
+    color: white;
+    width: 80%;
+}
+
+.rank-display {
+    margin-top: 30px;
+}
+
+.rank-badge {
+    display: inline-block;
+    background-color: #354f52;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    border-radius: 30px;
+    color: #fff;
+    margin-top: -10px;
+}
+
+.last-login {
+    margin-top: 10px;
+    font-size: 0.85rem;
+    color: #bbb;
+}
+
+.profile-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.stat-item {
+    background-color: #52796f;
+    padding: 15px;
+    border-radius: 10px;
+    color: white;
+}
+
+.stat-label {
+    font-weight: bold;
+    font-size: 0.95rem;
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    font-size: 1.3rem;
+    margin-bottom: -5px;
+}
+
+.upgrade-info {
+    margin-top: 40px;
+}
+
 .upgrades-list {
     display: flex;
-    flex-direction: column; /* Staple Upgrades untereinander */
     gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .upgrades-list div {
@@ -465,11 +593,14 @@ footer .nav-item {
     text-align: center;
     cursor: pointer;
     transition: background-color 0.3s;
+    color: white;
 }
 
 .upgrades-list div:hover {
     background-color: #84a98c;
 }
+
+
 
 /* Side Panels auf größeren Bildschirmen */
 @media (min-width: 992px) {
