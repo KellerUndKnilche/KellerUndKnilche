@@ -19,19 +19,17 @@
     font-style: normal;
 }
 
-/* Standard Schrifart */
-body {
-    font-family: "MedievalSharp", sans-serif;
-    font-size: 14px; /* Grundgroesse */
-    line-height: 1.5; /* Konsistente Zeilenhoehe */
+@font-face {
+    font-family: "System Standard";
+    src: local("system-ui"); /* System Standard Schriftart */
 }
 
 /* FontSwitcher Klassen */
 .font-medieval {
     font-family: "MedievalSharp", sans-serif;
-    font-size: inherit;
-    line-height: inherit;
-    }
+    font-size: 14px;
+    line-height: 1.5;
+}
 
 .font-uncial {
     font-family: "UncialAntiqua", sans-serif;
@@ -41,6 +39,13 @@ body {
 
 .font-jacquard {
     font-family: "Jacquard12", sans-serif;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+/* SystemFont */
+.font-system {
+    font-family: "System Standard", sans-serif;
     font-size: inherit;
     line-height: inherit;
 }

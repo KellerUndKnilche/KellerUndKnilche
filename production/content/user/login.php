@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (empty($errors)) {
         $user = fetchUserByUsername($db, $username);
         if ($user && password_verify($password, $user['password_hash'])) {
-            if ($user['isLocked']) {
+            if (fetchUserLocked($db, $user['id']) == 1) {
                 $errors[] = "Ihr Konto ist gesperrt. Bitte wenden Sie sich an den Support.";
             } else {
                 session_set_cookie_params([
@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
     // Fehler anzeigen
-    echo "<div class='alert alert-danger'><ul>";
+    echo "<div class='error' style='display: block;'><ul>";
     foreach ($errors as $error) {
         echo "<li>$error</li>";
     }
@@ -81,28 +81,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 require_once('../../includes/header.php');
 require_once('../../includes/nav.php');
 ?>
-<div class="login-container">
+<div class="loginRegister-container">
     <h2>Login</h2>
     <form id="login-form" method="post" action="">
-        <div class="mb-3">
-            <label for="username" class="form-label">Benutzername</label>
-            <input type="text" class="form-control" id="username" name="username" placeholder="Benutzername" value="<?php echo $username?>" required>
-        </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Passwort</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Passwort" required>
-        </div>
-        <div class="mb-3">
-            <h5 class="form-label">Optionen</h5>
-            <div class="form-check form-switch">
-                <input type="checkbox" class="form-check-input" id="remember_me" name="remember_me">
-                <label class="form-check-label small" for="remember_me">Angemeldet bleiben</label>
-            </div>
-        </div>
-        <div class="d-grid">
-            <button type="submit" class="btn btn-primary">Einloggen</button>
-        </div>
+        <div> <label for="username">Benutzername</label> <input type="text" id="username" name="username" placeholder="Benutzername" value="<?php echo $username ?? ''; ?>" required> </div>
+
+        <div> <label for="password">Passwort</label> <input type="password" id="password" name="password" placeholder="Passwort" required> </div>
+
+        <div class="remember-me"> <input type="checkbox" id="remember_me" name="remember_me"> <label for="remember_me">Angemeldet bleiben</label> </div>
+
+        <div> <button type="submit">Einloggen</button> </div>
     </form>
-    <p class="text-center mt-3">Noch keinen Account? <a href="registration.php">Jetzt registrieren</a></p>
+
+    <p>Noch keinen Account? <a href="registration.php">Jetzt registrieren</a></p> </div>
 </div>
 <?php require_once('../../includes/footer.php'); ?>
