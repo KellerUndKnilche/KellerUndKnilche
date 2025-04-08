@@ -43,37 +43,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Check auf unique Username
-    $stmt = $db->prepare("SELECT id FROM users WHERE username = ? AND id != ?");
-    $stmt->bind_param("si", $newUsername, $userId);
-    $stmt->execute();
-    $stmt->store_result();
-    if ($stmt->num_rows > 0) {
+    if(isUsernameTakenByOther($db, $newUsername, $userId)) {
         $errors[] = "Der Benutzername ist bereits vergeben.";
     }
-    $stmt->close();
 
-    // Check auf unique Email
-    $stmt = $db->prepare("SELECT id FROM users WHERE email = ? AND id != ?");
-    $stmt->bind_param("si", $newEmail, $userId);
-    $stmt->execute();
-    $stmt->store_result();
-    if ($stmt->num_rows > 0) {
+    // Check auf unique Username
+    if(isEmailTakenByOther($db, $newEmail, $userId)) {
         $errors[] = "Die E-Mail-Adresse ist bereits vergeben.";
     }
-    $stmt->close();
 
     // Wenn keine Fehler, dann updaten
     if (empty($errors)) {
-        if (!empty($newPassword)) {
-            $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-            $stmt = $db->prepare("UPDATE users SET username=?, password_hash=?, email=? WHERE id=?");
-            $stmt->bind_param("sssi", $newUsername, $hashedPassword, $newEmail, $userId);
-        } else {
-            $stmt = $db->prepare("UPDATE users SET username=?, email=? WHERE id=?");
-            $stmt->bind_param("ssi", $newUsername, $newEmail, $userId);
-        }
+        $updateSuccess = updateUserProfile($db, $userId, $newUsername, $newEmail, $newPassword);
 
-        if ($stmt->execute()) {
+        if ($updateSuccess)  {
             $_SESSION['user']['username'] = $newUsername;
             $_SESSION['user']['email'] = $newEmail;
             $username = $newUsername;
