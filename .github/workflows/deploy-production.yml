@@ -1,0 +1,33 @@
+name: Deploy production Ordner
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'production/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Production Ordner mit Webhost synchronisieren
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_DIR: ${{ secrets.REMOTE_DIR }}
+        run: |
+          echo "$SSH_KEY" > key
+          chmod 600 key
+          rsync -avz --delete --exclude='.env' -e "ssh -i key -p $SSH_PORT -o StrictHostKeyChecking=no" ./production/ $REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR
+          # -a Archivmodus
+          # -v verbose
+          # -z Kompression
+          # --delete: Löscht Dateien auf Webhost falls nicht mehr im Repo
+          # --exclude='.env': schließt .env aus
+          # -p $SSH_PORT: Port für SSH-Verbindung
+          # -o StrictHostKeyChecking=no: überspringt Host-Key-Überprüfung
+          # -e "ssh -i key -o StrictHostKeyChecking=no": SSH mit angegebenen Schlüssel
