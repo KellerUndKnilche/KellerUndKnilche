@@ -101,6 +101,45 @@
         return $result->fetch_assoc()['isLocked'] ?? 0; // Gibt 1 zurück, wenn gesperrt, sonst 0
     }
 
+    // Prüft, ob ein anderer User denselben Benutzernamen hat
+    function isUsernameTakenByOther($db, $username, $userId) {
+        $stmt = $db->prepare("SELECT id FROM users WHERE username = ? AND id != ?");
+        $stmt->bind_param("si", $username, $userId);
+        $stmt->execute();
+        $stmt->store_result();
+        $taken = $stmt->num_rows > 0;
+        $stmt->close();
+        return $taken;
+    }
+
+    // Prüft, ob eine andere E-Mail bereits vergeben ist
+    function isEmailTakenByOther($db, $email, $userId) {
+        $stmt = $db->prepare("SELECT id FROM users WHERE email = ? AND id != ?");
+        $stmt->bind_param("si", $email, $userId);
+        $stmt->execute();
+        $stmt->store_result();
+        $taken = $stmt->num_rows > 0;
+        $stmt->close();
+        return $taken;
+    }
+
+    // Aktualisiert das Benutzerprofil (inkl. optionalem Passwort)
+    function updateUserProfile($db, $userId, $username, $email, $password = null) {
+        if (!empty($password)) {
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $stmt = $db->prepare("UPDATE users SET username=?, password_hash=?, email=? WHERE id=?");
+            $stmt->bind_param("sssi", $username, $hashedPassword, $email, $userId);
+        } else {
+            $stmt = $db->prepare("UPDATE users SET username=?, email=? WHERE id=?");
+            $stmt->bind_param("ssi", $username, $email, $userId);
+        }
+
+        $success = $stmt->execute();
+        $stmt->close();
+        return $success;
+    }
+
+
     // Funktion, um Benutzer zu sperren oder entsperren
 
 
