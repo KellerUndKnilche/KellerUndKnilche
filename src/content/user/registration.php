@@ -47,7 +47,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if (empty($errors)) {
         // Falls keine Fehler vorhanden sind, Benutzer registrieren
-        $message = registerUser($db, $username, $email, $password);
+        registerUser($db, $username, $email, $password);
+        // Umleitung zur Login-Seite
+        header("Location: " . getBaseUrl() . "/content/user/login.php");
+        exit();
     } else {
         // Fehler anzeigen
         echo "<div class='error' style='display: block;'><ul>";

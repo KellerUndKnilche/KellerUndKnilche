@@ -44,6 +44,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 Schriftart ändern
               </button>
               <ul class="dropdown-menu" aria-labelledby="fontDropdown">
+                <li><a class="dropdown-item" href="#" onclick="changeFont('font-system')">System Standard</a></li>
                 <li><a class="dropdown-item" href="#" onclick="changeFont('font-medieval')">Medieval Sharp</a></li>
                 <li><a class="dropdown-item" href="#" onclick="changeFont('font-uncial')">Uncial Antiqua</a></li>
                 <li><a class="dropdown-item" href="#" onclick="changeFont('font-jacquard')">Jacquard 12</a></li>

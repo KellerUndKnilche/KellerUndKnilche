@@ -3,7 +3,7 @@ function changeFont(fontClass) {
     const body = document.body;
 
     // Bestehende Schriftarten entfernen
-    body.classList.remove("font-medieval", "font-uncial", "font-jacquard");
+    body.classList.remove("font-medieval", "font-uncial", "font-jacquard", "font-system");
 
     // Ausgewählte Schriftart hinzufügen
     body.classList.add(fontClass);
@@ -17,6 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const savedFont = localStorage.getItem("selectedFont");
     if (savedFont) {
         document.body.classList.add(savedFont);
+    } else {
+        document.body.classList.add("font-medieval");
     }
 });
 
