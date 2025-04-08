@@ -93,9 +93,12 @@
     }
 
     // Funktion, um Lockstatus/Ban abzurufen
-    function fetchUserStatus($db, $userId) {
+    function fetchUserLocked($db, $userId) {
         $stmt = $db->prepare("SELECT isLocked FROM users WHERE id = ?");
-
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc()['isLocked'] ?? 0; // Gibt 1 zurück, wenn gesperrt, sonst 0
     }
 
     // Funktion, um Benutzer zu sperren oder entsperren

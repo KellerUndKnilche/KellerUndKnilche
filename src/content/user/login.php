@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (empty($errors)) {
         $user = fetchUserByUsername($db, $username);
         if ($user && password_verify($password, $user['password_hash'])) {
-            if ($user['isLocked']) {
+            if (fetchUserLocked($db, $user['id']) == 1) {
                 $errors[] = "Ihr Konto ist gesperrt. Bitte wenden Sie sich an den Support.";
             } else {
                 session_set_cookie_params([
