@@ -35,8 +35,8 @@ require_once('../../includes/nav.php');
                         <h2>System Status</h2>
                     </div>
                     <div class="card-body">
-                        <p>Aktive Spieler: <?php echo count($users); ?></p>
-                        <p>Server Status: Online</p>
+                        <!--<p>Aktive Spieler: <?php //echo count($users); ?></p>
+                        <p>Server Status: Online</p>-->
                     </div>
                 </div>
             </div>

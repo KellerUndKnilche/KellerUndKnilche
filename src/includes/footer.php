@@ -9,7 +9,7 @@
     <?php if (isset($_SESSION['user'])) { 
           if ($_SESSION['user']['isAdmin'] == 1) { ?>
             <li class="nav-item">
-              <a class="nav-link text-light" href="/content/user/adminDashboard.php">Admin-Dashboard</a>
+              <a class="nav-link text-light" href="/content/user/admin.php">Admin-Dashboard</a>
             </li>
           <?php } ?>
           <li class="nav-item">
