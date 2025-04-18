@@ -9,9 +9,9 @@ require_once('includes/nav.php');
 </header>
 <main class="container">
     
-    <section class="game-area">
+    <stion class="game-area">
         <img id="click_button" src="/assets/img/gamearea_platzhalter.png" alt="Dungeon">
-    </section>
+    </stion>
     
     <!-- Toggle Button fuer Side Panels -->
     <button id="toggle-side-panels" class="btn btn-primary d-lg-none">☰</button>
@@ -54,21 +54,49 @@ require_once('includes/nav.php');
 
         <!-- Upgrades Panel -->
         <div class="side-panel">
-            <h2>Upgrades</h2>
+            <h2>Aufrüstungen</h2>
+
+            <h3>Passive Produktion</h3>
             <div class="upgrades-list">
-                <div>Upgrade 1</div>
-                <div>Upgrade 2</div>
-                <div>Upgrade 3</div>
-                <div>Upgrade 4</div>
-                <div>Upgrade 5</div>
-                <div>Upgrade 6</div>
-                <div>Upgrade 7</div>
-                <div>Upgrade 8</div>
-                <div>Upgrade 9</div>
-                <div>Upgrade 10</div>
+                <div>🦴 Gerippe (1 BB/s) – 15 BB</div>
+                <div>🧟 Untoter (2 BB/s) – 50 BB</div>
+                <div>🦇 Fledermausschwarm (5 BB/s) – 150 BB</div>
+                <div>👻 Geistererscheinung (10 BB/s) – 400 BB</div>
+                <div>😈 Dämon aus der Mittagspause (20 BB/s) – 1000 BB</div>
+            </div>
+
+            <h3>Verstärker</h3>
+            <div class="upgrades-list">
+                <div>🏋️‍♂️ Knochentraining +10% – 100 BB</div>
+                <div>🏋️‍♂️ Knochentraining +15% – 250 BB</div>
+                <div>🏋️‍♂️ Knochentraining +20% – 500 BB</div>
+
+                <div>🧠 Untoten-Schreitherapie +10% – 150 BB</div>
+                <div>🧠 Untoten-Schreitherapie +15% – 300 BB</div>
+                <div>🧠 Untoten-Schreitherapie +20% – 600 BB</div>
+
+                <div>🔊 Fledermaus-Chorprobe +10% – 200 BB</div>
+                <div>🔊 Fledermaus-Chorprobe +15% – 400 BB</div>
+                <div>🔊 Fledermaus-Chorprobe +20% – 800 BB</div>
+
+                <div>🌀 Geisterrausch +10% – 300 BB</div>
+                <div>🌀 Geisterrausch +15% – 600 BB</div>
+                <div>🌀 Geisterrausch +20% – 1000 BB</div>
+
+                <div>📜 Dämonenvertrag (nicht kleingedruckt lesen) +10% – 500 BB</div>
+                <div>📜 Dämonenvertrag +15% – 1000 BB</div>
+                <div>📜 Dämonenvertrag +20% – 2000 BB</div>
+            </div>
+
+            <h3>Klick-Verstärker</h3>
+            <div class="upgrades-list">
+                <div>☝️ Muskelkater-Finger (+5/Klick) – 50 BB</div>
+                <div>🦾 Nekro-Handschuh (+5/Klick) – 150 BB</div>
+                <div>🧤 Greifarm aus dem Jenseits (+5/Klick) – 300 BB</div>
+                <div>🔥 Finger des Verderbens (+5/Klick) – 600 BB</div>
+                <div>✨ Magischer Doppelklick (+5/Klick) – 1200 BB</div>
             </div>
         </div>
-    </div>
 </main>
 <?php require_once('includes/footer.php'); ?>
 <script src="./assets/js/sidePanels.js"></script>
