@@ -9,9 +9,9 @@ require_once('includes/nav.php');
 </header>
 <main class="container">
     
-    <section class="game-area">
+    <stion class="game-area">
         <img id="click_button" src="/assets/img/gamearea_platzhalter.png" alt="Dungeon">
-    </section>
+    </stion>
     
     <!-- Toggle Button fuer Side Panels -->
     <button id="toggle-side-panels" class="btn btn-primary d-lg-none">☰</button>
@@ -54,21 +54,17 @@ require_once('includes/nav.php');
 
         <!-- Upgrades Panel -->
         <div class="side-panel">
-            <h2>Upgrades</h2>
-            <div class="upgrades-list">
-                <div>Upgrade 1</div>
-                <div>Upgrade 2</div>
-                <div>Upgrade 3</div>
-                <div>Upgrade 4</div>
-                <div>Upgrade 5</div>
-                <div>Upgrade 6</div>
-                <div>Upgrade 7</div>
-                <div>Upgrade 8</div>
-                <div>Upgrade 9</div>
-                <div>Upgrade 10</div>
-            </div>
+            <h2>Aufrüstungen</h2>
+
+            <h3>Passive Produktion</h3>
+            <div id="produktion-upgrades" class="upgrades-list"></div>
+
+            <h3>Verstärker</h3>
+            <div id="boost-upgrades" class="upgrades-list"></div>
+
+            <h3>Klick-Verstärker</h3>
+            <div id="klick-upgrades" class="upgrades-list"></div>
         </div>
-    </div>
 </main>
 <?php require_once('includes/footer.php'); ?>
 <script src="./assets/js/sidePanels.js"></script>

@@ -89,16 +89,17 @@ main {
 }
 
 .side-panel {
-    flex: 1; /* Kleinere Breite für Side Panels */
+    flex: 1;
     max-width: 300px;
+    max-height: 500px;
     background-color: #354f52;
     border: 2px solid #222;
     padding: 10px;
     border-radius: 5px;
     overflow-y: auto;
     display: flex;
-    flex-direction: column; /* Staple Inhalte untereinander */
-    gap: 10px; /* Abstand zwischen den Elementen */
+    flex-direction: column;
+    gap: 10px;
 }
 
 @media (max-width: 992px) { /* Für kleinere Bildschirme */
@@ -129,6 +130,11 @@ main {
     background-color: #84a98c;
 }
 
+.upgrades-list .gekauft {
+    background-color: #354f52; /* Gekaufte Upgrades haben eine andere Farbe */
+    opacity: 0.6;
+    pointer-events: none; /* Verhindert erneutes Klicken auf das Upgrade */
+}
 
 /* Login und Registrierung Styling */
 body {

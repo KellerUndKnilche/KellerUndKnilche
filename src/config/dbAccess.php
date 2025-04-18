@@ -46,9 +46,39 @@
 
     // Funktion, um einen neuen Benutzer in die Datenbank einzufügen
     function insertUser($db, $username, $email, $passwordHash) {
+        
         $stmt = $db->prepare("INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)");
         $stmt->bind_param("sss", $username, $email, $passwordHash); // Parameter binden
-        return $stmt->execute(); // Führt die Abfrage aus und gibt true/false zurück
+        $success = $stmt->execute(); // Führt die Abfrage aus und gibt true/false zurück
+        initUserUpgrades($db, $username); // Upgrades initialisieren
+        return $success; // Gibt true zurück, wenn erfolgreich
+    }
+
+    // Funktion, um Upgrades für einen neuen Benutzer zu initialisieren
+    function initUserUpgrades($db, $username) {
+        // Hole die user_id anhand des Benutzernamens
+        $userStmt = $db->prepare("SELECT id FROM users WHERE username = ?");
+        $userStmt->bind_param("s", $username);
+        $userStmt->execute();
+        $result = $userStmt->get_result();
+    
+        if ($result->num_rows === 0) {
+            // Benutzer existiert nicht
+            return false;
+        }
+    
+        $userId = $result->fetch_assoc()['id'];
+    
+        // Hole alle Upgrade-IDs
+        $upgradeQuery = $db->query("SELECT id FROM upgrades");
+    
+        $stmt = $db->prepare("INSERT INTO user_upgrades (user_id, upgrade_id, level) VALUES (?, ?, 0)");
+        foreach ($upgradeQuery as $upgrade) {
+            $stmt->bind_param("ii", $userId, $upgrade['id']);
+            $stmt->execute();
+        }
+    
+        return true;
     }
 
     // Funktion, um einen Benutzer anhand des Benutzernamens abzurufen
@@ -175,4 +205,38 @@
         $stmt->bind_param("isii", $userId, $upgradeId, $level, $level);
         return $stmt->execute();
     }
+
+
+
+    // Game Funktionen
+
+// Funktion, um alle Upgrades eines Benutzers mit Level abzurufen
+function getUserUpgrades($db, $userId) {
+    $sql = "
+        SELECT 
+            u.id,
+            u.name,
+            u.basispreis,
+            u.effektart,
+            u.effektwert,
+            u.kategorie,
+            uu.level
+        FROM upgrades u
+        LEFT JOIN user_upgrades uu ON u.id = uu.upgrade_id
+        WHERE uu.user_id = ?
+    ";
+
+    $stmt = $db->prepare($sql);
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $upgrades = [];
+
+    while ($row = $result->fetch_assoc()) {
+        $upgrades[] = $row;
+    }
+
+    return $upgrades;
+}
 ?>
