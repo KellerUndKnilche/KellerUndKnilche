@@ -130,6 +130,11 @@ main {
     background-color: #84a98c;
 }
 
+.upgrades-list .gekauft {
+    background-color: #354f52; /* Gekaufte Upgrades haben eine andere Farbe */
+    opacity: 0.6;
+    pointer-events: none; /* Verhindert erneutes Klicken auf das Upgrade */
+}
 
 /* Login und Registrierung Styling */
 body {

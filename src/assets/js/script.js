@@ -3,6 +3,7 @@ let clickHistory = []; // Speichert Zeitstempel aller Klicks im Zeitfenster
 const TIME_WINDOW_MS = 1000; // 1 Sekunde Zeitfenster
 const MAX_CLICKS_IN_WINDOW = 20; // Maximal 20 Klicks pro Sekunde erlaubt
 let penaltyEndTime = 0; // Zeitpunkt, zu dem die Strafe endet
+let upgrades = [];
 
 document.addEventListener("DOMContentLoaded", () => {
     const clickButton = document.getElementById("click_button");
@@ -65,7 +66,7 @@ function handleAutoClickerDetection() {
 
 async function ladeUpgrades() {
     const res = await fetch('../../content/game/getUpgrades.php');
-    const upgrades = await res.json();
+    upgrades = await res.json();
 
     const kategorien = {
         'Produktion': document.getElementById('produktion-upgrades'),
@@ -84,7 +85,7 @@ async function ladeUpgrades() {
             effektText = `+${parseFloat(upg.effektwert)}%`;
         } else {
             effektText = `+${parseFloat(upg.effektwert)}`;
-            if (upg.effekt_ziel === 'click') {
+            if (upg.kategorie === 'Klick') {
                 effektText += '/Klick';
             } else {
                 effektText += ' BB/s';
@@ -93,7 +94,33 @@ async function ladeUpgrades() {
 
         div.textContent = `${upg.name} (${effektText}) – ${upg.basispreis} BB`;
         div.dataset.upgradeId = upg.id;
-        div.onclick = () => kaufUpgrade(upg.id); // kommt später
+        div.onclick = () => kaufUpgrade(upg.id, 0);
         zielContainer.appendChild(div);
     });
+}
+
+function kaufUpgrade(upgradeId, upgradeLevel) {
+    const upgradeDiv = document.querySelector(`[data-upgrade-id="${upgradeId}"]`);
+    const upgradeArrayId = upgradeId - 1; // IDs in der DB beginnen bei 1, Arrays bei 0
+    let upgradePreisLevel = kalkPreis(upgrades[upgradeArrayId].basispreis, upgradeLevel, upgradeId);
+
+    if (upgradePreisLevel > currency) {
+        alert("Nicht genug BB für dieses Upgrade!");
+        return;
+    }
+
+    currency -= upgradePreisLevel;
+    updateCurrencyDisplay();
+
+    if (upgradeDiv && !upgradeDiv.classList.contains('gekauft') && upgrades[upgradeArrayId].kategorie != 'Produktion') {
+        upgradeDiv.classList.add('gekauft');
+    } else if (upgradeDiv && upgrades[upgradeArrayId].kategorie == 'Produktion') {
+        let effektText = `+${parseFloat(upgrades[upgradeArrayId].effektwert)} BB/s`;
+        // Preis-Update
+        upgradeDiv.textContent = `${upgrades[upgradeArrayId].name} (${effektText}) – ${kalkPreis(upgrades[upgradeArrayId].basispreis, upgradeLevel+1, upgradeId)} BB`;
+    } 
+}
+
+function kalkPreis(basispreis, level, id) {
+    return parseFloat(basispreis) + parseFloat(Math.pow(id, 3) * level);
 }
