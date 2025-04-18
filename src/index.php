@@ -57,45 +57,13 @@ require_once('includes/nav.php');
             <h2>Aufrüstungen</h2>
 
             <h3>Passive Produktion</h3>
-            <div class="upgrades-list">
-                <div>🦴 Gerippe (1 BB/s) – 15 BB</div>
-                <div>🧟 Untoter (2 BB/s) – 50 BB</div>
-                <div>🦇 Fledermausschwarm (5 BB/s) – 150 BB</div>
-                <div>👻 Geistererscheinung (10 BB/s) – 400 BB</div>
-                <div>😈 Dämon aus der Mittagspause (20 BB/s) – 1000 BB</div>
-            </div>
+            <div id="produktion-upgrades" class="upgrades-list"></div>
 
             <h3>Verstärker</h3>
-            <div class="upgrades-list">
-                <div>🏋️‍♂️ Knochentraining +10% – 100 BB</div>
-                <div>🏋️‍♂️ Knochentraining +15% – 250 BB</div>
-                <div>🏋️‍♂️ Knochentraining +20% – 500 BB</div>
-
-                <div>🧠 Untoten-Schreitherapie +10% – 150 BB</div>
-                <div>🧠 Untoten-Schreitherapie +15% – 300 BB</div>
-                <div>🧠 Untoten-Schreitherapie +20% – 600 BB</div>
-
-                <div>🔊 Fledermaus-Chorprobe +10% – 200 BB</div>
-                <div>🔊 Fledermaus-Chorprobe +15% – 400 BB</div>
-                <div>🔊 Fledermaus-Chorprobe +20% – 800 BB</div>
-
-                <div>🌀 Geisterrausch +10% – 300 BB</div>
-                <div>🌀 Geisterrausch +15% – 600 BB</div>
-                <div>🌀 Geisterrausch +20% – 1000 BB</div>
-
-                <div>📜 Dämonenvertrag (nicht kleingedruckt lesen) +10% – 500 BB</div>
-                <div>📜 Dämonenvertrag +15% – 1000 BB</div>
-                <div>📜 Dämonenvertrag +20% – 2000 BB</div>
-            </div>
+            <div id="boost-upgrades" class="upgrades-list"></div>
 
             <h3>Klick-Verstärker</h3>
-            <div class="upgrades-list">
-                <div>☝️ Muskelkater-Finger (+5/Klick) – 50 BB</div>
-                <div>🦾 Nekro-Handschuh (+5/Klick) – 150 BB</div>
-                <div>🧤 Greifarm aus dem Jenseits (+5/Klick) – 300 BB</div>
-                <div>🔥 Finger des Verderbens (+5/Klick) – 600 BB</div>
-                <div>✨ Magischer Doppelklick (+5/Klick) – 1200 BB</div>
-            </div>
+            <div id="klick-upgrades" class="upgrades-list"></div>
         </div>
 </main>
 <?php require_once('includes/footer.php'); ?>

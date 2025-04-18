@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (clickButton) {
         clickButton.addEventListener("click", increaseCurrency);
     }
+    ladeUpgrades();
 });
 
 // Währung erhöhen
@@ -60,4 +61,39 @@ function handleAutoClickerDetection() {
     }
     // Klick-Historie zurücksetzen
     clickHistory = [];
+}
+
+async function ladeUpgrades() {
+    const res = await fetch('../../content/game/getUpgrades.php');
+    const upgrades = await res.json();
+
+    const kategorien = {
+        'Produktion': document.getElementById('produktion-upgrades'),
+        'Boost': document.getElementById('boost-upgrades'),
+        'Klick': document.getElementById('klick-upgrades')
+    };
+    
+    upgrades.forEach(upg => {
+        const zielContainer = kategorien[upg.kategorie];
+        if (!zielContainer) return;
+
+        const div = document.createElement('div');
+
+        let effektText = "";
+        if (upg.effektart === 'prozent') {
+            effektText = `+${parseFloat(upg.effektwert)}%`;
+        } else {
+            effektText = `+${parseFloat(upg.effektwert)}`;
+            if (upg.effekt_ziel === 'click') {
+                effektText += '/Klick';
+            } else {
+                effektText += ' BB/s';
+            }
+        }
+
+        div.textContent = `${upg.name} (${effektText}) – ${upg.basispreis} BB`;
+        div.dataset.upgradeId = upg.id;
+        div.onclick = () => kaufUpgrade(upg.id); // kommt später
+        zielContainer.appendChild(div);
+    });
 }

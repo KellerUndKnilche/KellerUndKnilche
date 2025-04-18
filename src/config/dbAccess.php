@@ -175,4 +175,22 @@
         $stmt->bind_param("isii", $userId, $upgradeId, $level, $level);
         return $stmt->execute();
     }
+
+
+
+    // Game Funktionen
+
+    function getUpgrades($db) {
+        $sql = "SELECT * FROM upgrades";
+        $result = $db->query($sql);
+        $upgrades = [];
+    
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $upgrades[] = $row;
+            }
+        }
+    
+        return $upgrades;
+    }
 ?>
