@@ -65,8 +65,18 @@ function handleAutoClickerDetection() {
 }
 
 async function ladeUpgrades() {
-    const res = await fetch('../../content/game/getUpgrades.php');
+    const res = await fetch('../../content/game/upgrades.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            action: 'getUpgrades'
+        })
+    });
     upgrades = await res.json();
+
+    console.log(upgrades);
 
     const kategorien = {
         'Produktion': document.getElementById('produktion-upgrades'),
@@ -87,8 +97,9 @@ async function ladeUpgrades() {
             effektText = `+${parseFloat(upg.effektwert)}`;
             if (upg.kategorie === 'Klick') {
                 effektText += '/Klick';
+                effektText += upg.level = 1 ? ' ✓' : '';
             } else {
-                effektText += ' BB/s';
+                effektText += ` BB/s Level ${upg.level}`;
             }
         }
 
