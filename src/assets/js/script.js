@@ -16,8 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
         saveUpgrades();
     }, 5000);
     setInterval(() => {
-        currency = parseFloat(currency) + parseFloat(berechnePassivesEinkommen());   
-        currency = parseFloat(currency).toFixed(2);  // Runden auf 2 Dezimalstellen
+        currency = Number(currency) + parseFloat(berechnePassivesEinkommen());
+        currency = Number(currency).toFixed(2);  // Runden auf 2 Dezimalstellen
         updateCurrencyDisplay();
     }, 1000); // Alle 1 Sekunde aktualisieren
 
@@ -51,6 +51,7 @@ function increaseCurrency() {
     }
 
     // Währung erhöhen, wenn kein Autoclicker erkannt wurde
+    currency = Number(currency); // Sicherstellen, dass currency als Zahl behandelt wird.
     currency += klickValue;
     updateCurrencyDisplay();
 }
@@ -59,8 +60,8 @@ function increaseCurrency() {
 function updateCurrencyDisplay() {
     const currencyElement = document.getElementById("currency");
     if (currencyElement) {
-        parseFloat(currency).toFixed(2); // Runden auf 2 Dezimalstellen
-        currencyElement.textContent = currency + " ";
+        // Umwandlung in den numerischen Wert und Formatierung auf zwei Nachkommastellen.
+        currencyElement.textContent = Number(currency).toFixed(2) + " ";
     }
 }
 
@@ -165,11 +166,9 @@ async function ladeUpgrades() {
     upgrades.forEach(upg => {
         const zielContainer = kategorien[upg.kategorie];
         if (!zielContainer) return;
-
-        // Rufe die displayChanges-Funktion auf, um das Upgrade anzuzeigen
         displayChanges(upg, zielContainer);
-        if (upg.kategorie === 'Klick') {
-            klickValue += parseFloat(upg.effektwert);
+        if (upg.kategorie === 'Klick' && upg.level > 0) {
+            klickValue += parseFloat(upg.effektwert) * upg.level;
         }
     });
 }

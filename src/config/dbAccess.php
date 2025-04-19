@@ -221,10 +221,11 @@
                 u.effektwert,
                 u.kategorie,
                 u.ziel_id,
-                uu.level
+                t.typ AS target_typ,
+                COALESCE(uu.level, 0) AS level
             FROM upgrades u
-            LEFT JOIN user_upgrades uu ON u.id = uu.upgrade_id
-            WHERE uu.user_id = ?
+            JOIN targets t ON u.ziel_id = t.id
+            LEFT JOIN user_upgrades uu ON u.id = uu.upgrade_id AND uu.user_id = ?
         ";
 
         $stmt = $db->prepare($sql);

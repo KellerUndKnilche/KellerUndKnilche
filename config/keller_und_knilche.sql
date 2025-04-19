@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Erstellungszeit: 19. Apr 2025 um 11:44
--- Server-Version: 10.4.32-MariaDB
--- PHP-Version: 8.2.12
+-- Host: localhost
+-- Generation Time: Apr 19, 2025 at 07:50 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Datenbank: `keller`
+-- Database: `keller_knilche_main_db_test`
 --
 
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `beute_batzen`
+-- Table structure for table `beute_batzen`
 --
 
 CREATE TABLE `beute_batzen` (
@@ -35,7 +35,35 @@ CREATE TABLE `beute_batzen` (
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `upgrades`
+-- Table structure for table `targets`
+--
+
+CREATE TABLE `targets` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `typ` enum('Produktion','Klick','Sonstiges') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `targets`
+--
+
+INSERT INTO `targets` (`id`, `name`, `typ`) VALUES
+(1, 'Gerippe', 'Produktion'),
+(2, 'Untoter', 'Produktion'),
+(3, 'Fledermausschwarm', 'Produktion'),
+(4, 'Geistererscheinung', 'Produktion'),
+(5, 'Dämon aus der Mittagspause', 'Produktion'),
+(21, 'Muskelkater-Finger', 'Klick'),
+(22, 'Nekro-Handschuh', 'Klick'),
+(23, 'Greifarm aus dem Jenseits', 'Klick'),
+(24, 'Finger des Verderbens', 'Klick'),
+(25, 'Magischer Klicker des Todes', 'Klick');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `upgrades`
 --
 
 CREATE TABLE `upgrades` (
@@ -49,7 +77,7 @@ CREATE TABLE `upgrades` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Daten für Tabelle `upgrades`
+-- Dumping data for table `upgrades`
 --
 
 INSERT INTO `upgrades` (`id`, `name`, `basispreis`, `effektart`, `effektwert`, `kategorie`, `ziel_id`) VALUES
@@ -82,7 +110,7 @@ INSERT INTO `upgrades` (`id`, `name`, `basispreis`, `effektart`, `effektwert`, `
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -98,7 +126,7 @@ CREATE TABLE `users` (
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `user_upgrades`
+-- Table structure for table `user_upgrades`
 --
 
 CREATE TABLE `user_upgrades` (
@@ -108,24 +136,30 @@ CREATE TABLE `user_upgrades` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Indizes der exportierten Tabellen
+-- Indexes for dumped tables
 --
 
 --
--- Indizes für die Tabelle `beute_batzen`
+-- Indexes for table `beute_batzen`
 --
 ALTER TABLE `beute_batzen`
   ADD PRIMARY KEY (`user_id`);
 
 --
--- Indizes für die Tabelle `upgrades`
+-- Indexes for table `targets`
+--
+ALTER TABLE `targets`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `upgrades`
 --
 ALTER TABLE `upgrades`
   ADD PRIMARY KEY (`id`),
   ADD KEY `ziel_id` (`ziel_id`);
 
 --
--- Indizes für die Tabelle `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
@@ -133,46 +167,52 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- Indizes für die Tabelle `user_upgrades`
+-- Indexes for table `user_upgrades`
 --
 ALTER TABLE `user_upgrades`
   ADD PRIMARY KEY (`user_id`,`upgrade_id`),
   ADD KEY `upgrade_id` (`upgrade_id`);
 
 --
--- AUTO_INCREMENT für exportierte Tabellen
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT für Tabelle `upgrades`
+-- AUTO_INCREMENT for table `targets`
+--
+ALTER TABLE `targets`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+
+--
+-- AUTO_INCREMENT for table `upgrades`
 --
 ALTER TABLE `upgrades`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
--- AUTO_INCREMENT für Tabelle `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- Constraints der exportierten Tabellen
+-- Constraints for dumped tables
 --
 
 --
--- Constraints der Tabelle `beute_batzen`
+-- Constraints for table `beute_batzen`
 --
 ALTER TABLE `beute_batzen`
   ADD CONSTRAINT `beute_batzen_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints der Tabelle `upgrades`
+-- Constraints for table `upgrades`
 --
 ALTER TABLE `upgrades`
-  ADD CONSTRAINT `upgrades_ibfk_1` FOREIGN KEY (`ziel_id`) REFERENCES `upgrades` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_upgrade_target` FOREIGN KEY (`ziel_id`) REFERENCES `targets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints der Tabelle `user_upgrades`
+-- Constraints for table `user_upgrades`
 --
 ALTER TABLE `user_upgrades`
   ADD CONSTRAINT `user_upgrades_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
