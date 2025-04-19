@@ -220,6 +220,7 @@
                 u.effektart,
                 u.effektwert,
                 u.kategorie,
+                u.ziel_id,
                 uu.level
             FROM upgrades u
             LEFT JOIN user_upgrades uu ON u.id = uu.upgrade_id

@@ -4,6 +4,7 @@ const TIME_WINDOW_MS = 1000; // 1 Sekunde Zeitfenster
 const MAX_CLICKS_IN_WINDOW = 20; // Maximal 20 Klicks pro Sekunde erlaubt
 let penaltyEndTime = 0; // Zeitpunkt, zu dem die Strafe endet
 let upgrades = [];
+let klickValue = 1; // Wert pro Klick
 
 document.addEventListener("DOMContentLoaded", () => {
     const clickButton = document.getElementById("click_button");
@@ -14,6 +15,12 @@ document.addEventListener("DOMContentLoaded", () => {
     setInterval(() => {
         saveUpgrades();
     }, 5000);
+    setInterval(() => {
+        currency = parseFloat(currency) + parseFloat(berechnePassivesEinkommen());   
+        currency = parseFloat(currency).toFixed(2);  // Runden auf 2 Dezimalstellen
+        updateCurrencyDisplay();
+    }, 1000); // Alle 1 Sekunde aktualisieren
+
 });
 
 // Speichert die Upgrades bevor die Seite geschlossen wird
@@ -44,7 +51,7 @@ function increaseCurrency() {
     }
 
     // Währung erhöhen, wenn kein Autoclicker erkannt wurde
-    currency += 2;
+    currency += klickValue;
     updateCurrencyDisplay();
 }
 
@@ -52,7 +59,16 @@ function increaseCurrency() {
 function updateCurrencyDisplay() {
     const currencyElement = document.getElementById("currency");
     if (currencyElement) {
+        parseFloat(currency).toFixed(2); // Runden auf 2 Dezimalstellen
         currencyElement.textContent = currency + " ";
+    }
+}
+
+function updateProSekundeDisplay() {
+    const proSekundeElement = document.getElementById("proSekunde");
+    if (proSekundeElement) {
+        const passivesEinkommen = berechnePassivesEinkommen();
+        proSekundeElement.textContent = ` (+${passivesEinkommen.toFixed(2)} BB/s)`;
     }
 }
 
@@ -79,24 +95,42 @@ function displayChanges(upg, zielContainer) {
     if (upg.effektart === 'prozent') {
         effektText = `+${parseFloat(upg.effektwert)}%`;
         effektText += upg.level === 1 ? ' ✓' : '';
+
+        // Rekursiv auf das Ziel-Upgrade anwenden, falls vorhanden
+        if (upg.ziel_id) {
+            const targetUpgrade = upgrades.find(u => u.id === upg.ziel_id);
+            if (targetUpgrade) {
+                // Rufe displayChanges für das Ziel-Upgrade auf
+                displayChanges(targetUpgrade, zielContainer);
+            }
+        }
     } else {
-        effektText = `+${parseFloat(upg.effektwert)}`;
         if (upg.kategorie === 'Klick') {
+            effektText = `+${parseFloat(upg.effektwert)}`;
             effektText += '/Klick';
             effektText += upg.level > 0 ? ' ✓' : '';
         } else {
+            effektText = `+${(parseFloat(upg.effektwert) * getBoostMultiplier(upg.id)).toFixed(2)}`;
             effektText += ` BB/s Level ${upg.level}`;
+            updateProSekundeDisplay();
         }
     }
 
     const upgradeDiv = document.querySelector(`[data-upgrade-id="${upg.id}"]`);
 
     if (!upgradeDiv) {
-        // Erstelle das div für das Upgrade, falls es noch nicht existiert
         const div = document.createElement('div');
-        div.textContent = `${upg.name} (${effektText}) – ${kalkPreis(upg.basispreis, upg.level, upg.id)} BB`;
         div.dataset.upgradeId = upg.id;
-        div.onclick = () => kaufUpgrade(upg.id);  // Kein Level-Parameter notwendig
+
+        // Inhalt je nach Kaufstatus
+        if ((upg.kategorie == 'Klick' || upg.kategorie == 'Boost') && upg.level > 0) {
+            div.classList.add('gekauft');
+            div.textContent = `${upg.name} (${effektText})`;
+        } else {
+            div.textContent = `${upg.name} (${effektText}) – ${kalkPreis(upg.basispreis, upg.level, upg.id)} BB`;
+            div.onclick = () => kaufUpgrade(upg.id);
+        }
+
         zielContainer.appendChild(div);
     } else {
         // Aktualisiere den Text, falls das Upgrade bereits existiert
@@ -134,6 +168,9 @@ async function ladeUpgrades() {
 
         // Rufe die displayChanges-Funktion auf, um das Upgrade anzuzeigen
         displayChanges(upg, zielContainer);
+        if (upg.kategorie === 'Klick') {
+            klickValue += parseFloat(upg.effektwert);
+        }
     });
 }
 
@@ -147,9 +184,14 @@ function kaufUpgrade(upgradeId) {
     }
     
     currency -= upgradePreisLevel;
+    currency = parseFloat(currency).toFixed(2); // Runden auf 2 Dezimalstellen
     updateCurrencyDisplay();
     
     upgrades[upgradeArrayId].level += 1;
+
+    if(upgrades[upgradeArrayId].kategorie === 'Klick') {
+        klickValue += parseFloat(upgrades[upgradeArrayId].effektwert);
+    }
 
     // Stelle sicher, dass beim Kauf die Anzeige des Upgrades aktualisiert wird
     displayChanges(upgrades[upgradeArrayId], document.getElementById(`${upgrades[upgradeArrayId].kategorie.toLowerCase()}-upgrades`));
@@ -174,9 +216,40 @@ async function saveUpgrades() {
         })
     })
     const data = await res.json();
-    if (data.success) {
-        console.log("Upgrades erfolgreich gespeichert.");
-    } else {
+    if (!data.success) {
         console.error("Fehler beim Speichern der Upgrades:", data.error);
     }
+}
+
+function berechnePassivesEinkommen() {
+    let bbProSekunde = 0;
+
+    upgrades.forEach(upg => {
+        if (upg.kategorie === 'Produktion' && upg.level > 0) {
+            const basisWert = parseFloat(upg.effektwert);
+            const boost = getBoostMultiplier(upg.id); // Boosts beziehen sich auf dieses Upgrade
+            const einkommen = basisWert * upg.level * boost;
+
+            bbProSekunde += einkommen;
+        }
+    });
+
+    return bbProSekunde; // auf 2 Dezimalstellen runden
+}
+
+function getBoostMultiplier(produktId) {
+    let multiplier = 1;
+
+    upgrades.forEach(upg => {
+        if (
+            upg.kategorie === 'Boost' &&
+            upg.level > 0 &&
+            upg.effektart === 'prozent' &&
+            upg.ziel_id == produktId
+        ) {
+            multiplier *= 1 + (parseFloat(upg.effektwert) / 100);
+        }
+    });
+
+    return multiplier;
 }
