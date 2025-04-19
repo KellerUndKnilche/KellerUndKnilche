@@ -210,33 +210,43 @@
 
     // Game Funktionen
 
-// Funktion, um alle Upgrades eines Benutzers mit Level abzurufen
-function getUserUpgrades($db, $userId) {
-    $sql = "
-        SELECT 
-            u.id,
-            u.name,
-            u.basispreis,
-            u.effektart,
-            u.effektwert,
-            u.kategorie,
-            uu.level
-        FROM upgrades u
-        LEFT JOIN user_upgrades uu ON u.id = uu.upgrade_id
-        WHERE uu.user_id = ?
-    ";
+    // Funktion, um alle Upgrades eines Benutzers mit Level abzurufen
+    function getUserUpgrades($db, $userId) {
+        $sql = "
+            SELECT 
+                u.id,
+                u.name,
+                u.basispreis,
+                u.effektart,
+                u.effektwert,
+                u.kategorie,
+                uu.level
+            FROM upgrades u
+            LEFT JOIN user_upgrades uu ON u.id = uu.upgrade_id
+            WHERE uu.user_id = ?
+        ";
 
-    $stmt = $db->prepare($sql);
-    $stmt->bind_param("i", $userId);
-    $stmt->execute();
-    $result = $stmt->get_result();
+        $stmt = $db->prepare($sql);
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-    $upgrades = [];
+        $upgrades = [];
 
-    while ($row = $result->fetch_assoc()) {
-        $upgrades[] = $row;
+        while ($row = $result->fetch_assoc()) {
+            $upgrades[] = $row;
+        }
+
+        return $upgrades;
     }
 
-    return $upgrades;
-}
+    // Funktion, um die Levels eines Upgrades zu speichern
+    function saveUserUpgrades($db, $userId, $upgrades) {
+        foreach ($upgrades as $upgrade) {
+            $stmt = $db->prepare("UPDATE user_upgrades SET level = ? WHERE user_id = ? AND upgrade_id = ?");
+            $stmt->bind_param("iii", $upgrade['level'], $userId, $upgrade['id']);
+            $stmt->execute();
+        }
+        return true;
+    }
 ?>

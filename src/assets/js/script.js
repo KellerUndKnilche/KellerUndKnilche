@@ -11,6 +11,14 @@ document.addEventListener("DOMContentLoaded", () => {
         clickButton.addEventListener("click", increaseCurrency);
     }
     ladeUpgrades();
+    setInterval(() => {
+        saveUpgrades();
+    }, 5000);
+});
+
+// Speichert die Upgrades bevor die Seite geschlossen wird
+window.addEventListener("beforeunload", () => {
+    saveUpgrades();
 });
 
 // Währung erhöhen
@@ -86,7 +94,7 @@ function displayChanges(upg, zielContainer) {
     if (!upgradeDiv) {
         // Erstelle das div für das Upgrade, falls es noch nicht existiert
         const div = document.createElement('div');
-        div.textContent = `${upg.name} (${effektText}) – ${upg.basispreis} BB`;
+        div.textContent = `${upg.name} (${effektText}) – ${kalkPreis(upg.basispreis, upg.level, upg.id)} BB`;
         div.dataset.upgradeId = upg.id;
         div.onclick = () => kaufUpgrade(upg.id);  // Kein Level-Parameter notwendig
         zielContainer.appendChild(div);
@@ -100,7 +108,7 @@ function displayChanges(upg, zielContainer) {
             upgradeDiv.textContent = `${upg.name} (${effektText})`;
         }
     }
-}
+} 
 
 async function ladeUpgrades() {
     const res = await fetch('../../content/game/upgrades.php', {
@@ -147,10 +155,28 @@ function kaufUpgrade(upgradeId) {
     displayChanges(upgrades[upgradeArrayId], document.getElementById(`${upgrades[upgradeArrayId].kategorie.toLowerCase()}-upgrades`));
 }
 
-
 function kalkPreis(basispreis, level, id) {
-    if (level == 0) {
-        return parseFloat(basispreis);
-    }
     return parseFloat(basispreis) + parseFloat(Math.pow(id, 3) * level);
+}
+
+async function saveUpgrades() {
+    const res = await fetch('../../content/game/upgrades.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            action: 'saveUpgrades',
+            upgrades: upgrades.map(upg => ({
+                id: upg.id,
+                level: upg.level
+            }))
+        })
+    })
+    const data = await res.json();
+    if (data.success) {
+        console.log("Upgrades erfolgreich gespeichert.");
+    } else {
+        console.error("Fehler beim Speichern der Upgrades:", data.error);
+    }
 }
