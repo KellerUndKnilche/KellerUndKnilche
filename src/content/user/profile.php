@@ -65,8 +65,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $errors[] = "Fehler beim Aktualisieren des Profils.";
         }
-
-        $stmt->close();
     }
 }
 
