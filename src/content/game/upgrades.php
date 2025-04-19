@@ -17,36 +17,31 @@ if (!$action) {
     exit;
 }
 
+if(!$userId) {
+    echo json_encode([]);
+    exit;
+}
+
 switch ($action) {
-    case 'levelup':
-        if (!$userId) {
-            echo json_encode(['success' => false, 'message' => 'Kein Benutzer eingeloggt']);
-            break;
+    case 'saveUpgrades':
+        $upgrades = $data['upgrades'] ?? null;
+        if (!$upgrades) {
+            echo json_encode(['success' => false]);
+            exit;
         }
 
-        $upgradeId = $data['upgradeId'] ?? null;
-        $newLevel = $data['newLevel'] ?? null;
-
-        if ($upgradeId === null || $newLevel === null) {
-            echo json_encode(['success' => false, 'message' => 'Fehlende Parameter']);
-            break;
+        if (!saveUserUpgrades($db, $userId, $upgrades)) {
+            echo json_encode(['success' => false]);
+            exit;
         }
-
-        $success = updateUserUpgrade($db, $userId, $upgradeId, $newLevel);
-        echo json_encode(['success' => $success]);
-        break;
+        echo json_encode(['success' => true]);
+        exit;
 
     case 'getUpgrades':
-        if (!$userId) {
-            // Keine Fehlermeldung, aber auch keine Daten
-            echo json_encode([]);
-            break;
-        }
-
-        $levels = getUserUpgrades($db, $userId);
+        $upgrades = getUserUpgrades($db, $userId);
         
-        echo json_encode($levels);
-        break;
+        echo json_encode($upgrades);
+        exit;
 
     default:
         echo json_encode(['error' => 'Ungültige Aktion']);

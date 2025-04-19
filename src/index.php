@@ -21,6 +21,7 @@ require_once('includes/nav.php');
             <span id="currency-label">Beute Batzen: </span>
             <span id="currency">0</span>
             <span id="currency-label"> BB</span>
+            <span id="proSekunde"></span>
         </div>
         <div class="side-panel mb-3">
             <h2>Stats</h2>
