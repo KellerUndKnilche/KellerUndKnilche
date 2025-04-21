@@ -19,7 +19,7 @@ require_once('includes/nav.php');
     <div id="side-panels" class="d-lg-flex flex-lg-column mt-4">
         <div id="currency-display" class="currency-display">
             <span id="currency-label">Beute Batzen: </span>
-            <span id="currency">0</span>
+            <span id="currency">0.00</span>
             <span id="currency-label"> BB</span>
             <span id="proSekunde"></span>
         </div>

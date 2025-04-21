@@ -1,4 +1,4 @@
-let currency = 0;
+let currency = 0.00;
 let clickHistory = []; // Speichert Zeitstempel aller Klicks im Zeitfenster
 const TIME_WINDOW_MS = 1000; // 1 Sekunde Zeitfenster
 const MAX_CLICKS_IN_WINDOW = 20; // Maximal 20 Klicks pro Sekunde erlaubt
@@ -178,6 +178,7 @@ function kaufUpgrade(upgradeId) {
     let upgradePreisLevel = kalkPreis(upgrades[upgradeArrayId].basispreis, upgrades[upgradeArrayId].level, upgradeId);
     
     if (upgradePreisLevel > currency) {
+        console.log(upgradePreisLevel, currency);
         alert("Nicht genug BB für dieses Upgrade!");
         return;
     }
