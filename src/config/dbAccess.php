@@ -226,6 +226,7 @@
             FROM upgrades u
             JOIN targets t ON u.ziel_id = t.id
             LEFT JOIN user_upgrades uu ON u.id = uu.upgrade_id AND uu.user_id = ?
+            ORDER BY u.id ASC
         ";
 
         $stmt = $db->prepare($sql);
