@@ -1,5 +1,5 @@
 # Schützt .gitignore
-.gitignore    @StefanBerecz
+.gitignore    @StefanBerecz @BIOApfelsaft
 
 # Schützt production-Ordner
-/production/  @StefanBerecz
+/production/  @StefanBerecz @BIOApfelsaft
