@@ -55,3 +55,7 @@ if (session_status() === PHP_SESSION_NONE) {
     </div>
   </div>
 </nav>
+<script>
+  // HttpOnly-Cookies in JS nicht lesbar –> serverseitig Login‑Status injizieren
+  window.isUserLoggedIn = <?php echo isset($_SESSION['user']) ? 'true' : 'false'; ?>;
+</script>

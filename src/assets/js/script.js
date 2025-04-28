@@ -13,7 +13,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     ladeUpgrades();
     setInterval(() => {
-        saveUpgrades();
+        if (window.isUserLoggedIn) {
+            saveUpgrades();
+        }
     }, 5000);
     setInterval(() => {
         currency = Number(currency) + parseFloat(berechnePassivesEinkommen());
@@ -25,7 +27,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Speichert die Upgrades bevor die Seite geschlossen wird
 window.addEventListener("beforeunload", () => {
-    saveUpgrades();
+    if (!window.isUserLoggedIn) return;
+    const payload = JSON.stringify({
+        action: 'saveUpgrades',
+        upgrades: upgrades.map(u => ({ id: u.id, level: u.level }))
+    });
+    navigator.sendBeacon('../../content/game/upgrades.php', payload);  // statt fetch
 });
 
 // Währung erhöhen
@@ -202,22 +209,23 @@ function kalkPreis(basispreis, level, id) {
 }
 
 async function saveUpgrades() {
-    const res = await fetch('../../content/game/upgrades.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            action: 'saveUpgrades',
-            upgrades: upgrades.map(upg => ({
-                id: upg.id,
-                level: upg.level
-            }))
-        })
-    })
-    const data = await res.json();
-    if (!data.success) {
-        console.error("Fehler beim Speichern der Upgrades:", data.error);
+    if (!window.isUserLoggedIn) return;
+    try {
+        const res = await fetch('../../content/game/upgrades.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                action: 'saveUpgrades',
+                upgrades: upgrades.map(u => ({ id: u.id, level: u.level }))
+            })
+        });
+        const data = await res.json();
+        if (!data.success) {
+            console.error("Fehler beim Speichern der Upgrades:", data.error);
+        }
+    } catch (error) {
+        // Abgebrochene Requests (NS_BINDING_ABORTED) oder andere Fehler ignorieren
+        console.warn('saveUpgrades abgebrochen oder fehlerhaft:', error);
     }
 }
 
