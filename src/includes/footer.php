@@ -1,31 +1,31 @@
 <footer class="container-fluid bg-dark text-light mt-5">
   <ul class="nav justify-content-center">
     <li class="nav-item">
-      <a class="nav-link text-light" href="/index.php">Spiel</a>
+      <a class="nav-link text-light" href="/">Spiel</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link text-light" href="/content/user/statistics.php">Statistiken</a>
+      <a class="nav-link text-light" href="/statistiken">Statistiken</a>
     </li>
     <?php if (isset($_SESSION['user'])) { 
           if ($_SESSION['user']['isAdmin'] == 1) { ?>
             <li class="nav-item">
-              <a class="nav-link text-light" href="/content/user/admin.php">Admin-Dashboard</a>
+              <a class="nav-link text-light" href="/admin">Admin-Armaturenbrett</a>
             </li>
           <?php } ?>
           <li class="nav-item">
-            <a class="nav-link text-light" href="/content/user/profile.php">Profil</a>
+            <a class="nav-link text-light" href="/profil">Profil</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light" href="/content/user/logout.php">Logout</a>
+            <a class="nav-link text-light" href="/logout">Logout</a>
           </li>
     <?php } else { ?>
-          <li class="nav-item">
-            <a class="nav-link text-light" href="/content/user/registration.php">Registrierung</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-light" href="/content/user/login.php">Login</a>
-          </li>
-    <?php } ?>
+  <li class="nav-item">
+    <a class="nav-link text-light" href="/registrierung">Registrierung</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-light" href="/login">Login</a>
+  </li>
+<?php } ?>
   </ul>
 </footer>
 <script src="/assets/js/fontSwitcher.js"></script>

@@ -4,7 +4,7 @@ require_once('../../includes/helpers.php');
 
 // Prüfen, ob der Benutzer bereits eingeloggt ist
 if (isset($_SESSION["user"])) {
-    header("Location: " . getBaseUrl() . "/content/user/profile.php");
+    header("Location: " . getBaseUrl() . "/profil");
     exit();
 }
 
@@ -46,10 +46,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     if (empty($errors)) {
-        // Falls keine Fehler vorhanden sind, Benutzer registrieren
-        registerUser($db, $username, $email, $password);
-        // Umleitung zur Login-Seite
-        header("Location: " . getBaseUrl() . "/content/user/login.php");
+        // nach erfolgreicher Registrierung
+        header("Location: " . getBaseUrl() . "/login");
         exit();
     } else {
         // Fehler anzeigen
@@ -86,7 +84,7 @@ require_once('../../includes/nav.php');
             <button type="submit">Registrieren</button>
         </div>
     </form>
-    <p class="text-center mt-3">Schon registriert? <a href="login.php">Hier einloggen</a></p>
+    <p class="text-center mt-3">Schon registriert? <a href="/login">Hier einloggen</a></p>
 </div>
 <?php require_once('../../includes/footer.php'); ?>
 </body>

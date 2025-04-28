@@ -7,7 +7,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 if (!isset($_SESSION['user']) || !isset($_SESSION['user']['id'])) {
-    header("Location: " . getBaseUrl() . "/index.php");
+    header("Location: " . getBaseUrl() . "/");
     exit();
 }
 
@@ -29,7 +29,7 @@ if (isset($_COOKIE['username'])) {
     setcookie('username', '', time() - 3600, '/', '', true, true); // Secure und HttpOnly
 }
 
-// Zurück zur Startseite
-header("Location: " . getBaseUrl() . "/index.php");
+// nach Logout
+header("Location: " . getBaseUrl() . "/");
 exit();
 ?>
