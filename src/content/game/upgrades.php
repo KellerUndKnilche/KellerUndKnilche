@@ -10,6 +10,7 @@ $data = json_decode(file_get_contents("php://input"), true);
 // Standardwerte setzen
 $action = $data['action'] ?? null;
 $userId = $_SESSION['user']['id'] ?? null;
+session_write_close();
 
 // Wenn keine Aktion übergeben wurde, einfach nichts tun
 if (!$action) {

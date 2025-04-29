@@ -3,7 +3,7 @@ require_once('../../config/dbAccess.php');
 require_once('../../includes/helpers.php');
 
 if (!isset($_SESSION['user'])) {
-    header("Location: " . getBaseUrl() . "/content/user/login.php");
+    header("Location: " . getBaseUrl() . "/login");
     exit();
 }
 
