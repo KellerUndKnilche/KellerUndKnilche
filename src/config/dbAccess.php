@@ -223,6 +223,7 @@
                 u.ziel_id,
                 t.typ AS target_typ,
                 COALESCE(uu.level, 0) AS level
+                COALESCE(uu.isActive, 1) AS isActive
             FROM upgrades u
             JOIN targets t ON u.ziel_id = t.id
             LEFT JOIN user_upgrades uu ON u.id = uu.upgrade_id AND uu.user_id = ?
