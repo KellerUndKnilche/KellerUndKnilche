@@ -656,3 +656,35 @@ footer .nav-item {
         max-width: none;
     }
 }
+
+/* Tabelle für Benutzer-Upgrades im profil.php */
+.profile-upgrade-table {
+    width: 100%;
+    max-width: 700px;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: #354f52;
+    color: #fff;
+    border: 1px solid #666;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.profile-upgrade-table th,
+.profile-upgrade-table td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid #444;
+}
+
+.profile-upgrade-table th {
+    background-color: #2f3e46;
+    color: #bada55;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.profile-upgrade-table tr:hover {
+    background-color: #52796f;
+}
+

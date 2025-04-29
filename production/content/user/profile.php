@@ -24,6 +24,7 @@ $username = $_SESSION['user']['username'];
 $email = $_SESSION['user']['email'];
 $last_login = $_SESSION['user']['last_login'];
 $rank = $_SESSION['user']['rank'] ?? 'Kellermeister';
+$userUpgrades = getUserUpgrades($db, $userId);
 
 $successMsg = "";
 $errors = [];
@@ -146,11 +147,35 @@ require_once('../../includes/nav.php');
     <!-- Aktive Upgrades -->
     <div class="upgrade-info">
       <h3>Aktive Upgrades</h3>
-      <div class="upgrades-list">
-        <div>Poison Traps – Lvl 3</div>
-        <div>Minion Horde – Lvl 5</div>
-        <div>Spike Pits – Lvl 2</div>
-      </div>
+      <table class="profile-upgrade-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Level</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php
+            $bought = false;
+            foreach ($userUpgrades as $upgrade):
+              if ($upgrade['level'] > 0):
+                $bought = true;
+          ?>
+            <tr>
+              <td><?= htmlspecialchars($upgrade['name']) ?></td>
+              <td><?= $upgrade['level'] ?></td>
+            </tr>
+          <?php
+              endif;
+            endforeach;
+            if (!$bought):
+          ?>
+            <tr>
+              <td colspan="2">Du hast noch keine Upgrades gekauft.</td>
+            </tr>
+          <?php endif; ?>
+        </tbody>
+      </table>
     </div>
   </div>
 </section>
