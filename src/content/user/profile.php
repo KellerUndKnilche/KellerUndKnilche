@@ -15,7 +15,10 @@ if (isset($_COOKIE['user_id']) && $_COOKIE['user_id'] != $_SESSION['user']['id']
     exit();
 }
 
-$pageTitle = 'Keller & Knilche Profile';
+$pageTitle = 'Keller & Knilche Profil';
+$pageDescription = 'Dein Profil bei Keller & Knilche: Account‑Daten, Rang und Spiel‑Statistiken.';
+$pageKeywords    = 'Profil, Keller Knilche, Benutzerkonto, Idle Game';
+
 $userId = $_SESSION['user']['id'];
 $username = $_SESSION['user']['username'];
 $email = $_SESSION['user']['email'];
@@ -72,81 +75,84 @@ require_once('../../includes/header.php');
 require_once('../../includes/nav.php');
 ?>
 
-<div class="profile-wrapper">
-  <h1 class="profile-title">Mein Profil</h1>
+<section class="profile-section">
+  <h2 class="visually-hidden">Mein Profil</h2>
+  <div class="profile-wrapper">
+    <h1 class="profile-title">Mein Profil</h1>
 
-  <?php if (!empty($successMsg)): ?>
-    <div class="success-box"><?php echo $successMsg; ?></div>
-  <?php endif; ?>
+    <?php if (!empty($successMsg)): ?>
+      <div class="success-box"><?php echo $successMsg; ?></div>
+    <?php endif; ?>
 
-  <?php if (!empty($errors)): ?>
-    <div class="error-box">
-      <ul>
-        <?php foreach ($errors as $error): ?>
-          <ul><?php echo $error; ?></ul>
-        <?php endforeach; ?>
-      </ul>
+    <?php if (!empty($errors)): ?>
+      <div class="error-box">
+        <ul>
+          <?php foreach ($errors as $error): ?>
+            <ul><?php echo $error; ?></ul>
+          <?php endforeach; ?>
+        </ul>
+      </div>
+    <?php endif; ?>
+
+    <form method="POST" class="profile-form">
+      <label class="profile-input-label" for="username">Benutzername</label>
+      <input type="text" name="username" id="username" value="<?php echo htmlspecialchars($username); ?>" required>
+
+      <label class="profile-input-label" for="email">E-Mail-Adresse</label>
+      <input type="email" name="email" id="email" value="<?php echo htmlspecialchars($email); ?>" required>
+
+      <label class="profile-input-label" for="password">Neues Passwort <small>(leer für keine Änderung)</small></label>
+      <input type="password" name="password" id="password">
+
+      <label class="profile-input-label" for="password_confirm">Passwort wiederholen</label>
+      <input type="password" name="password_confirm" id="password_confirm">
+
+
+      <button type="submit">Profil speichern</button>
+    </form>
+
+    <div class="rank-display">
+      <p><strong>Rang:</strong></p>
+      <div class="rank-badge"><?php echo $rank; ?> 🏆</div>
     </div>
-  <?php endif; ?>
 
-  <form method="POST" class="profile-form">
-    <label class="profile-input-label" for="username">Benutzername</label>
-    <input type="text" name="username" id="username" value="<?php echo htmlspecialchars($username); ?>" required>
-
-    <label class="profile-input-label" for="email">E-Mail-Adresse</label>
-    <input type="email" name="email" id="email" value="<?php echo htmlspecialchars($email); ?>" required>
-
-    <label class="profile-input-label" for="password">Neues Passwort <small>(leer für keine Änderung)</small></label>
-    <input type="password" name="password" id="password">
-
-    <label class="profile-input-label" for="password_confirm">Passwort wiederholen</label>
-    <input type="password" name="password_confirm" id="password_confirm">
+    <?php if (!empty($last_login) && strtotime($last_login)): ?>
+      <p class="last-login">Letzter Login: <?php echo date("d.m.Y H:i", strtotime($last_login)); ?></p>
+    <?php else: ?>
+      <p class="last-login">Letzter Login: -</p>
+    <?php endif; ?>
 
 
-    <button type="submit">Profil speichern</button>
-  </form>
+    <!-- Profil-Stats -->
+    <div class="profile-stats">
+      <div class="stat-item">
+        <p class="stat-label">Heroes Vanquished</p>
+        <p class="stat-value">1,342</p>
+      </div>
+      <div class="stat-item">
+        <p class="stat-label">Batzen earned</p>
+        <p class="stat-value">8,675</p>
+      </div>
+      <div class="stat-item">
+        <p class="stat-label">BBPC</p>
+        <p class="stat-value">45</p>
+      </div>
+      <div class="stat-item">
+        <p class="stat-label">BBPS</p>
+        <p class="stat-value">120</p>
+      </div>
+    </div>
 
-  <div class="rank-display">
-    <p><strong>Rang:</strong></p>
-    <div class="rank-badge"><?php echo $rank; ?> 🏆</div>
+    <!-- Aktive Upgrades -->
+    <div class="upgrade-info">
+      <h3>Aktive Upgrades</h3>
+      <div class="upgrades-list">
+        <div>Poison Traps – Lvl 3</div>
+        <div>Minion Horde – Lvl 5</div>
+        <div>Spike Pits – Lvl 2</div>
+      </div>
+    </div>
   </div>
-
-  <?php if (!empty($last_login) && strtotime($last_login)): ?>
-    <p class="last-login">Letzter Login: <?php echo date("d.m.Y H:i", strtotime($last_login)); ?></p>
-  <?php else: ?>
-    <p class="last-login">Letzter Login: -</p>
-  <?php endif; ?>
-
-
-  <!-- Profil-Stats -->
-  <div class="profile-stats">
-    <div class="stat-item">
-      <p class="stat-label">Heroes Vanquished</p>
-      <p class="stat-value">1,342</p>
-    </div>
-    <div class="stat-item">
-      <p class="stat-label">Batzen earned</p>
-      <p class="stat-value">8,675</p>
-    </div>
-    <div class="stat-item">
-      <p class="stat-label">BBPC</p>
-      <p class="stat-value">45</p>
-    </div>
-    <div class="stat-item">
-      <p class="stat-label">BBPS</p>
-      <p class="stat-value">120</p>
-    </div>
-  </div>
-
-  <!-- Aktive Upgrades -->
-  <div class="upgrade-info">
-    <h3>Aktive Upgrades</h3>
-    <div class="upgrades-list">
-      <div>Poison Traps – Lvl 3</div>
-      <div>Minion Horde – Lvl 5</div>
-      <div>Spike Pits – Lvl 2</div>
-    </div>
-  </div>
-</div>
+</section>
 
 <?php require_once('../../includes/footer.php'); ?>

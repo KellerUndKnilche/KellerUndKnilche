@@ -9,6 +9,10 @@ if (isset($_SESSION["user"])) {
 }
 
 $pageTitle = 'Keller & Knilche Login';
+{ 
+    $pageDescription = 'Logge dich ein bei Keller & Knilche, deinem Idle‑Browser‑Game im Dungeon‑Stil.';
+    $pageKeywords    = 'Login, Keller Knilche, Anmelden, Login, Idle Game';
+}
 
 $username = $password = "";
 
@@ -81,18 +85,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 require_once('../../includes/header.php');
 require_once('../../includes/nav.php');
 ?>
-<div class="loginRegister-container">
-    <h2>Login</h2>
-    <form id="login-form" method="post" action="">
-        <div> <label for="username">Benutzername</label> <input type="text" id="username" name="username" placeholder="Benutzername" value="<?php echo $username ?? ''; ?>" required> </div>
+<section class="login-section">
+  <h2 class="visually-hidden">Login</h2>
+  <div class="loginRegister-container">
+      <form id="login-form" method="post" action="">
+          <div> <label for="username">Benutzername</label> <input type="text" id="username" name="username" placeholder="Benutzername" value="<?php echo $username ?? ''; ?>" required> </div>
 
-        <div> <label for="password">Passwort</label> <input type="password" id="password" name="password" placeholder="Passwort" required> </div>
+          <div> <label for="password">Passwort</label> <input type="password" id="password" name="password" placeholder="Passwort" required> </div>
 
-        <div class="remember-me"> <input type="checkbox" id="remember_me" name="remember_me"> <label for="remember_me">Angemeldet bleiben</label> </div>
+          <div class="remember-me"> <input type="checkbox" id="remember_me" name="remember_me"> <label for="remember_me">Angemeldet bleiben</label> </div>
 
-        <div> <button type="submit">Einloggen</button> </div>
-    </form>
+          <div> <button type="submit">Einloggen</button> </div>
+      </form>
 
-    <p>Noch keinen Account? <a href="/registrierung">Jetzt registrieren</a></p>
-</div>
+      <p>Noch keinen Account? <a href="/registrierung">Jetzt registrieren</a></p>
+  </div>
+</section>
 <?php require_once('../../includes/footer.php'); ?>
