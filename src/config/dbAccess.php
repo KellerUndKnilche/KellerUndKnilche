@@ -246,10 +246,11 @@
     // Funktion, um die Levels eines Upgrades zu speichern
     function saveUserUpgrades($db, $userId, $upgrades) {
         foreach ($upgrades as $upgrade) {
-            $stmt = $db->prepare("UPDATE user_upgrades SET level = ? WHERE user_id = ? AND upgrade_id = ?");
-            $stmt->bind_param("iii", $upgrade['level'], $userId, $upgrade['id']);
+            $stmt = $db->prepare("UPDATE user_upgrades SET level = ?, isActive = ? WHERE user_id = ? AND upgrade_id = ?");
+            $stmt->bind_param("iiii", $upgrade['level'], $upgrade['isActive'], $userId, $upgrade['id']);
             $stmt->execute();
         }
         return true;
     }
+    
 ?>
