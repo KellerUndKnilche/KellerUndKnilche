@@ -11,69 +11,56 @@ document.addEventListener("DOMContentLoaded", () => {
         clickButton.addEventListener("click", increaseCurrency);
     }
     ladeUpgrades();
+
+    // Upgrade‑Speicherung (nur wenn eingeloggt)
     setInterval(() => {
         if (window.isUserLoggedIn) {
             saveUpgrades();
         }
     }, 5000);
-    updateInterval = setInterval(() => {
-        updateCurrencyDisplay();
-    }, 1000); // Alle 1 Sekunde aktualisieren und ID speichern
 
+    // currency/production Elements holen
     const currencyElement = document.getElementById('currency');
     const productionRateElement = document.getElementById('proSekunde');
-    const apiEndpoint = 'api/update_currency.php'; // Pfad zum API-Skript RELATIV zu index.php
+    const apiEndpoint = 'api/update_currency.php';
 
-    if (!currencyElement || !productionRateElement) {
-        console.error('Fehler: Währungs- oder Ratenanzeige-Element nicht gefunden.');
-        return;
-    }
+    // Nur wenn beide Elemente vorhanden sind, Interval starten
+    if (currencyElement && productionRateElement) {
+        updateInterval = setInterval(() => {
+            updateCurrencyDisplay();
+        }, 1000);
 
-    // Funktion zum Abrufen und Aktualisieren der Währung und Rate
-    async function updateCurrencyDisplay() {
-        try {
-            const response = await fetch(apiEndpoint);
-            if (!response.ok) {
-                // Wenn Benutzer nicht eingeloggt ist (z.B. 401 oder Redirect), stoppe das Intervall
-                if (response.status === 401 || response.status === 403 || response.redirected) {
-                    console.warn('Benutzer nicht eingeloggt oder Zugriff verweigert. Stoppe Währungsupdate.');
-                    clearInterval(updateInterval);
-                    return; // Beende die Funktion hier
+        // Währungs‑Update-Funktion
+        async function updateCurrencyDisplay() {
+            try {
+                const response = await fetch(apiEndpoint);
+                if (!response.ok) {
+                    if (response.status === 401 || response.status === 403 || response.redirected) {
+                        clearInterval(updateInterval);
+                        return;
+                    }
+                    throw new Error(`HTTP ${response.status}`);
                 }
-                throw new Error(`HTTP Fehler! Status: ${response.status}`);
+                const data = await response.json();
+                if (data.success) {
+                    currencyElement.textContent = parseFloat(data.newAmount)
+                        .toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2});
+                    productionRateElement.textContent = data.productionPerSecond>0
+                        ? `(${parseFloat(data.productionPerSecond)
+                            .toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})} BB/s)`
+                        : '';
+                } else if (data.message==='Nicht eingeloggt') {
+                    clearInterval(updateInterval);
+                }
+            } catch (e) {
+                console.error('Fehler beim Abrufen der Währung:', e);
             }
-            const data = await response.json();
-
-            if (data.success) {
-                // Formatiere die Zahlen für die Anzeige (z.B. mit 2 Dezimalstellen)
-                const formattedAmount = parseFloat(data.newAmount).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                const formattedRate = parseFloat(data.productionPerSecond).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-                currencyElement.textContent = formattedAmount;
-                // Füge BB/s hinzu, wenn die Rate größer als 0 ist
-                productionRateElement.textContent = data.productionPerSecond > 0 ? `(${formattedRate} BB/s)` : '';
-            } else {
-                console.error('API Fehler:', data.message);
-                 // Stoppe bei bestimmten Fehlern, z.B. wenn nicht eingeloggt
-                 if (data.message === 'Nicht eingeloggt') {
-                     console.warn('Nicht eingeloggt laut API. Stoppe Währungsupdate.');
-                     clearInterval(updateInterval);
-                 }
-            }
-        } catch (error) {
-            console.error('Fehler beim Abrufen der Währungsdaten:', error);
-            // Stoppe das Intervall bei Netzwerkfehlern o.ä., um die Konsole nicht zu fluten
-            // clearInterval(updateInterval);
         }
+
+        window.addEventListener('unload', () => {
+            clearInterval(updateInterval);
+        });
     }
-
-    // Rufe die Funktion nicht sofort auf, da PHP den initialen Stand rendert.
-    // Der erste API-Call nach 1 Sekunde reicht.
-
-    // Optional: Intervall stoppen, wenn die Seite verlassen wird (good practice)
-     window.addEventListener('unload', () => {
-         clearInterval(updateInterval);
-     });
 });
 
 // Speichert die Upgrades bevor die Seite geschlossen wird
@@ -164,6 +151,8 @@ function getBoostMultiplier(targetUpgradeId) {
     });
 
     return multiplier;
+}
+
 function updateProfileEarningTable() {
     const bbProClickElement = document.getElementById("bb-pro-click");
     const bbProSekundeElement = document.getElementById("bb-pro-sekunde");
@@ -332,8 +321,7 @@ async function kaufUpgrade(upgradeId) { // Funktion muss async sein für await
         alert("Ein Netzwerkfehler ist beim Kauf aufgetreten.");
     }
 
-    // Stelle sicher, dass beim Kauf die Anzeige des Upgrades aktualisiert wird
-    displayChanges(upgrades[upgradeArrayId], document.getElementById(`${upgrades[upgradeArrayId].kategorie.toLowerCase()}-upgrades`));
+    // Profil-Earning-Tabelle aktualisieren
     updateProfileEarningTable();
 }
 
