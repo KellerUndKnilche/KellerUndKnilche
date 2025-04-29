@@ -245,11 +245,17 @@
 
     // Funktion, um die Levels eines Upgrades zu speichern
     function saveUserUpgrades($db, $userId, $upgrades) {
+        // Insert oder Update, falls Zeile schon existiert
+        $stmt = $db->prepare("
+            INSERT INTO user_upgrades (user_id, upgrade_id, level)
+            VALUES (?, ?, ?)
+            ON DUPLICATE KEY UPDATE level = VALUES(level)
+        ");
         foreach ($upgrades as $upgrade) {
-            $stmt = $db->prepare("UPDATE user_upgrades SET level = ? WHERE user_id = ? AND upgrade_id = ?");
-            $stmt->bind_param("iii", $upgrade['level'], $userId, $upgrade['id']);
+            $stmt->bind_param("iii", $userId, $upgrade['id'], $upgrade['level']);
             $stmt->execute();
         }
+        $stmt->close();
         return true;
     }
 ?>
