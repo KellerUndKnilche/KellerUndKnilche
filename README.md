@@ -9,6 +9,19 @@ Der Spieler **entwickelt** im Laufe der Zeit einen **Dungeon**, der sich permane
 
 Technisch setzen wir auf **HTML, CSS/Bootstrap, PHP und Javascript**. Spielstände sollen in einer relationalen Datenbank serverseitig gespeichert werden. Das Spiel wird über einen Webhosting Dienstleister, wie Hetzner, öffentlich verfügbar und der Source Code auf Github einsehbar sein.
 
+## Verwendung (derzeitiger Stand)
+1. Registrieren und einloggen
+2. Homepage Bild anklicken um Batzen zu verdienen
+3. Upgrades kaufen um mehr Batzen zu verdienen
+4. Passiv Batzen verdienen
+5. ???
+6. Profit
+
+### Features
+- Schriftart wechselbar
+- Responsive Design - Anpassung an mobile Endgeräte
+- Ändern der Nutzerdaten auf Profilseite
+
 ## Überblick über Repo
 
 | Ordner | Beschreibung |
