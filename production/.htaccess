@@ -1,0 +1,15 @@
+RewriteEngine On
+
+# Pretty URLs für User-Routen
+RewriteRule ^login/?$ content/user/login.php    [L,QSA]
+RewriteRule ^registrierung/?$ content/user/registration.php [L,QSA]
+RewriteRule ^profil/?$ content/user/profile.php [L,QSA]
+RewriteRule ^logout/?$ content/user/logout.php  [L,QSA]
+RewriteRule ^statistiken/?$ content/user/statistics.php [L,QSA]
+RewriteRule ^admin/?$ content/user/admin.php [L,QSA]
+RewriteRule ^/$ index.php [L,QSA]
+
+# Fallback: domain.tld/seite -> seite.php im gleichen Verzeichnis
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([A-Za-z0-9_-]+)/?$ $1.php [L,QSA]
