@@ -44,6 +44,16 @@ switch ($action) {
         echo json_encode($upgrades);
         exit;
 
+    case 'buyUpgrade':
+        $upgradeId = $data['upgradeId'] ?? null;
+        if (!$upgradeId || !is_numeric($upgradeId)) {
+            echo json_encode(['success' => false, 'message' => 'Ungültige Upgrade-ID.']);
+            exit;
+        }
+        $result = purchaseUpgradeTransaction($db, $userId, (int)$upgradeId);
+        echo json_encode($result);
+        exit;
+
     default:
         echo json_encode(['error' => 'Ungültige Aktion']);
 }
