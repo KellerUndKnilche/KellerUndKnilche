@@ -9,6 +9,10 @@ if (isset($_SESSION["user"])) {
 }
 
 $pageTitle = 'Keller & Knilche Registrierung';
+{
+    $pageDescription = 'Erstelle deinen Account bei Keller & Knilche: Dungeon‑Management, Beute‑Jagd und Monster‑Upgrades.';
+    $pageKeywords    = 'Registrierung, Keller Knilche, Konto erstellen, Registrierung, Idle Game';
+}
 
 // Initialisierung der Variablen
 $username = $email = $password = $confirmPassword = "";
@@ -61,31 +65,34 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 require_once('../../includes/header.php');
 require_once('../../includes/nav.php');
 ?>
-<div class="loginRegister-container">
-    <h2>Registrierung</h2>
-    <form method="post" action="">
-        <div class="mb-3">
-            <label for="username" class="form-label">Benutzername</label>
-            <input type="text" class="form-control" id="username" name="username" placeholder="Benutzername" value="<?php echo $username?>" required>
-        </div>
-        <div class="mb-3">
-            <label for="email" class="form-label">E-Mail</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="E-Mail" value="<?php echo $email?>" required>
-        </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Passwort</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Passwort" required>
-        </div>
-        <div class="mb-3">
-            <label for="confirm_password" class="form-label">Passwort bestätigen</label>
-            <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Passwort bestätigen" required>
-        </div>
-        <div class="d-grid">
-            <button type="submit">Registrieren</button>
-        </div>
-    </form>
-    <p class="text-center mt-3">Schon registriert? <a href="/login">Hier einloggen</a></p>
-</div>
+<section class="registration-section">
+    <h2 class="visually-hidden">Registrierung</h2>
+    <div class="loginRegister-container">
+        <h2>Registrierung</h2>
+        <form method="post" action="">
+            <div class="mb-3">
+                <label for="username" class="form-label">Benutzername</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Benutzername" value="<?php echo $username?>" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">E-Mail</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="E-Mail" value="<?php echo $email?>" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Passwort</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Passwort" required>
+            </div>
+            <div class="mb-3">
+                <label for="confirm_password" class="form-label">Passwort bestätigen</label>
+                <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Passwort bestätigen" required>
+            </div>
+            <div class="d-grid">
+                <button type="submit">Registrieren</button>
+            </div>
+        </form>
+        <p class="text-center mt-3">Schon registriert? <a href="/login">Hier einloggen</a></p>
+    </div>
+</section>
 <?php require_once('../../includes/footer.php'); ?>
 </body>
 </html>

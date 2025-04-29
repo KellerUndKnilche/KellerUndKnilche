@@ -1,5 +1,8 @@
 <?php 
-$pageTitle = 'Keller & Knilche Homepage';
+$pageTitle       = 'Keller & Knilche Homepage';
+$pageDescription = 'Keller & Knilche - Gewinne maximieren, Helden minimieren: ein Idle-Browser Game in dem du der Dungeon bist. Upgrade dein Reich und jage all diese lästigen Knilche(Helden) fort.';
+$pageKeywords    = 'Dungeons, Idle Game, Keller Knilche, Beute, Upgrade, Monster, Helden, Dungeon Management, Browser Game';
+
 require_once('config/dbAccess.php');
 require_once('includes/header.php'); 
 require_once('includes/nav.php'); 
@@ -9,9 +12,10 @@ require_once('includes/nav.php');
 </header>
 <main class="container">
     
-    <stion class="game-area">
-        <img id="click_button" src="/assets/img/gamearea_platzhalter.png" alt="Dungeon">
-    </stion>
+    <section class="game-area">
+        <h2 class="visually-hidden">Spielbereich</h2>
+        <img id="click_button" src="/assets/img/gamearea_platzhalter.png" alt="Dungeon‑Spielbereich">
+    </section>
     
     <!-- Toggle Button fuer Side Panels -->
     <button id="toggle-side-panels" class="btn btn-primary d-lg-none">☰</button>
