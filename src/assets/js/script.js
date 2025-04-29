@@ -80,6 +80,17 @@ function updateProSekundeDisplay() {
     }
 }
 
+function updateProfileEarningTable() {
+    const bbProClickElement = document.getElementById("bb-pro-click");
+    const bbProSekundeElement = document.getElementById("bb-pro-sekunde");
+    if (bbProClickElement) {
+        bbProClickElement.textContent = berechneBBProClick().toFixed(2);
+    }
+    if (bbProSekundeElement) {
+        bbProSekundeElement.textContent = berechnePassivesEinkommen().toFixed(2);
+    }
+}
+
 // Autoclicker-Erkennung behandeln
 function handleAutoClickerDetection() {
     // Verschiedene Stufen von Strafen, je nach Häufigkeit
@@ -178,6 +189,7 @@ async function ladeUpgrades() {
             klickValue += parseFloat(upg.effektwert) * upg.level;
         }
     });
+    updateProfileEarningTable();
 }
 
 function kaufUpgrade(upgradeId) {
@@ -202,6 +214,7 @@ function kaufUpgrade(upgradeId) {
 
     // Stelle sicher, dass beim Kauf die Anzeige des Upgrades aktualisiert wird
     displayChanges(upgrades[upgradeArrayId], document.getElementById(`${upgrades[upgradeArrayId].kategorie.toLowerCase()}-upgrades`));
+    updateProfileEarningTable();
 }
 
 function kalkPreis(basispreis, level, id) {
@@ -243,6 +256,18 @@ function berechnePassivesEinkommen() {
     });
 
     return bbProSekunde; // auf 2 Dezimalstellen runden
+}
+
+function berechneBBProClick() {
+    let bbProClick = 1;
+
+    upgrades.forEach(upg => {
+        if (upg.kategorie === 'Klick' && upg.level > 0) {
+            bbProClick += parseFloat(upg.effektwert) * upg.level;
+        }
+    });
+
+    return bbProClick;
 }
 
 function getBoostMultiplier(produktId) {
