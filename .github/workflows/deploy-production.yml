@@ -1,4 +1,6 @@
 name: Deploy production Ordner
+permissions:
+  contents: read
 
 on:
   push:
