@@ -137,6 +137,14 @@ function displayChanges(upg, zielContainer) {
         } else {
             div.textContent = `${upg.name} (${effektText}) – ${kalkPreis(upg.basispreis, upg.level, upg.id)} BB`;
             div.onclick = () => kaufUpgrade(upg.id);
+
+            div.oncontextmenu = (e) => {
+                e.preventDefault();
+                upg.isActive = upg.isActive === 1 ? 0 : 1;
+                div.style.opacity = upg.isActive ? '1' : '0.5';
+            };
+
+            div.style.opacity = upg.isActive === 0 ? '0.5' : '1';
         }
 
         zielContainer.appendChild(div);
