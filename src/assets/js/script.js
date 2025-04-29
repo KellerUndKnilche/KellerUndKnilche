@@ -1,10 +1,9 @@
-let currency = 0.00;
 let clickHistory = []; // Speichert Zeitstempel aller Klicks im Zeitfenster
 const TIME_WINDOW_MS = 1000; // 1 Sekunde Zeitfenster
 const MAX_CLICKS_IN_WINDOW = 20; // Maximal 20 Klicks pro Sekunde erlaubt
 let penaltyEndTime = 0; // Zeitpunkt, zu dem die Strafe endet
 let upgrades = [];
-let klickValue = 1; // Wert pro Klick
+let updateInterval; // Variable für die Intervall-ID deklarieren
 
 document.addEventListener("DOMContentLoaded", () => {
     const clickButton = document.getElementById("click_button");
@@ -17,12 +16,64 @@ document.addEventListener("DOMContentLoaded", () => {
             saveUpgrades();
         }
     }, 5000);
-    setInterval(() => {
-        currency = Number(currency) + parseFloat(berechnePassivesEinkommen());
-        currency = Number(currency).toFixed(2);  // Runden auf 2 Dezimalstellen
+    updateInterval = setInterval(() => {
         updateCurrencyDisplay();
-    }, 1000); // Alle 1 Sekunde aktualisieren
+    }, 1000); // Alle 1 Sekunde aktualisieren und ID speichern
 
+    const currencyElement = document.getElementById('currency');
+    const productionRateElement = document.getElementById('proSekunde');
+    const apiEndpoint = 'api/update_currency.php'; // Pfad zum API-Skript RELATIV zu index.php
+
+    if (!currencyElement || !productionRateElement) {
+        console.error('Fehler: Währungs- oder Ratenanzeige-Element nicht gefunden.');
+        return;
+    }
+
+    // Funktion zum Abrufen und Aktualisieren der Währung und Rate
+    async function updateCurrencyDisplay() {
+        try {
+            const response = await fetch(apiEndpoint);
+            if (!response.ok) {
+                // Wenn Benutzer nicht eingeloggt ist (z.B. 401 oder Redirect), stoppe das Intervall
+                if (response.status === 401 || response.status === 403 || response.redirected) {
+                    console.warn('Benutzer nicht eingeloggt oder Zugriff verweigert. Stoppe Währungsupdate.');
+                    clearInterval(updateInterval);
+                    return; // Beende die Funktion hier
+                }
+                throw new Error(`HTTP Fehler! Status: ${response.status}`);
+            }
+            const data = await response.json();
+
+            if (data.success) {
+                // Formatiere die Zahlen für die Anzeige (z.B. mit 2 Dezimalstellen)
+                const formattedAmount = parseFloat(data.newAmount).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                const formattedRate = parseFloat(data.productionPerSecond).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+                currencyElement.textContent = formattedAmount;
+                // Füge BB/s hinzu, wenn die Rate größer als 0 ist
+                productionRateElement.textContent = data.productionPerSecond > 0 ? `(${formattedRate} BB/s)` : '';
+            } else {
+                console.error('API Fehler:', data.message);
+                 // Stoppe bei bestimmten Fehlern, z.B. wenn nicht eingeloggt
+                 if (data.message === 'Nicht eingeloggt') {
+                     console.warn('Nicht eingeloggt laut API. Stoppe Währungsupdate.');
+                     clearInterval(updateInterval);
+                 }
+            }
+        } catch (error) {
+            console.error('Fehler beim Abrufen der Währungsdaten:', error);
+            // Stoppe das Intervall bei Netzwerkfehlern o.ä., um die Konsole nicht zu fluten
+            // clearInterval(updateInterval);
+        }
+    }
+
+    // Rufe die Funktion nicht sofort auf, da PHP den initialen Stand rendert.
+    // Der erste API-Call nach 1 Sekunde reicht.
+
+    // Optional: Intervall stoppen, wenn die Seite verlassen wird (good practice)
+     window.addEventListener('unload', () => {
+         clearInterval(updateInterval);
+     });
 });
 
 // Speichert die Upgrades bevor die Seite geschlossen wird
@@ -37,66 +88,83 @@ window.addEventListener("beforeunload", () => {
 });
 
 // Währung erhöhen
-function increaseCurrency() {
-    const currentTime = new Date().getTime();
+async function increaseCurrency() { 
+    const now = new Date().getTime();
 
-    if (currentTime < penaltyEndTime) {
-        const remainingSeconds = Math.ceil((penaltyEndTime - currentTime) / 1000);
-        alert(`Bitte warte noch ${remainingSeconds} Sekunden.`);
-        return;
+    // 1. Prüfen, ob eine Strafe aktiv ist
+    if (now < penaltyEndTime) {
+        const remainingTime = Math.ceil((penaltyEndTime - now) / 1000);
+        alert(`Du musst noch ${remainingTime} Sekunden warten.`);
+        return; // Klick verhindern
     }
 
-    clickHistory.push(currentTime);
+    // 2. Alte Zeitstempel entfernen (älter als TIME_WINDOW_MS)
+    clickHistory = clickHistory.filter(timestamp => now - timestamp < TIME_WINDOW_MS);
 
-    while (clickHistory.length > 0 && clickHistory[0] < currentTime - TIME_WINDOW_MS) {
-        clickHistory.shift();
-    }
+    // 3. Aktuellen Zeitstempel hinzufügen
+    clickHistory.push(now);
 
-    // Prüfen, ob zu viele Klicks im Zeitfenster
+    // 4. Prüfen, ob das Klicklimit überschritten wurde
     if (clickHistory.length > MAX_CLICKS_IN_WINDOW) {
-        handleAutoClickerDetection();
-        return;
-    }
-
-    // Währung erhöhen, wenn kein Autoclicker erkannt wurde
-    currency = Number(currency); // Sicherstellen, dass currency als Zahl behandelt wird.
-    currency += klickValue;
-    updateCurrencyDisplay();
-}
-
-// Währung im HTML aktualisieren
-function updateCurrencyDisplay() {
-    const currencyElement = document.getElementById("currency");
-    if (currencyElement) {
-        // Umwandlung in den numerischen Wert und Formatierung auf zwei Nachkommastellen.
-        currencyElement.textContent = Number(currency).toFixed(2) + " ";
-    }
-}
-
-function updateProSekundeDisplay() {
-    const proSekundeElement = document.getElementById("proSekunde");
-    if (proSekundeElement) {
-        const passivesEinkommen = berechnePassivesEinkommen();
-        proSekundeElement.textContent = ` (+${passivesEinkommen.toFixed(2)} BB/s)`;
-    }
-}
-
-// Autoclicker-Erkennung behandeln
-function handleAutoClickerDetection() {
-    // Verschiedene Stufen von Strafen, je nach Häufigkeit
-    if (clickHistory.length > MAX_CLICKS_IN_WINDOW * 2) {
-        // Schwerer Verstoß - längere Wartezeit
-        penaltyEndTime = new Date().getTime() + 30000; // 30 Sekunden Pause
-        alert("Extremer Autoclicker erkannt! Du kannst 30 Sekunden nicht klicken.");
-    } else {
-        // Normaler Verstoß - kurze Wartezeit
-        penaltyEndTime = new Date().getTime() + 5000; // 5 Sekunden Pause
+        // Strafe auslösen
+        penaltyEndTime = now + 5000; // 5 Sekunden Pause
         alert("Autoclicker erkannt! Du musst 5 Sekunden warten.");
+        clickHistory = []; // Historie zurücksetzen nach Erkennung
+        return; // Klick verhindern
     }
-    // Klick-Historie zurücksetzen
-    clickHistory = [];
+
+    // 5. Wenn keine Strafe und Limit nicht überschritten, Klick registrieren
+    try {
+        const response = await fetch('api/register_click.php', {
+            method: 'POST' // POST ist besser, da es den Serverstatus ändert
+        });
+        if (!response.ok) {
+            // Fehlerbehandlung, wenn Benutzer nicht eingeloggt ist o.ä.
+            if (response.status === 401 || response.status === 403) {
+                 console.warn('Klick nicht registriert: Nicht eingeloggt oder Zugriff verweigert.');
+                 // Hier könnte man ggf. das Update-Intervall stoppen, falls noch nicht geschehen
+                 // clearInterval(updateInterval);
+            } else {
+                throw new Error(`HTTP Fehler beim Klicken! Status: ${response.status}`);
+            }
+            return; // Beende Funktion bei Fehler
+        }
+        const data = await response.json();
+
+        if (data.success) {
+            // Anzeige direkt mit dem neuen Betrag vom Server aktualisieren
+            const formattedAmount = parseFloat(data.newAmount).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            const currencyElement = document.getElementById('currency');
+            if (currencyElement) {
+                currencyElement.textContent = formattedAmount;
+            }
+        } else {
+            console.error('API Fehler beim Klicken:', data.message);
+        }
+    } catch (error) {
+        console.error('Fehler beim Senden des Klicks:', error);
+    }
 }
 
+// Funktion zum Berechnen des Boost-Multiplikators für ein bestimmtes Upgrade
+function getBoostMultiplier(targetUpgradeId) {
+    let multiplier = 1.0; // Startmultiplikator
+
+    upgrades.forEach(boostUpg => {
+        // Prüfe, ob es ein Boost-Upgrade ist, das das Ziel-Upgrade beeinflusst und gekauft wurde (Level > 0)
+        if (boostUpg.kategorie === 'Boost' && boostUpg.ziel_id === targetUpgradeId && boostUpg.level > 0) {
+            if (boostUpg.effektart === 'prozent') {
+                // Addiere den prozentualen Boost zum Multiplikator
+                // Annahme: Jeder Level gibt den vollen Effektwert
+                const totalBoostPercent = parseFloat(boostUpg.effektwert) * boostUpg.level;
+                multiplier *= (1 + (totalBoostPercent / 100.0));
+            }
+            // Hier könnten 'absolut' Boosts behandelt werden, falls nötig
+        }
+    });
+
+    return multiplier;
+}
 
 // Funktion zum Anzeigen der Änderungen der Upgrades
 function displayChanges(upg, zielContainer) {
@@ -121,7 +189,6 @@ function displayChanges(upg, zielContainer) {
         } else {
             effektText = `+${(parseFloat(upg.effektwert) * getBoostMultiplier(upg.id)).toFixed(2)}`;
             effektText += ` BB/s Level ${upg.level}`;
-            updateProSekundeDisplay();
         }
     }
 
@@ -154,7 +221,8 @@ function displayChanges(upg, zielContainer) {
 } 
 
 async function ladeUpgrades() {
-    const res = await fetch('../../content/game/upgrades.php', {
+    // Korrigierter Pfad: relativ zu src/index.php
+    const res = await fetch('content/game/upgrades.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -175,34 +243,68 @@ async function ladeUpgrades() {
         const zielContainer = kategorien[upg.kategorie];
         if (!zielContainer) return;
         displayChanges(upg, zielContainer);
-        if (upg.kategorie === 'Klick' && upg.level > 0) {
-            klickValue += parseFloat(upg.effektwert) * upg.level;
-        }
     });
 }
 
-function kaufUpgrade(upgradeId) {
-    const upgradeArrayId = upgradeId - 1; // IDs in der DB beginnen bei 1, Arrays bei 0
-    let upgradePreisLevel = kalkPreis(upgrades[upgradeArrayId].basispreis, upgrades[upgradeArrayId].level, upgradeId);
-    
-    if (upgradePreisLevel > currency) {
-        console.log(upgradePreisLevel, currency);
-        alert("Nicht genug BB für dieses Upgrade!");
+async function kaufUpgrade(upgradeId) { // Funktion muss async sein für await
+    const upgrade = upgrades.find(u => u.id === upgradeId);
+    if (!upgrade) {
+        console.error("Upgrade nicht im lokalen Array gefunden:", upgradeId);
+        return;
+    }
+
+    // Preisberechnung clientseitig nur zur Vorabprüfung (optional, aber gut für UX)
+    let clientSidePreisCheck = kalkPreis(upgrade.basispreis, upgrade.level, upgrade.id);
+    const currencyElement = document.getElementById('currency');
+    const currentDisplayAmount = parseFloat(currencyElement.textContent.replace(/\./g, '').replace(/,/, '.')) || 0;
+
+    if (clientSidePreisCheck > currentDisplayAmount) { 
+        alert("Nicht genug BB für dieses Upgrade! (Client-Check)");
         return;
     }
     
-    currency -= upgradePreisLevel;
-    currency = parseFloat(currency).toFixed(2); // Runden auf 2 Dezimalstellen
-    updateCurrencyDisplay();
-    
-    upgrades[upgradeArrayId].level += 1;
+    // Entferne die lokale Level-Erhöhung - das macht der Server
+    // upgrades[upgradeArrayId].level += 1;
 
-    if(upgrades[upgradeArrayId].kategorie === 'Klick') {
-        klickValue += parseFloat(upgrades[upgradeArrayId].effektwert);
+    // Sende Kaufanfrage an den Server
+    try {
+        const res = await fetch('content/game/upgrades.php', { // Korrekter Pfad relativ zu index.php
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                action: 'buyUpgrade',
+                upgradeId: upgradeId
+            })
+        });
+        const result = await res.json();
+
+        if (result.success) {
+            // Upgrade war erfolgreich!
+            // 1. Aktualisiere das Level im lokalen upgrades-Array
+            upgrade.level = result.newLevel; 
+
+            // 2. Aktualisiere die Anzeige für dieses Upgrade
+            const containerId = `${upgrade.kategorie.toLowerCase()}-upgrades`;
+            const containerElement = document.getElementById(containerId);
+            if (containerElement) {
+                displayChanges(upgrade, containerElement);
+            }
+
+            // 3. Aktualisiere die Währungsanzeige sofort (optional, Intervall macht es auch)
+            // updateCurrencyDisplay(); // Entfernt: Wird durch Intervall erledigt
+            
+            // Optional: Erfolgsmeldung
+            // console.log("Upgrade gekauft:", upgrade.name, "Neues Level:", result.newLevel);
+
+        } else {
+            // Kauf fehlgeschlagen (z.B. nicht genug Geld serverseitig, DB-Fehler)
+            alert(`Kauf fehlgeschlagen: ${result.message}`);
+        }
+
+    } catch (error) {
+        console.error("Fehler beim Senden der Kaufanfrage:", error);
+        alert("Ein Netzwerkfehler ist beim Kauf aufgetreten.");
     }
-
-    // Stelle sicher, dass beim Kauf die Anzeige des Upgrades aktualisiert wird
-    displayChanges(upgrades[upgradeArrayId], document.getElementById(`${upgrades[upgradeArrayId].kategorie.toLowerCase()}-upgrades`));
 }
 
 function kalkPreis(basispreis, level, id) {
@@ -228,37 +330,4 @@ async function saveUpgrades() {
         // Abgebrochene Requests (NS_BINDING_ABORTED) oder andere Fehler ignorieren
         console.warn('saveUpgrades abgebrochen oder fehlerhaft:', error);
     }
-}
-
-function berechnePassivesEinkommen() {
-    let bbProSekunde = 0;
-
-    upgrades.forEach(upg => {
-        if (upg.kategorie === 'Produktion' && upg.level > 0) {
-            const basisWert = parseFloat(upg.effektwert);
-            const boost = getBoostMultiplier(upg.id); // Boosts beziehen sich auf dieses Upgrade
-            const einkommen = basisWert * upg.level * boost;
-
-            bbProSekunde += einkommen;
-        }
-    });
-
-    return bbProSekunde; // auf 2 Dezimalstellen runden
-}
-
-function getBoostMultiplier(produktId) {
-    let multiplier = 1;
-
-    upgrades.forEach(upg => {
-        if (
-            upg.kategorie === 'Boost' &&
-            upg.level > 0 &&
-            upg.effektart === 'prozent' &&
-            upg.ziel_id == produktId
-        ) {
-            multiplier *= 1 + (parseFloat(upg.effektwert) / 100);
-        }
-    });
-
-    return multiplier;
 }
