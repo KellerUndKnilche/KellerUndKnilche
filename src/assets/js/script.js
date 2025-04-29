@@ -164,6 +164,31 @@ function getBoostMultiplier(targetUpgradeId) {
     });
 
     return multiplier;
+function updateProfileEarningTable() {
+    const bbProClickElement = document.getElementById("bb-pro-click");
+    const bbProSekundeElement = document.getElementById("bb-pro-sekunde");
+    if (bbProClickElement) {
+        bbProClickElement.textContent = berechneBBProClick().toFixed(2);
+    }
+    if (bbProSekundeElement) {
+        bbProSekundeElement.textContent = berechnePassivesEinkommen().toFixed(2);
+    }
+}
+
+// Autoclicker-Erkennung behandeln
+function handleAutoClickerDetection() {
+    // Verschiedene Stufen von Strafen, je nach Häufigkeit
+    if (clickHistory.length > MAX_CLICKS_IN_WINDOW * 2) {
+        // Schwerer Verstoß - längere Wartezeit
+        penaltyEndTime = new Date().getTime() + 30000; // 30 Sekunden Pause
+        alert("Extremer Autoclicker erkannt! Du kannst 30 Sekunden nicht klicken.");
+    } else {
+        // Normaler Verstoß - kurze Wartezeit
+        penaltyEndTime = new Date().getTime() + 5000; // 5 Sekunden Pause
+        alert("Autoclicker erkannt! Du musst 5 Sekunden warten.");
+    }
+    // Klick-Historie zurücksetzen
+    clickHistory = [];
 }
 
 // Funktion zum Anzeigen der Änderungen der Upgrades
@@ -244,6 +269,7 @@ async function ladeUpgrades() {
         if (!zielContainer) return;
         displayChanges(upg, zielContainer);
     });
+    updateProfileEarningTable();
 }
 
 async function kaufUpgrade(upgradeId) { // Funktion muss async sein für await
@@ -305,6 +331,10 @@ async function kaufUpgrade(upgradeId) { // Funktion muss async sein für await
         console.error("Fehler beim Senden der Kaufanfrage:", error);
         alert("Ein Netzwerkfehler ist beim Kauf aufgetreten.");
     }
+
+    // Stelle sicher, dass beim Kauf die Anzeige des Upgrades aktualisiert wird
+    displayChanges(upgrades[upgradeArrayId], document.getElementById(`${upgrades[upgradeArrayId].kategorie.toLowerCase()}-upgrades`));
+    updateProfileEarningTable();
 }
 
 function kalkPreis(basispreis, level, id) {
@@ -330,4 +360,49 @@ async function saveUpgrades() {
         // Abgebrochene Requests (NS_BINDING_ABORTED) oder andere Fehler ignorieren
         console.warn('saveUpgrades abgebrochen oder fehlerhaft:', error);
     }
+}
+
+function berechnePassivesEinkommen() {
+    let bbProSekunde = 0;
+
+    upgrades.forEach(upg => {
+        if (upg.kategorie === 'Produktion' && upg.level > 0) {
+            const basisWert = parseFloat(upg.effektwert);
+            const boost = getBoostMultiplier(upg.id); // Boosts beziehen sich auf dieses Upgrade
+            const einkommen = basisWert * upg.level * boost;
+
+            bbProSekunde += einkommen;
+        }
+    });
+
+    return bbProSekunde; // auf 2 Dezimalstellen runden
+}
+
+function berechneBBProClick() {
+    let bbProClick = 1;
+
+    upgrades.forEach(upg => {
+        if (upg.kategorie === 'Klick' && upg.level > 0) {
+            bbProClick += parseFloat(upg.effektwert) * upg.level;
+        }
+    });
+
+    return bbProClick;
+}
+
+function getBoostMultiplier(produktId) {
+    let multiplier = 1;
+
+    upgrades.forEach(upg => {
+        if (
+            upg.kategorie === 'Boost' &&
+            upg.level > 0 &&
+            upg.effektart === 'prozent' &&
+            upg.ziel_id == produktId
+        ) {
+            multiplier *= 1 + (parseFloat(upg.effektwert) / 100);
+        }
+    });
+
+    return multiplier;
 }

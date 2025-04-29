@@ -77,6 +77,8 @@ require_once('../../includes/nav.php');
 ?>
 
 <section class="profile-section">
+  <script src = ../../assets/js/script.js></script>
+
   <h2 class="visually-hidden">Mein Profil</h2>
   <div class="profile-wrapper">
     <h1 class="profile-title">Mein Profil</h1>
@@ -147,35 +149,55 @@ require_once('../../includes/nav.php');
     <!-- Aktive Upgrades -->
     <div class="upgrade-info">
       <h3>Aktive Upgrades</h3>
-      <table class="profile-upgrade-table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Level</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php
-            $bought = false;
-            foreach ($userUpgrades as $upgrade):
-              if ($upgrade['level'] > 0):
-                $bought = true;
-          ?>
+
+      <div class="profile-tables-row">
+        <table class="profile-upgrade-table">
+          <thead>
             <tr>
-              <td><?= htmlspecialchars($upgrade['name']) ?></td>
-              <td><?= $upgrade['level'] ?></td>
+              <th>Name</th>
+              <th>Level</th>
             </tr>
-          <?php
-              endif;
-            endforeach;
-            if (!$bought):
-          ?>
+          </thead>
+          <tbody>
+            <?php
+              $bought = false;
+              foreach ($userUpgrades as $upgrade):
+                if ($upgrade['level'] > 0):
+                  $bought = true;
+            ?>
+              <tr>
+                <td><?= htmlspecialchars($upgrade['name']) ?></td>
+                <td><?= $upgrade['level'] ?></td>
+              </tr>
+            <?php
+                endif;
+              endforeach;
+              if (!$bought):
+            ?>
+              <tr>
+                <td colspan="2">Du hast noch keine Upgrades gekauft.</td>
+              </tr>
+            <?php endif; ?>
+          </tbody>
+
+        </table>
+        <table class="profile-earning-table">
+          <thead>
             <tr>
-              <td colspan="2">Du hast noch keine Upgrades gekauft.</td>
+              <th>BB/Click</th>
+              <th>BB/Sekunde</th>
             </tr>
-          <?php endif; ?>
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="bb-pro-click"></td>
+              <td id="bb-pro-sekunde"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      </div>
     </div>
   </div>
 </section>
