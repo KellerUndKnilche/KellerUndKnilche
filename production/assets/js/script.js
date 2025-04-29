@@ -27,12 +27,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Speichert die Upgrades bevor die Seite geschlossen wird
 window.addEventListener("beforeunload", () => {
-    if (!window.isUserLoggedIn) return;
-    const payload = JSON.stringify({
-        action: 'saveUpgrades',
-        upgrades: upgrades.map(u => ({ id: u.id, level: u.level }))
-    });
-    navigator.sendBeacon('../../content/game/upgrades.php', payload);  // statt fetch
+    if (window.isUserLoggedIn) {
+        const payload = JSON.stringify({
+            action: 'saveUpgrades',
+            upgrades: upgrades.map(u => ({ id: u.id, level: u.level }))
+        });
+        navigator.sendBeacon('../../content/game/upgrades.php', payload);  // sendBeacon für asynchrone Übertragung
+    }
 });
 
 // Währung erhöhen
