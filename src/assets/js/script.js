@@ -216,7 +216,11 @@ async function saveUpgrades() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 action: 'saveUpgrades',
-                upgrades: upgrades.map(u => ({ id: u.id, level: u.level }))
+                upgrades: upgrades.map(u => ({ 
+                    id: u.id, 
+                    level: u.level,
+                    isActive: u.isActive === undefined ? 1 : u.isActive 
+                }))
             })
         });
         const data = await res.json();
