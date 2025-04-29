@@ -50,7 +50,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     if (empty($errors)) {
-        // nach erfolgreicher Registrierung
+        // Benutzer registrieren
+        registerUser($db, $username, $email, $password);
         header("Location: " . getBaseUrl() . "/login");
         exit();
     } else {
