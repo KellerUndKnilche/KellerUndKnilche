@@ -4,7 +4,7 @@ require_once('../../includes/helpers.php');
 
 // Prüfen, ob der Benutzer bereits eingeloggt ist
 if (isset($_SESSION["user"])) {
-    header("Location: " . getBaseUrl() . "/content/user/profile.php");
+    header("Location: " . getBaseUrl() . "/profil");
     exit();
 }
 
@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $stmt->bind_param("i", $user["id"]);
                 $stmt->execute();
                 
-                header("Location: " . getBaseUrl() . "/index.php");
+                header("Location: " . getBaseUrl() . "/");
                 exit();
             }
         } else {
@@ -93,6 +93,6 @@ require_once('../../includes/nav.php');
         <div> <button type="submit">Einloggen</button> </div>
     </form>
 
-    <p>Noch keinen Account? <a href="registration.php">Jetzt registrieren</a></p> </div>
+    <p>Noch keinen Account? <a href="/registrierung">Jetzt registrieren</a></p>
 </div>
 <?php require_once('../../includes/footer.php'); ?>
