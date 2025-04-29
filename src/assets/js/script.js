@@ -153,7 +153,7 @@ function getBoostMultiplier(targetUpgradeId) {
     return multiplier;
 }
 
-function updateProfileEarningTable() {
+function updateProfileEarningRate() {
     const bbProClickElement = document.getElementById("bb-pro-click");
     const bbProSekundeElement = document.getElementById("bb-pro-sekunde");
     if (bbProClickElement) {
@@ -258,7 +258,7 @@ async function ladeUpgrades() {
         if (!zielContainer) return;
         displayChanges(upg, zielContainer);
     });
-    updateProfileEarningTable();
+    updateProfileEarningRate();
 }
 
 async function kaufUpgrade(upgradeId) { // Funktion muss async sein für await
@@ -322,7 +322,7 @@ async function kaufUpgrade(upgradeId) { // Funktion muss async sein für await
     }
 
     // Profil-Earning-Tabelle aktualisieren
-    updateProfileEarningTable();
+    updateProfileEarningRate();
 }
 
 function kalkPreis(basispreis, level, id) {
