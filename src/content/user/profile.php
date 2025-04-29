@@ -137,20 +137,19 @@ require_once('../../includes/nav.php');
         <p class="stat-value">8,675</p>
       </div>
       <div class="stat-item">
-        <p class="stat-label">BBPC</p>
-        <p class="stat-value">45</p>
+        <p class="stat-label ">BB/Click</p>
+        <p class="stat-value" id="bb-pro-click"></p>
       </div>
       <div class="stat-item">
-        <p class="stat-label">BBPS</p>
-        <p class="stat-value">120</p>
+        <p class="stat-label">BB/Sekunde</p>
+        <p class="stat-value" id="bb-pro-sekunde"></p>
       </div>
     </div>
 
     <!-- Aktive Upgrades -->
-    <div class="upgrade-info">
-      <h3>Aktive Upgrades</h3>
-
-      <div class="profile-tables-row">
+    <div class="profile-upgrade-dropdown-wrapper">
+      <button id="toggle-upgrade-dropdown" class="upgrade-dropdown-btn">Upgrades anzeigen</button>
+      <div id="profile-upgrade-dropdown" class="profile-upgrade-dropdown">
         <table class="profile-upgrade-table">
           <thead>
             <tr>
@@ -179,27 +178,21 @@ require_once('../../includes/nav.php');
               </tr>
             <?php endif; ?>
           </tbody>
-
-        </table>
-        <table class="profile-earning-table">
-          <thead>
-            <tr>
-              <th>BB/Click</th>
-              <th>BB/Sekunde</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td id="bb-pro-click"></td>
-              <td id="bb-pro-sekunde"></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
+          </div>
       </div>
     </div>
   </div>
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const btn = document.getElementById('toggle-upgrade-dropdown');
+    const dropdown = document.getElementById('profile-upgrade-dropdown');
+    btn.addEventListener('click', function() {
+        dropdown.classList.toggle('active');
+        btn.textContent = dropdown.classList.contains('active') ? 'Upgrades verbergen' : 'Upgrades anzeigen';
+    });
+});
+</script>
 
 <?php require_once('../../includes/footer.php'); ?>
