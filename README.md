@@ -20,3 +20,45 @@ Technisch setzen wir auf **HTML, CSS/Bootstrap, PHP und Javascript**. Spielstän
 | logs | Log-Dateien (z.B. Error-Logs) |
 | production | aktuelle Live-Version der Website |
 
+## Datenbank ERM
+
+```mermaid
+erDiagram
+    users {
+        id int(11) PK
+        username varchar(50)
+        email varchar(100)
+        password_hash varchar(255)
+        isAdmin tinyint(4)
+        isLocked tinyint(4)
+        last_login timestamp
+    }
+    beute_batzen {
+        user_id int(11) PK
+        amount bigint(50)
+    }
+    targets {
+        id int(10) PK
+        name varchar(100)
+        typ enum("Produktion"|"Klick"|"Sonstiges")
+    }
+    upgrades {
+        id int(11) PK
+        name varchar(100)
+        basispreis int(11)
+        effektart enum("prozent"|"absolut")
+        effektwert double(8,2)
+        kategorie enum("Produktion"|"Boost"|"Klick")
+        ziel_id int(11) FK
+    }
+    user_upgrades {
+        user_id int(11) PK
+        upgrade_id int(11) PK
+        level int(11)
+    }
+
+    users ||--o| beute_batzen : "hat"
+    users ||--o{ user_upgrades : "legt an"
+    upgrades ||--o{ user_upgrades : "gehört zu"
+    targets ||--o{ upgrades : "definiert"
+```
