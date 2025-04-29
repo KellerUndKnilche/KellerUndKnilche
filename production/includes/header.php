@@ -4,6 +4,7 @@
     <title><?php echo isset($pageTitle) ? htmlspecialchars($pageTitle) : 'Keller & Knilche'; ?></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="google-site-verification" content="SCdSYTNXmmyjRRt0STf3Fpfv749wHQQ0DVs86xIFWQE" />
 
     <?php // SEO Meta-Tags ?>
     <meta name="description" content="<?php echo isset($pageDescription) ? htmlspecialchars($pageDescription) : 'Keller & Knilche – Gewinne maximieren, Helden minimieren.'; ?>">
