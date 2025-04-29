@@ -132,7 +132,8 @@ CREATE TABLE `users` (
 CREATE TABLE `user_upgrades` (
   `user_id` int(11) NOT NULL,
   `upgrade_id` int(11) UNSIGNED NOT NULL,
-  `level` int(11) DEFAULT 1
+  `level` int(11) DEFAULT 1,
+  `isActive` TINYINT(1) NOT NULL DEFAULT 1 -- Befehl ALTER TABLE user_upgrades ADD COLUMN isActive TINYINT(1) NOT NULL DEFAULT 1 AFTER level; fuer Migration ausgefuehrt
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
