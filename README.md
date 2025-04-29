@@ -38,36 +38,36 @@ Technisch setzen wir auf **HTML, CSS/Bootstrap, PHP und Javascript**. Spielstän
 ```mermaid
 erDiagram
     users {
-        id int(11) PK
-        username varchar(50)
-        email varchar(100)
-        password_hash varchar(255)
-        isAdmin tinyint(4)
-        isLocked tinyint(4)
+        id int PK
+        username varchar
+        email varchar
+        password_hash varchar
+        isAdmin tinyint
+        isLocked tinyint
         last_login timestamp
     }
     beute_batzen {
-        user_id int(11) PK
-        amount bigint(50)
+        user_id int PK
+        amount bigint
     }
     targets {
-        id int(10) PK
-        name varchar(100)
-        typ enum("Produktion"|"Klick"|"Sonstiges")
+        id int PK
+        name varchar
+        typ string  "enum: Produktion, Klick, Sonstiges"
     }
     upgrades {
-        id int(11) PK
-        name varchar(100)
-        basispreis int(11)
-        effektart enum("prozent"|"absolut")
-        effektwert double(8,2)
-        kategorie enum("Produktion"|"Boost"|"Klick")
-        ziel_id int(11) FK
+        id int PK
+        name varchar
+        basispreis int
+        effektart string  "enum: prozent, absolut"
+        effektwert double
+        kategorie string  "enum: Produktion, Boost, Klick"
+        ziel_id int FK
     }
     user_upgrades {
-        user_id int(11) PK
-        upgrade_id int(11) PK
-        level int(11)
+        user_id int PK
+        upgrade_id int PK
+        level int
     }
 
     users ||--o| beute_batzen : "hat"
