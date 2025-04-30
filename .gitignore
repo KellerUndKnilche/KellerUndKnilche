@@ -1,2 +1,5 @@
 # sensible Daten
 .env
+
+# unangebrachte Dateien
+bad-words.txt

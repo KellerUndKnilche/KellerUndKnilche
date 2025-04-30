@@ -27,7 +27,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Eingaben pruefen
     if (empty($username)) {
         $errors[] = "Benutzername ist erforderlich.";
-    } elseif (userExists($db, $username, $email)) {
+    } // Nur alphanumerisch a-z 0-9, case insensitive
+    elseif (strlen($username) < 3 || strlen($username) > 20) {
+        $errors[] = "Benutzername muss zwischen 3 und 20 Zeichen lang sein.";
+    } 
+    elseif (preg_match('/[^a-zA-Z0-9]/', $username)) {
+        $errors[] = "Benutzername darf nur Buchstaben (keine Umlaute) und Zahlen enthalten.";
+    } 
+    elseif (!isCleanUsername($username)) {
+        $errors[] = "Benutzername ist verboten. Die Behörden wurden verständigt·.";
+    } 
+    elseif (userExists($db, $username, $email)) {
         $errors[] = "Benutzername oder E-Mail ist bereits vergeben.";
     }
 
