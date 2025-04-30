@@ -2,4 +2,4 @@
 .gitignore    @StefanBerecz @BIOApfelsaft
 
 # Schützt production-Ordner
-/production/  @StefanBerecz @BIOApfelsaft
+/production/  @StefanBerecz
