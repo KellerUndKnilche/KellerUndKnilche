@@ -95,6 +95,7 @@
                 FROM users u
                 LEFT JOIN beute_batzen b ON u.id = b.user_id
                 LEFT JOIN user_upgrades up ON u.id = up.user_id
+                WHERE u.isLocked = 0
                 GROUP BY u.id";
         $result = $db->query($sql);
         return $result->fetch_all(MYSQLI_ASSOC);
