@@ -5,6 +5,35 @@ let penaltyEndTime = 0; // Zeitpunkt, zu dem die Strafe endet
 let upgrades = [];
 let updateInterval; // Variable für die Intervall-ID deklarieren
 
+// Hilfsfunktion zum Formatieren großer Zahlen
+function formatNumber(number) {
+    number = parseFloat(number);
+    
+    if (isNaN(number)) {
+        return '0.00';
+    }
+    
+    if (number >= 1000) {
+        const suffixes = ['', 'K', 'M', 'B', 'T', 'Q', 'Qi', 'Sx', 'Sp', 'Oc', 'No', 'Dc'];
+        let suffixIndex = 0;
+        
+        while (number >= 1000 && suffixIndex < suffixes.length - 1) {
+            number /= 1000;
+            suffixIndex++;
+        }
+        
+        return number.toLocaleString('de-DE', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }) + suffixes[suffixIndex];
+    } else {
+        return number.toLocaleString('de-DE', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+    }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     const clickButton = document.getElementById("click_button");
     if (clickButton) {
@@ -43,13 +72,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
                 const data = await response.json();
                 if (data.success) {
-                    currencyElement.textContent = parseFloat(data.newAmount)
-                        .toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2});
-                    productionRateElement.textContent = data.productionPerSecond>0
-                        ? `(${parseFloat(data.productionPerSecond)
-                            .toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})} BB/s)`
+                    currencyElement.textContent = formatNumber(data.newAmount);
+                    productionRateElement.textContent = data.productionPerSecond > 0
+                        ? `(${formatNumber(data.productionPerSecond)} BB/s)`
                         : '';
-                } else if (data.message==='Nicht eingeloggt') {
+                } else if (data.message === 'Nicht eingeloggt') {
                     clearInterval(updateInterval);
                 }
             } catch (e) {
