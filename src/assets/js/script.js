@@ -73,6 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const data = await response.json();
                 if (data.success) {
                     currencyElement.textContent = formatNumber(data.newAmount);
+                    currencyElement.dataset.rawAmount = data.newAmount;
                     productionRateElement.textContent = data.productionPerSecond > 0
                         ? `(${formatNumber(data.productionPerSecond)} BB/s)`
                         : '';
@@ -146,11 +147,11 @@ async function increaseCurrency() {
         const data = await response.json();
 
         if (data.success) {
-            // Anzeige direkt mit dem neuen Betrag vom Server aktualisieren
-            const formattedAmount = parseFloat(data.newAmount).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            // Rohwert speichern und mit formatNumber-Abkürzung anzeigen
             const currencyElement = document.getElementById('currency');
             if (currencyElement) {
-                currencyElement.textContent = formattedAmount;
+                currencyElement.dataset.rawAmount = data.newAmount;
+                currencyElement.textContent = formatNumber(data.newAmount);
             }
         } else {
             console.error('API Fehler beim Klicken:', data.message);
@@ -298,7 +299,7 @@ async function kaufUpgrade(upgradeId) { // Funktion muss async sein für await
     // Preisberechnung clientseitig nur zur Vorabprüfung (optional, aber gut für UX)
     let clientSidePreisCheck = kalkPreis(upgrade.basispreis, upgrade.level, upgrade.id);
     const currencyElement = document.getElementById('currency');
-    const currentDisplayAmount = parseFloat(currencyElement.textContent.replace(/\./g, '').replace(/,/, '.')) || 0;
+    const currentDisplayAmount = parseFloat(currencyElement.dataset.rawAmount) || 0;
 
     if (clientSidePreisCheck > currentDisplayAmount) { 
         alert("Nicht genug BB für dieses Upgrade! (Client-Check)");
