@@ -62,8 +62,8 @@ $newTotalAmount = getCurrentCurrency($db, $userId); // Diese Funktion existiert 
 
 // 4. Erfolgsantwort mit neuem Betrag senden
 echo json_encode([
-    'success' => true,
-    'newAmount' => $newTotalAmount // Unformatierter Rohwert
+    'success'   => true,
+    'newAmount' => round($newTotalAmount, 2)
 ]);
 
 ?>

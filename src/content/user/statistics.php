@@ -25,7 +25,7 @@ $statistics = fetchUserStatistics($db);
               <?php foreach ($statistics as $stat): ?>
                   <tr>
                       <th scope="row"><?php echo htmlspecialchars($stat['username']); ?></th>
-                      <td><span class="format-number" data-value="<?php echo htmlspecialchars($stat['geld']); ?>"></span> Batzen</td>
+                      <td><span class="format-number" data-value="<?php echo round($stat['geld'], 2); ?>"></span> Batzen</td>
                       <td><?php echo htmlspecialchars($stat['upgrades']); ?></td>
                   </tr>
               <?php endforeach; ?>
