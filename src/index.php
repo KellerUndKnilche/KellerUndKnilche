@@ -17,16 +17,21 @@ require_once('includes/nav.php');
         <img id="click_button" src="/assets/img/gamearea_platzhalter.png" alt="Dungeon‑Spielbereich">
     </section>
     
+    <!-- Currency display with simplified structure -->
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-6 text-center">
+            <div id="currency-display" class="currency-display">
+                <span id="currency-label">Beute Batzen: </span>
+                <span id="currency">0.00</span>
+                <span id="proSekunde"></span>
+            </div>
+        </div>
+    </div>
+    
     <!-- Toggle Button fuer Side Panels -->
     <button id="toggle-side-panels" class="btn btn-primary d-lg-none">☰</button>
     
     <div id="side-panels" class="d-lg-flex flex-lg-column mt-4">
-        <div id="currency-display" class="currency-display">
-            <span id="currency-label">Beute Batzen: </span>
-            <span id="currency">0.00</span>
-            <span id="currency-label"> BB</span>
-            <span id="proSekunde"></span>
-        </div>
         <div class="side-panel mb-3">
             <h2>Stats</h2>
             <div class="stat-display mt-3 mb-3">

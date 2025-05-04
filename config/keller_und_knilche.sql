@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `beute_batzen` (
   `user_id` int(11) NOT NULL,
-  `amount` bigint(50) DEFAULT 0
+  `amount` DECIMAL(65,2) NOT NULL DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------

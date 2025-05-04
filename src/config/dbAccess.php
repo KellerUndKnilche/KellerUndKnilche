@@ -179,7 +179,8 @@
         $stmt = $db->prepare("SELECT amount FROM beute_batzen WHERE user_id = ?");
         $stmt->bind_param("i", $userId);
         $stmt->execute();
-        return $stmt->get_result()->fetch_assoc()['amount'] ?? 0;
+        $value = $stmt->get_result()->fetch_assoc()['amount'] ?? 0;
+        return round((float)$value, 2);
     }
 
     // NEUE FUNKTION: Speichert oder aktualisiert den Währungsstand eines Benutzers
@@ -190,7 +191,7 @@
             return false;
         }
         // Konvertiere zu float, um Kompatibilität mit DB zu gewährleisten
-        $amountFloat = floatval($amount);
+        $amountFloat = round(floatval($amount), 2); // auf 2 Dezimalstellen runden
 
         $stmt = $db->prepare("
             INSERT INTO beute_batzen (user_id, amount)
@@ -378,7 +379,7 @@
 
         // 2. Aktualisiere beute_batzen mit der Produktion der letzten Sekunde
         // Wir gehen davon aus, dass diese Funktion ca. jede Sekunde aufgerufen wird.
-        $amountToAdd = $totalProductionPerSecond; // Produktion pro Sekunde
+        $amountToAdd = round($totalProductionPerSecond, 2); // auf 2 Dezimalstellen runden
 
         if ($amountToAdd > 0) {
             // Verwende INSERT ... ON DUPLICATE KEY UPDATE für Effizienz

@@ -5,6 +5,35 @@ let penaltyEndTime = 0; // Zeitpunkt, zu dem die Strafe endet
 let upgrades = [];
 let updateInterval; // Variable für die Intervall-ID deklarieren
 
+// Hilfsfunktion zum Formatieren großer Zahlen
+function formatNumber(number) {
+    number = parseFloat(number);
+    
+    if (isNaN(number)) {
+        return '0.00';
+    }
+    
+    if (number >= 1000) {
+        const suffixes = ['', 'K', 'M', 'B', 'T', 'Q', 'Qi', 'Sx', 'Sp', 'Oc', 'No', 'Dc'];
+        let suffixIndex = 0;
+        
+        while (number >= 1000 && suffixIndex < suffixes.length - 1) {
+            number /= 1000;
+            suffixIndex++;
+        }
+        
+        return number.toLocaleString('de-DE', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }) + suffixes[suffixIndex];
+    } else {
+        return number.toLocaleString('de-DE', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+    }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     const clickButton = document.getElementById("click_button");
     if (clickButton) {
@@ -43,13 +72,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
                 const data = await response.json();
                 if (data.success) {
-                    currencyElement.textContent = parseFloat(data.newAmount)
-                        .toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2});
-                    productionRateElement.textContent = data.productionPerSecond>0
-                        ? `(${parseFloat(data.productionPerSecond)
-                            .toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})} BB/s)`
+                    currencyElement.textContent = formatNumber(data.newAmount);
+                    currencyElement.dataset.rawAmount = data.newAmount;
+                    productionRateElement.textContent = data.productionPerSecond > 0
+                        ? `(${formatNumber(data.productionPerSecond)} BB/s)`
                         : '';
-                } else if (data.message==='Nicht eingeloggt') {
+                } else if (data.message === 'Nicht eingeloggt') {
                     clearInterval(updateInterval);
                 }
             } catch (e) {
@@ -119,11 +147,11 @@ async function increaseCurrency() {
         const data = await response.json();
 
         if (data.success) {
-            // Anzeige direkt mit dem neuen Betrag vom Server aktualisieren
-            const formattedAmount = parseFloat(data.newAmount).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            // Rohwert speichern und mit formatNumber-Abkürzung anzeigen
             const currencyElement = document.getElementById('currency');
             if (currencyElement) {
-                currencyElement.textContent = formattedAmount;
+                currencyElement.dataset.rawAmount = data.newAmount;
+                currencyElement.textContent = formatNumber(data.newAmount);
             }
         } else {
             console.error('API Fehler beim Klicken:', data.message);
@@ -271,7 +299,7 @@ async function kaufUpgrade(upgradeId) { // Funktion muss async sein für await
     // Preisberechnung clientseitig nur zur Vorabprüfung (optional, aber gut für UX)
     let clientSidePreisCheck = kalkPreis(upgrade.basispreis, upgrade.level, upgrade.id);
     const currencyElement = document.getElementById('currency');
-    const currentDisplayAmount = parseFloat(currencyElement.textContent.replace(/\./g, '').replace(/,/, '.')) || 0;
+    const currentDisplayAmount = parseFloat(currencyElement.dataset.rawAmount) || 0;
 
     if (clientSidePreisCheck > currentDisplayAmount) { 
         alert("Nicht genug BB für dieses Upgrade! (Client-Check)");
