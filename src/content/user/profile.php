@@ -16,7 +16,7 @@ if (isset($_COOKIE['user_id']) && $_COOKIE['user_id'] != $_SESSION['user']['id']
 }
 
 $pageTitle = 'Keller & Knilche Profil';
-$pageDescription = 'Dein Profil bei Keller & Knilche: Account‑Daten, Rang und Spiel‑Statistiken.';
+$pageDescription = 'Dein epischer Steckbrief: Zeig allen, dass du der unangefochtene Kellerboss bist – inkl. Rang, Beute und Monster-Upgrades.';
 
 $userId = $_SESSION['user']['id'];
 $username = $_SESSION['user']['username'];
