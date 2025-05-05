@@ -30,4 +30,4 @@ User-agent: Applebot
 Disallow:
 
 # Sitemap-Referenz
-Sitemap: https://deine-domain.tld/sitemap.xml
+Sitemap: https://keller-und-knilche.at/sitemap.xml
