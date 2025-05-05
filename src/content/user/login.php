@@ -9,11 +9,7 @@ if (isset($_SESSION["user"])) {
 }
 
 $pageTitle = 'Keller & Knilche Login';
-{ 
-    $pageDescription = 'Logge dich ein bei Keller & Knilche, deinem Idle‑Browser‑Game im Dungeon‑Stil.';
-    $pageKeywords    = 'Login, Keller Knilche, Anmelden, Login, Idle Game';
-}
-
+$pageDescription = 'Logge dich ein bei Keller & Knilche, deinem Idle‑Browser‑Game im Dungeon‑Stil.';
 $username = $password = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {

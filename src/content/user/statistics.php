@@ -1,10 +1,7 @@
 <?php
 require_once('../../config/dbAccess.php');
 $pageTitle = 'Keller & Knilche Statistiken';
-{ 
-    $pageDescription = 'Übersicht aller User‑Statistiken: Beute, Upgrades und Spiel‑Fortschritt bei Keller & Knilche.';
-    $pageKeywords    = 'Statistiken, Keller Knilche, User Stats, Idle Game';
-}
+$pageDescription = 'Übersicht aller User‑Statistiken: Beute, Upgrades und Spiel‑Fortschritt bei Keller & Knilche.';
 require_once('../../includes/header.php');
 require_once('../../includes/nav.php');
 $statistics = fetchUserStatistics($db);

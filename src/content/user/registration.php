@@ -9,10 +9,7 @@ if (isset($_SESSION["user"])) {
 }
 
 $pageTitle = 'Keller & Knilche Registrierung';
-{
-    $pageDescription = 'Erstelle deinen Account bei Keller & Knilche: Dungeon‑Management, Beute‑Jagd und Monster‑Upgrades.';
-    $pageKeywords    = 'Registrierung, Keller Knilche, Konto erstellen, Registrierung, Idle Game';
-}
+$pageDescription = 'Erstelle deinen Account bei Keller & Knilche: Dungeon‑Management, Beute‑Jagd und Monster‑Upgrades.';
 
 // Initialisierung der Variablen
 $username = $email = $password = $confirmPassword = "";
