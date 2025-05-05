@@ -1,7 +1,7 @@
 <?php
 require_once('../../config/dbAccess.php');
 $pageTitle       = 'Impressum';
-$pageDescription = 'Rechtliche Angaben zu Keller & Knilche.';
+$pageDescription = 'Impressum – weil das Gesetz es so will, aber wir würden lieber unsere Zeit mit dem Verstecken von Schätzen verbringen.';
 require_once('../../includes/header.php');
 require_once('../../includes/nav.php');
 ?>

@@ -38,14 +38,14 @@
   </url>
   <!-- Impressum -->
   <url>
-    <loc>https://keller-und-knilche.at/legal/impressum</loc>
+    <loc>https://keller-und-knilche.at/impressum</loc>
     <lastmod>2025-05-05</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
   <!-- Datenschutz -->
   <url>
-    <loc>https://keller-und-knilche.at/legal/datenschutz</loc>
+    <loc>https://keller-und-knilche.at/datenschutz</loc>
     <lastmod>2025-05-05</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>

@@ -1,6 +1,6 @@
 <?php 
 $pageTitle       = 'Keller & Knilche - Gewinne maximieren, Helden minimieren';
-$pageDescription = 'Werde zum ultimativen Dungeon-Manager in Keller & Knilche - dem Idle-Browsergame, bei dem Helden nur nervige Besucher sind. Erweitere dein Verlies, sammel Beute und zeig diesen Knilchen, wer hier regiert!';
+$pageDescription = 'Werde zum finsteren Verliesboss, trotze lästigen Helden (den Knilchen) und sammle Batzen so viel, dass Drachen neidisch werden.';
 
 require_once('config/dbAccess.php');
 require_once('includes/header.php'); 
