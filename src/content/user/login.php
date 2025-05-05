@@ -89,7 +89,7 @@ require_once('../../includes/nav.php');
 
           <div> <label for="password">Passwort</label> <input type="password" id="password" name="password" placeholder="Passwort" required> </div>
 
-          <div class="remember-me"> <input type="checkbox" id="remember_me" name="remember_me"> <label for="remember_me">Angemeldet bleiben</label> </div>
+          <div class="remember-me"> <input type="checkbox" id="remember_me" name="remember_me"> <label for="remember_me">Angemeldet bleiben (Cookies werden gesetzt)</label> </div>
 
           <div> <button type="submit">Einloggen</button> </div>
       </form>

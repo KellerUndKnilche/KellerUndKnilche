@@ -26,6 +26,12 @@
     <a class="nav-link text-light" href="/login">Login</a>
   </li>
 <?php } ?>
+    <li class="nav-item">
+      <a class="nav-link text-light" href="/impressum">Impressum</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-light" href="/datenschutz">Datenschutz</a>
+    </li>
   </ul>
 </footer>
 <script src="/assets/js/fontSwitcher.js"></script>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="sitemap.xsl"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Startseite -->
+  <url>
+    <loc>https://keller-und-knilche.at/</loc>
+    <lastmod>2025-05-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <!-- Statistiken -->
+  <url>
+    <loc>https://keller-und-knilche.at/statistiken</loc>
+    <lastmod>2025-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <!-- Registrierung -->
+  <url>
+    <loc>https://keller-und-knilche.at/registrierung</loc>
+    <lastmod>2025-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <!-- Login -->
+  <url>
+    <loc>https://keller-und-knilche.at/login</loc>
+    <lastmod>2025-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <!-- Profil (nur öffentlich erreichbar für eingeloggte Nutzer) -->
+  <url>
+    <loc>https://keller-und-knilche.at/profil</loc>
+    <lastmod>2025-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <!-- Impressum -->
+  <url>
+    <loc>https://keller-und-knilche.at/legal/impressum</loc>
+    <lastmod>2025-05-05</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <!-- Datenschutz -->
+  <url>
+    <loc>https://keller-und-knilche.at/legal/datenschutz</loc>
+    <lastmod>2025-05-05</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+</urlset>
