@@ -1,10 +1,5 @@
 <?php
 session_start();
-$pageTitle = 'Admin Armaturenbrett';
-{
-    $pageDescription = 'Admin‑Dashboard von Keller & Knilche: Spieler‑Verwaltung und System‑Status.';
-    $pageKeywords    = 'Admin, Dashboard, Keller Knilche, System Status, Spieler Verwaltung';
-}
 require_once('../../config/dbAccess.php');
 
 // Check if user is logged in and is admin
