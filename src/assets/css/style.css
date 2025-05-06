@@ -743,3 +743,11 @@ footer .nav-item {
     from { opacity: 0; transform: translateY(-10px);}
     to { opacity: 1; transform: translateY(0);}
 }
+
+/* Styling für das Impressum */
+main.impressum {
+    display: block;
+    padding: 60px 40px 60px 40px;
+    margin-left: 40px;
+    margin-right: auto;
+}
