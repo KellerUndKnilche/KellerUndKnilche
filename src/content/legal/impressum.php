@@ -7,6 +7,7 @@ require_once('../../includes/nav.php');
 ?>
 <main class="container mt-5">
   <h1>Impressum</h1>
+  <p>Max Mustermann</p>
   <p>Platzhalter für Impressum–Inhalte.</p>
 </main>
 <?php require_once('../../includes/footer.php'); ?>
