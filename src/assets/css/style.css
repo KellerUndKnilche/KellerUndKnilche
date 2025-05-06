@@ -744,10 +744,40 @@ footer .nav-item {
     to { opacity: 1; transform: translateY(0);}
 }
 
-/* Styling für das Impressum */
+/* Styling für impressum.php */
 main.impressum {
     display: block;
     padding: 60px 40px 60px 40px;
     margin-left: 40px;
     margin-right: auto;
+}
+
+/* Styling für datenschutz.php */
+main.datenschutz {
+    display: block;
+    max-width: 800px;
+    padding: 60px 40px 60px 40px;
+    margin-left: 40px;
+    margin-right: auto;
+}
+
+main.datenschutz h2,
+main.datenschutz h3 {
+    margin-top: 2em;
+    margin-bottom: 0.5em;
+}
+
+main.datenschutz p {
+    margin-bottom: 1em;
+}
+
+main.datenschutz ul {
+    margin-left: 1.5em;
+    margin-bottom: 1.5em;
+    list-style-type: disc;
+}
+
+main.datenschutz a {
+    text-decoration: underline;
+    color: #84a98c;
 }
