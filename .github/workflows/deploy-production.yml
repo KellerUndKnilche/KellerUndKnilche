@@ -24,13 +24,14 @@ jobs:
         run: |
           echo "$SSH_KEY" > key
           chmod 600 key
-          rsync -avz --delete --exclude='.env' --exclude='bad-words.txt' -e "ssh -i key -p $SSH_PORT -o StrictHostKeyChecking=no" ./production/ $REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR
+          rsync -avz --delete --exclude='.env' --exclude='bad-words.txt' --exclude='impressum.php' -e "ssh -i key -p $SSH_PORT -o StrictHostKeyChecking=no" ./production/ $REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR
           # -a Archivmodus
           # -v verbose
           # -z Kompression
           # --delete: Löscht Dateien auf Webhost falls nicht mehr im Repo
           # --exclude='.env': schließt .env aus
           # --exclude='bad-words.txt': schließt bad-words.txt aus
+          # --exclude='impressum.php': schließt impressum.php aus -> individuelle Anpassung
           # -p $SSH_PORT: Port für SSH-Verbindung
           # -o StrictHostKeyChecking=no: überspringt Host-Key-Überprüfung
           # -e "ssh -i key -o StrictHostKeyChecking=no": SSH mit angegebenen Schlüssel

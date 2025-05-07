@@ -8,7 +8,6 @@
 
     <?php // SEO Meta-Tags ?>
     <meta name="description" content="<?php echo isset($pageDescription) ? htmlspecialchars($pageDescription) : 'Keller & Knilche – Gewinne maximieren, Helden minimieren.'; ?>">
-    <meta name="keywords" content="<?php echo isset($pageKeywords) ? htmlspecialchars($pageKeywords) : 'Dungeons, Idle Game, Keller Knilche, Beute, Upgrade, Monster, Helden, Dungeon Management, Browser Game'; ?>">
     <link rel="canonical" href="<?php echo htmlspecialchars((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']==='on'?'https':'http').'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']); ?>">
 
     <!-- Open Graph -->
@@ -20,6 +19,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="/assets/css/font.css">
     <link rel="stylesheet" href="/assets/css/style.css">
+    <?php if (isset($pageTitle) && $pageTitle === 'Datenschutz'): ?>
+    <link rel="stylesheet" href="/assets/css/datenschutz.css">
+    <?php endif; ?>
+    <?php if (isset($pageTitle) && $pageTitle === 'Impressum'): ?>
+    <link rel="stylesheet" href="/assets/css/impressum.css">
+    <?php endif; ?>
     <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg" sizes="any">
     <script src="/assets/js/fontSwitcher.js" defer></script>
 </head>
