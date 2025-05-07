@@ -6,20 +6,29 @@ require_once('../../includes/header.php');
 require_once('../../includes/nav.php');
 ?>
 
-<main class="datenschutz">
-    <h1>Datenschutz</h1>
+<main id="datenschutz" role="main" class="datenschutz container py-5">
+  <div class="content-box mx-auto">
+    <h2 class="visually-hidden">Datenschutz</h2>
+    <h1 class="mb-4">Datenschutz</h1>
 
-    <h2>Erklärung zur Informationspflicht</h2>
-    <h3>Datenschutzerklärung</h3>
-    <p>In folgender Datenschutzerklärung informieren wir Sie über die wichtigsten Aspekte der Datenverarbeitung im Rahmen unserer Webseite. Wir erheben und verarbeiten personenbezogene Daten nur auf Grundlage der gesetzlichen Bestimmungen (Datenschutzgrundverordnung, Telekommunikationsgesetz 2003).</p>
-    <p>Sobald Sie als Benutzer auf unsere Webseite zugreifen oder diese besuchen, wird Ihre IP-Adresse sowie Beginn und Ende der Sitzung erfasst. Dies ist technisch bedingt und stellt ein berechtigtes Interesse iSv Art 6 Abs 1 lit f DSGVO dar.</p>
+    <section class="mb-5">
+      <h2>Erklärung zur Informationspflicht</h2>
+      <h3>Datenschutzerklärung</h3>
+      <p>In folgender Datenschutzerklärung informieren wir Sie über die wichtigsten Aspekte der Datenverarbeitung im Rahmen unserer Webseite. Wir erheben und verarbeiten personenbezogene Daten nur auf Grundlage der gesetzlichen Bestimmungen (Datenschutzgrundverordnung, Telekommunikationsgesetz 2003).</p>
+      <p>Sobald Sie als Benutzer auf unsere Webseite zugreifen oder diese besuchen, wird Ihre IP-Adresse sowie Beginn und Ende der Sitzung erfasst. Dies ist technisch bedingt und stellt ein berechtigtes Interesse iSv Art 6 Abs 1 lit f DSGVO dar.</p>
+    </section>
 
-    <h3>Kontakt mit uns</h3>
-    <p>Wenn Sie uns entweder über unser Kontaktformular oder per E-Mail kontaktieren, werden die von Ihnen übermittelten Daten zwecks Bearbeitung Ihrer Anfrage oder für Anschlussfragen sechs Monate lang gespeichert. Es erfolgt keine Weitergabe ohne Ihre Einwilligung.</p>
+    <section class="mb-5">
+      <h3>Kontakt mit uns</h3>
+      <p>Wenn Sie uns entweder über unser Kontaktformular oder per E-Mail kontaktieren, werden die von Ihnen übermittelten Daten zwecks Bearbeitung Ihrer Anfrage oder für Anschlussfragen sechs Monate lang gespeichert. Es erfolgt keine Weitergabe ohne Ihre Einwilligung.</p>
+    </section>
 
-    <h3>Cookies</h3>
-    <p>Unsere Website verwendet sogenannte Cookies – kleine Textdateien, die auf Ihrem Gerät gespeichert werden. Sie ermöglichen es, unsere Angebote nutzerfreundlicher zu gestalten. Einige Cookies bleiben gespeichert, bis Sie sie löschen. Sie können Ihren Browser so einstellen, dass Sie über das Setzen von Cookies informiert werden und dies nur im Einzelfall erlauben. Die Deaktivierung von Cookies kann die Funktionalität der Website einschränken.</p>
+    <section class="mb-5">
+      <h3>Cookies</h3>
+      <p>Unsere Website verwendet sogenannte Cookies – kleine Textdateien, die auf Ihrem Gerät gespeichert werden. Sie ermöglichen es, unsere Angebote nutzerfreundlicher zu gestalten. Einige Cookies bleiben gespeichert, bis Sie sie löschen. Sie können Ihren Browser so einstellen, dass Sie über das Setzen von Cookies informiert werden und dies nur im Einzelfall erlauben. Die Deaktivierung von Cookies kann die Funktionalität der Website einschränken.</p>
+    </section>
 
+    <!-- noch nicht relevant
     <h3>Google Fonts</h3>
     <p>Unsere Website verwendet Schriftarten von „Google Fonts“, bereitgestellt durch:</p>
     <ul>
@@ -33,6 +42,7 @@ require_once('../../includes/nav.php');
         <li><a href="https://policies.google.com/privacy?hl=de">Google Datenschutzerklärung</a></li>
         <li><a href="https://www.privacyshield.gov/EU-US-Framework">EU-US Privacy Shield</a></li>
     </ul>
+    -->
 
     <h3>Server-Log-Files</h3>
     <p>Unser Webserver speichert automatisch Informationen in sogenannten „Server-Log Files“:</p>
@@ -60,10 +70,10 @@ require_once('../../includes/nav.php');
     <p>Bei Datenschutzverstößen kontaktieren Sie uns unter [E-Mail] oder wenden Sie sich an die Datenschutzbehörde.</p>
 
     <h3>Kontakt</h3>
-    <p><strong>Webseitenbetreiber:</strong> [Name des Betreibers]<br>
+    <p><strong>Webseitenbetreiber:</strong> [Name]<br>
     <strong>Telefon:</strong> [Telefonnummer]<br>
-    <strong>E-Mail:</strong> [E-Mail-Adresse]</p>
-
+    <strong>E-Mail:</strong> [E-Mail]</p>
+  </div>
 </main>
 
 <?php require_once('../../includes/footer.php'); ?>
