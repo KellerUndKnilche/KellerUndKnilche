@@ -1,0 +1,33 @@
+/* Styling für datenschutz.php */
+main.datenschutz {
+    display: flex;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+main.datenschutz .content-box {
+    width: 100%;
+    max-width: 800px;
+    background-color: #52796f;
+    color: #fff;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+main.datenschutz h2,
+main.datenschutz h3 {
+    margin-top: 2em;
+    margin-bottom: 0.5em;
+}
+
+main.datenschutz p {
+    margin-bottom: 1em;
+}
+
+main.datenschutz ul {
+    margin-left: 1.5em;
+    margin-bottom: 1.5em;
+    list-style-type: disc;
+}

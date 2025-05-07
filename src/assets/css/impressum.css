@@ -1,0 +1,17 @@
+/* Styling für impressum.php */
+main.impressum {
+    display: block;
+    padding: 2rem 1rem;
+    flex: none;
+}
+main.impressum .content-box {
+    width: 100%;
+    max-width: 800px;
+    background-color: #52796f;
+    color: #fff;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0 auto;
+}

@@ -38,12 +38,6 @@ if (session_status() === PHP_SESSION_NONE) {
             <a class="nav-link" href="/login">Login</a>
           </li>
         <?php } ?>
-        <li>
-          <a class="nav-link" href="/impressum">Impressum</a>
-        </li>
-        <li>
-          <a class="nav-link" href="/datenschutz">Datenschutz</a>
-        </li>
         <li class="nav-item">
             <div class="dropdown">
               <button class="btn btn-secondary dropdown-toggle" type="button" id="fontDropdown" data-bs-toggle="dropdown" aria-expanded="false">
