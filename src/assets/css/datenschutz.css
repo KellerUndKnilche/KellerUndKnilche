@@ -31,3 +31,12 @@ main.datenschutz ul {
     margin-bottom: 1.5em;
     list-style-type: disc;
 }
+
+main.datenschutz a {
+    color: #FFF9D0;
+    text-decoration: none;
+}
+
+main.datenschutz a:hover {
+    text-decoration: underline;
+}

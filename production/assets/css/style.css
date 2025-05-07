@@ -1,9 +1,3 @@
-.jacquard-12-regular {
-    font-family: system-ui;
-    font-weight: 400;
-    font-style: normal;
-}
-
 /* Allgemeine Schriftart */
 body {
     background-color: #111;
@@ -26,6 +20,17 @@ header {
     background-color: transparent; /* Optional: Hintergrundfarbe */
 }
 
+/* Platz für die Navbar schaffen */
+main {
+    flex: 1; /* Hauptinhalt nimmt den verbleibenden Platz ein */
+    margin-top: 60px; /* Platz für die fixierte Navbar */
+    padding: 20px;
+    margin-bottom: 60px; /* Platz für den fixierten Footer */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
 .top-right select {
     background-color: #333;
     color: white;
@@ -41,8 +46,14 @@ header {
     text-transform: uppercase;
     color: #bada55;
     text-shadow: 2px 2px #000;
-    margin: 0; /* Entferne Standard-Margin */
-    padding: 0; /* Entferne Standard-Padding */
+    padding-top: 50px;
+    padding-bottom: auto; 
+    text-align: center !important;
+}
+
+.gameButton {
+    cursor: pointer;
+    width: fit-content;
 }
 
 /* Currency display styling - cleaned up */
@@ -50,26 +61,28 @@ header {
     font-size: 1.2rem;
     font-weight: bold;
     color: #ffd700;
-    padding: 8px 15px;
     text-align: center;
-    margin: 10px auto;
+    padding: auto;
+    margin: auto;
     width: fit-content;
     max-width: 90%;
 }
 
-/* Currency container positioning - change these values to adjust position */
-.currency-container {
-    margin-top: 30px !important; /* Increase this value to move down, decrease to move up */
-    margin-bottom: 20px !important;
+/* Innerhalb der Spielzone über dem Button zentrieren */
+.game-area {
+    position: relative; /* bereits gesetzt, stellt Bezugspunkt */
+    /* Staple Währung und Bild untereinander */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
 }
 
-/* Remove the problematic fixed positioning */
-@media (min-width: 992px) {
-    .row.currency-container {
-        position: static;
-        margin-top: 15px; /* Adjust this value to change the Y positioning on desktop */
-        margin-bottom: 15px;
-    }
+.game-area .currency-display {
+    position: static !important;    /* kein Overlay mehr */
+    transform: none !important;
+    margin-bottom: 10px;            /* Platz zum Bild */
+    z-index: 1;                      /* oberhalb des Bilds, aber nicht überlappend */
 }
 
 .stat-display {
@@ -79,26 +92,22 @@ header {
     margin-top: 10px;
 }
 
-/* Platz für die Navbar schaffen */
-main {
-    flex: 1; /* Hauptinhalt nimmt den verbleibenden Platz ein */
-    margin-top: 60px; /* Platz für die fixierte Navbar */
-    padding: 20px;
-    margin-bottom: 60px; /* Platz für den fixierten Footer */
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
 .game-area {
-    flex: 2; /* Größerer Bereich für das Spiel */
+    flex: 2;
     background-color: #222;
     border: 2px solid #444;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+    padding: 15px 25px;
+}
+  
+.game-area:hover {background-color: #444}
+
+.game-area:active {
+    background-color: #555;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
 }
 
 .game-area img {
@@ -166,9 +175,9 @@ body {
     margin: 0;               
     padding: 20px;
     color: #cad2c5;        
-  }
-  
-  .loginRegister-container {
+}
+
+.loginRegister-container {
     background-color: #354f52; 
     padding: 40px;            
     border-radius: 8px;      
@@ -177,18 +186,18 @@ body {
     max-width: 750px;          
     color: #ffffff;
     text-align: center;      
-  }
+}
   
-  .loginRegister-container h2 {
+.loginRegister-container h2 {
     margin-top: 0;
     margin-bottom: 30px;
     font-size: 2em;
     color: #ffffff;
-  }
+}
   
-  .loginRegister-container input[type="text"],
-  .loginRegister-container input[type="password"],
-  .loginRegister-container input[type="email"] {
+.loginRegister-container input[type="text"],
+.loginRegister-container input[type="password"],
+.loginRegister-container input[type="email"] {
     width: 100%;
     padding: 15px;
     margin-bottom: 20px;
@@ -199,47 +208,47 @@ body {
     font-size: 1em;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
     display: block;
-  }
+}
 
-  .loginRegister-container input[type="text"]:focus,
-  .loginRegister-container input[type="password"]:focus,
-  .loginRegister-container input[type="email"]:focus {
+.loginRegister-container input[type="text"]:focus,
+.loginRegister-container input[type="password"]:focus,
+.loginRegister-container input[type="email"]:focus {
     outline: none;
     border-color: #84a98c;
     box-shadow: 0 0 8px rgba(132, 169, 140, 0.4);
-  }
+}
 
-  .loginRegister-container label {
+.loginRegister-container label {
     display: block; 
     text-align: center; 
     font-size: 1.1em;
     margin-bottom: 5px; 
-  }
+}
 
-  .remember-me label {
+.remember-me label {
      display: inline;
      text-align: center;
      margin-bottom: 0;
      font-weight: normal;
-  }
+}
   
-  .remember-me {
+.remember-me {
     display: flex;
     align-items: center;
     justify-content: center; 
     margin-top: -5px;
     margin-bottom: 20px;
-  }
+}
   
-  .remember-me input[type="checkbox"] {
+.remember-me input[type="checkbox"] {
     margin-right: 8px;
     width: auto;           
     transform: scale(1.2);   
     accent-color: #52796f;  
     cursor: pointer;
-  }
+}
   
-  .loginRegister-container button {
+.loginRegister-container button {
     width: 100%;
     padding: 15px;
     background-color: #52796f; 
@@ -251,42 +260,50 @@ body {
     font-weight: bold;
     margin-top: 10px;
     transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.2s ease;
-  }
+}
   
-  .loginRegister-container button:hover {
+.loginRegister-container button:hover {
     background-color: #84a98c; 
-  }
+}
   
-  .loginRegister-container button:active {
+.loginRegister-container button:active {
     background-color: #415a55; 
     transform: translateY(2px); 
-  }
+}
   
-  .loginRegister-container button:focus,
-  .loginRegister-container button:focus-visible {
+.loginRegister-container button:focus,
+.loginRegister-container button:focus-visible {
     outline: none; 
     box-shadow: 0 0 0 3px rgba(132, 169, 140, 0.5); 
-  }
+}
   
-  .loginRegister-container p { 
+.loginRegister-container p { 
     margin-top: 25px;
     margin-bottom: 0;
-    font-size: 0.9em;
-  }
+    font-size: 1em;
+}
   
-  .loginRegister-container a {
-    color: #84a98c; 
+.loginRegister-container a {
+    color: #FFF9D0; 
     text-decoration: none; 
     font-weight: bold;
     transition: color 0.3s ease, text-decoration 0.3s ease;
-  }
+}
   
-  .loginRegister-container a:hover,
-  .loginRegister-container a:focus {
+.loginRegister-container a:hover,
+.loginRegister-container a:focus {
     color: #ffffff;           
     text-decoration: underline; 
     outline: none;           
-  }
+}
+
+/* Auf mobilen Geräten unter Navbar genug Abstand schaffen */
+@media (max-width: 992px) {
+    .registration-section {
+        padding-top: 50px; /* Höhe der Navbar ausgleichen */
+        padding-bottom: 150px; /* Abstand nach unten */
+    }
+}
   
 .error {
     color: #ff6b6b;          
@@ -300,21 +317,21 @@ body {
     background-color: rgba(255, 107, 107, 0.1); 
     margin-bottom: 20px;
     color: rgb(255, 202, 202);
-  }
+}
   
-  .error ul {
+.error ul {
     list-style: none; 
     padding: 0;      
     margin: 0;        
-  }
+}
   
-  .error li {
+.error li {
     margin-bottom: 5px; 
-  }
+}
   
-  .error li:last-child {
+.error li:last-child {
     margin-bottom: 0; 
-  }
+}
 
 /* Navbar Styling */
 .navbar {
@@ -384,7 +401,7 @@ footer .nav-item {
         border-radius: 10px; /* Runde die Ecken */
         display: flex;
         flex-direction: column; /* Staple Inhalte untereinander */
-        gap: 20px; /* Abstand zwischen den Abschnitten */
+        gap: 20px; /* Abstand zwischen den Elementen */
         visibility: hidden; /* Unsichtbar, wenn nicht aktiv */
         opacity: 0; /* Unsichtbar, wenn nicht aktiv */
         transition: visibility 0s, opacity 0.3s ease-in-out;
@@ -446,32 +463,6 @@ footer .nav-item {
     font-size: 1.5rem;
     color: #fff;
     text-align: center;
-}
-
-.currency-display {
-    font-size: 1rem;
-    color: #ffd700;
-    text-align: center;
-    margin-top: 10px;
-}
-
-#currency-display {
-    text-align: center;
-    margin: 10px 0;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #ffd700;
-    margin-bottom: 10px;
-}
-
-@media (min-width: 992px) {
-    #currency-display {
-        order: 0; 
-        margin-bottom: 0px;
-        z-index: 1000;
-        position: fixed;
-        top: 10px;
-    }
 }
 
 /* Profil Styling */

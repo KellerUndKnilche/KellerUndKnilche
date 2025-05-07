@@ -1,6 +1,5 @@
 <?php
 require_once('../../config/dbAccess.php');
-require_once('../../includes/helpers.php');
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();

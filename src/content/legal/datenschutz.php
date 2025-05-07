@@ -72,7 +72,7 @@ require_once('../../includes/nav.php');
     <h3>Kontakt</h3>
     <p><strong>Webseitenbetreiber:</strong> [Name]<br>
     <strong>Telefon:</strong> [Telefonnummer]<br>
-    <strong>E-Mail:</strong> [E-Mail]</p>
+    <strong>E-Mail:</strong> <a href="mailto:mail@keller-und-knilche.at">mail@keller-und-knilche.at</a></p>
   </div>
 </main>
 

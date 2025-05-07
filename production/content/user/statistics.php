@@ -1,6 +1,6 @@
 <?php
 require_once('../../config/dbAccess.php');
-$pageTitle = 'Keller & Knilche Statistiken';
+$pageTitle = 'Statistiken';
 $pageDescription = 'Beobachte deine Keller-Rivalen: Wer hortet die meiste Beute und wer verflucht sein Verbesserungs-Glück? Perfekt für deine miese Schadenfreude!';
 require_once('../../includes/header.php');
 require_once('../../includes/nav.php');

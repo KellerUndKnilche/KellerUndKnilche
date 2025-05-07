@@ -1,11 +1,11 @@
-/* Styling für datenschutz.php */
-main.datenschutz {
-    display: flex;
-    justify-content: center;
+/* Styling für nutzungsbedingungen.php */
+main.nutzungsbedingungen {
+    display: block;
     padding: 2rem 1rem;
+    flex: none;
 }
 
-main.datenschutz .content-box {
+main.nutzungsbedingungen .content-box {
     width: 100%;
     max-width: 800px;
     background-color: #52796f;
@@ -16,27 +16,18 @@ main.datenschutz .content-box {
     line-height: 1.6;
 }
 
-main.datenschutz h2,
-main.datenschutz h3 {
+main.nutzungsbedingungen h2,
+main.nutzungsbedingungen h3 {
     margin-top: 2em;
     margin-bottom: 0.5em;
 }
 
-main.datenschutz p {
+main.nutzungsbedingungen p {
     margin-bottom: 1em;
 }
 
-main.datenschutz ul {
+main.nutzungsbedingungen ul {
     margin-left: 1.5em;
     margin-bottom: 1.5em;
     list-style-type: disc;
-}
-
-main.datenschutz a {
-    color: #FFF9D0;
-    text-decoration: none;
-}
-
-main.datenschutz a:hover {
-    text-decoration: underline;
 }

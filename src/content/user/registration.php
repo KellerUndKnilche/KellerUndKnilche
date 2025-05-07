@@ -1,6 +1,7 @@
 <?php
+
 require_once('../../config/dbAccess.php');
-require_once('../../includes/helpers.php');
+require_once('../../config/filters/filters.php');
 
 // Prüfen, ob der Benutzer bereits eingeloggt ist
 if (isset($_SESSION["user"])) {
@@ -8,7 +9,7 @@ if (isset($_SESSION["user"])) {
     exit();
 }
 
-$pageTitle = 'Keller & Knilche Registrierung';
+$pageTitle = 'Registrierung';
 $pageDescription = 'Werde Teil unseres düsteren Bündnisses: Erstelle ein Konto, verhaue Knilche, hort Beute und verbessere deine Monster – Spaß garantiert!';
 
 // Initialisierung der Variablen
@@ -56,6 +57,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $errors[] = "Passwörter stimmen nicht überein.";
     }
 
+    if (!isset($_POST["terms"])) {
+        $errors[] = 'Sprich: "Datenschutzbedingung und Nutzungsbedingungen akzeptiert" und tritt ein .';
+    }
+
     if (empty($errors)) {
         // Benutzer registrieren
         registerUser($db, $username, $email, $password);
@@ -94,11 +99,20 @@ require_once('../../includes/nav.php');
                 <label for="confirm_password" class="form-label">Passwort bestätigen</label>
                 <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Passwort bestätigen" required>
             </div>
+            <div class="mb-3">
+                <label for="terms">
+                  Ich schwöre feierlich, dass ich die 
+                  <a href="<?php echo getBaseUrl(); ?>/nutzungsbedingungen">Nutzungsbedingungen</a> 
+                  und die 
+                  <a href="<?php echo getBaseUrl(); ?>/datenschutz">Datenschutzbestimmungen</a> gelesen und akzeptiert habe – bei meiner Ehre als Kellermeister!.
+                </label>
+                <input type="checkbox" id="terms" name="terms" required>
+            </div>
             <div class="d-grid">
                 <button type="submit">Registrieren</button>
             </div>
         </form>
-        <p class="text-center mt-3">Schon registriert? <a href="/login">Hier einloggen</a></p>
+        <p class="mb-3">Schon registriert? <a href="/login">Hier einloggen</a></p>
     </div>
 </section>
 <?php require_once('../../includes/footer.php'); ?>

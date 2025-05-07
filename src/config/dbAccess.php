@@ -1,7 +1,9 @@
 <?php
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
-    } 
+    }
+    // Helper-Funktionen laden !!! nicht verändern
+    require_once (__DIR__ . '/../includes/helpers.php');
     // Lade Datenbank-Zugangsdaten aus der .env-Datei
     $envPath = __DIR__ . '/../config/.env';
     if (!file_exists($envPath)) {
@@ -28,6 +30,12 @@
         die("Verbindung fehlgeschlagen: " . $db->connect_error);
     }
 
+    // Falls User eingeloggt, aber Terms nicht akzeptiert, dann weiterleiten
+    if (isset($_SESSION['user']) && !userAcceptedTerms($db, $_SESSION['user']['id']) && $_SERVER['REQUEST_URI'] != '/akzeptieren' && $_SERVER['REQUEST_URI'] != '/logout') {
+        header("Location: " . getBaseUrl() . "/akzeptieren");
+        exit();
+    }
+
     // Funktion, um alle Benutzer aus der Datenbank abzurufen
     function fetchAllUsers($db) {
         $sql = "SELECT * FROM users"; // SQL-Abfrage
@@ -46,8 +54,9 @@
 
     // Funktion, um einen neuen Benutzer in die Datenbank einzufügen
     function insertUser($db, $username, $email, $passwordHash) {
-        
-        $stmt = $db->prepare("INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)");
+        $stmt = $db->prepare(
+            "INSERT INTO users (username, email, password_hash, acceptedTerms) VALUES (?, ?, ?, 1)" //acceptedTerms wird direkt gesetzt, da bei Registrierung geprüft
+        );
         $stmt->bind_param("sss", $username, $email, $passwordHash); // Parameter binden
         $success = $stmt->execute(); // Führt die Abfrage aus und gibt true/false zurück
         initUserUpgrades($db, $username); // Upgrades initialisieren
@@ -87,6 +96,22 @@
         $stmt->bind_param("s", $username); // Parameter binden
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc(); // Gibt den Benutzer als assoziatives Array zurück
+    }
+
+    // Funktion, um zu prüfen ob User Nutzungsbedingungen akzeptiert hat
+    function userAcceptedTerms($db, $userId) {
+        $stmt = $db->prepare("SELECT acceptedTerms FROM users WHERE id = ?");
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc()['acceptedTerms'] ?? 0; // Gibt 1 zurück, wenn akzeptiert, sonst 0
+    }
+
+    function setAcceptedTerms($db, $userId) {
+        $stmt = $db->prepare("UPDATE users SET acceptedTerms = 1 WHERE id = ?");
+        $stmt->bind_param("i", $userId);
+        $success = $stmt->execute();
+        $stmt->close();
+        return $success;
     }
 
     // Funktion, um Benutzerstatistiken abzurufen

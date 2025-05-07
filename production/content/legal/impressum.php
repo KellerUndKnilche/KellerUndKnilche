@@ -18,8 +18,7 @@ require_once('../../includes/nav.php');
         <p class="mb-1">Max Mustermann</p>
         <p class="mb-1">[PLZ, Ort]</p>
         <p class="mb-1">Österreich</p>
-        <p class="mb-1">[E-Mail-Adresse]</p>
-        <p>[Telefonnummer]</p>
+        <p class="mb-1"><a href="mailto:mail@keller-und-knilche.at">mail@keller-und-knilche.at</a></p>
       </address>
     </section>
     <p class="mt-5"><strong>Diese Website dient ausschließlich der kostenlosen Unterhaltung und verfolgt keine kommerziellen Zwecke.</strong></p>

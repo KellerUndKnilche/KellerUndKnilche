@@ -120,6 +120,8 @@ CREATE TABLE `users` (
   `password_hash` varchar(255) NOT NULL,
   `isAdmin` tinyint(4) NOT NULL DEFAULT 0,
   `isLocked` tinyint(4) NOT NULL DEFAULT 0,
+  `acceptedTerms` tinyint(4) NOT NULL DEFAULT 0,
+  `registrationDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_login` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

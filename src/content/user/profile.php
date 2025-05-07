@@ -1,6 +1,5 @@
 <?php 
 require_once('../../config/dbAccess.php');
-require_once('../../includes/helpers.php');
 
 if (!isset($_SESSION['user'])) {
     header("Location: " . getBaseUrl() . "/login");
@@ -15,7 +14,7 @@ if (isset($_COOKIE['user_id']) && $_COOKIE['user_id'] != $_SESSION['user']['id']
     exit();
 }
 
-$pageTitle = 'Keller & Knilche Profil';
+$pageTitle = 'Profil';
 $pageDescription = 'Dein epischer Steckbrief: Zeig allen, dass du der unangefochtene Kellerboss bist – inkl. Rang, Beute und Monster-Upgrades.';
 
 $userId = $_SESSION['user']['id'];

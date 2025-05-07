@@ -32,6 +32,9 @@
     <li class="nav-item">
       <a class="nav-link text-light" href="/datenschutz">Datenschutz</a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link text-light" href="/nutzungsbedingungen">Nutzungsbedingungen</a>
+    </li>
   </ul>
 </footer>
 <script src="/assets/js/fontSwitcher.js"></script>
