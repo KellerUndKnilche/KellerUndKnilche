@@ -9,6 +9,8 @@ RewriteRule ^statistiken/?$ content/user/statistics.php [L,QSA]
 RewriteRule ^admin/?$ content/user/admin.php [L,QSA]
 RewriteRule ^impressum/?$ content/legal/impressum.php [L,QSA]
 RewriteRule ^datenschutz/?$ content/legal/datenschutz.php [L,QSA]
+RewriteRule ^nutzungsbedingungen/?$ content/legal/nutzungsbedingungen.php [L,QSA]
+RewriteRule ^akzeptieren/?$ content/legal/akzeptieren.php [L,QSA]
 RewriteRule ^/$ index.php [L,QSA]
 
 # Fallback: domain.tld/seite -> seite.php im gleichen Verzeichnis
