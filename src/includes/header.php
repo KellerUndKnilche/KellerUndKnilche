@@ -25,6 +25,12 @@
     <?php if (isset($pageTitle) && $pageTitle === 'Impressum'): ?>
     <link rel="stylesheet" href="/assets/css/impressum.css">
     <?php endif; ?>
+    <?php if (isset($pageTitle) && $pageTitle === 'Nutzungsbedingungen'): ?>
+    <link rel="stylesheet" href="/assets/css/nutzungsbedingungen.css">
+    <?php endif; ?>
+    <?php if (isset($pageTitle) && $pageTitle === 'Bedingungen akzeptieren'): ?>
+    <link rel="stylesheet" href="/assets/css/akzeptieren.css">
+    <?php endif; ?>
     <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg" sizes="any">
     <script src="/assets/js/fontSwitcher.js" defer></script>
 </head>

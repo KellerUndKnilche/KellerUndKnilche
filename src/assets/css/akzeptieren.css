@@ -1,0 +1,42 @@
+main.akzeptieren {
+    display: block;
+    padding: 2rem 1rem;
+    flex: none;
+    font-size: larger;
+}
+
+main.akzeptieren .content-box {
+    width: 100%;
+    max-width: 800px;
+    background-color: #52796f;
+    color: #fff;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    margin: 0 auto;
+}
+
+main.akzeptieren h1,
+main.akzeptieren h2 {
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+main.akzeptieren a {
+    color: #FFF9D0;
+    text-decoration: none;
+}
+
+main.akzeptieren a:hover {
+    text-decoration: underline;
+}
+
+main.akzeptieren .btn-primary {
+    background-color: #4afc71;
+    border-color: #000000;
+    color: #000000;
+}
+
+main.akzeptieren .btn-primary:hover {
+    background-color: #00ffbf;
+    border-color: #000000;
+}

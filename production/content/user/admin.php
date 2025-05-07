@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once('../../config/dbAccess.php');
+$pageTitle       = 'Admin Armaturenbrett';
 
 // Check if user is logged in and is admin
 if (!isset($_SESSION['user']) || $_SESSION['user']['isAdmin'] != 1) {

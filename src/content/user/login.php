@@ -1,6 +1,5 @@
 <?php
 require_once('../../config/dbAccess.php');
-require_once('../../includes/helpers.php');
 
 // Prüfen, ob der Benutzer bereits eingeloggt ist
 if (isset($_SESSION["user"])) {
@@ -8,7 +7,7 @@ if (isset($_SESSION["user"])) {
     exit();
 }
 
-$pageTitle = 'Keller & Knilche Login';
+$pageTitle = 'Login';
 $pageDescription = 'Logge dich ein, setz Helm auf und verhaue lästige Knilche, während du Batzen hortest!';
 $username = $password = "";
 

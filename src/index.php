@@ -13,19 +13,15 @@ require_once('includes/nav.php');
     
     <section class="game-area">
         <h2 class="visually-hidden">Spielbereich</h2>
-        <img id="click_button" src="/assets/img/gamearea_platzhalter.png" alt="Dungeon‑Spielbereich">
+        <!-- Währungsanzeige direkt in der game-area -->
+        <div id="currency-display" class="currency-display">
+            <span id="currency-label">Beute Batzen: </span>
+            <span id="currency">0.00</span>
+            <span id="proSekunde"></span>
+        </div>
+        <img id="click_button" class="gameButton" src="/assets/img/gamearea_platzhalter.png" alt="Keller-Knopf"/>
     </section>
     
-    <!-- Currency display with simplified structure -->
-    <div class="row justify-content-center mt-3">
-        <div class="col-md-6 text-center">
-            <div id="currency-display" class="currency-display">
-                <span id="currency-label">Beute Batzen: </span>
-                <span id="currency">0.00</span>
-                <span id="proSekunde"></span>
-            </div>
-        </div>
-    </div>
     
     <!-- Toggle Button fuer Side Panels -->
     <button id="toggle-side-panels" class="btn btn-primary d-lg-none">☰</button>

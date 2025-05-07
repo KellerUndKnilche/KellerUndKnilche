@@ -18,7 +18,7 @@
   <!-- Registrierung -->
   <url>
     <loc>https://keller-und-knilche.at/registrierung</loc>
-    <lastmod>2025-05-05</lastmod>
+    <lastmod>2025-05-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -39,14 +39,21 @@
   <!-- Impressum -->
   <url>
     <loc>https://keller-und-knilche.at/impressum</loc>
-    <lastmod>2025-05-05</lastmod>
+    <lastmod>2025-05-07</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
   <!-- Datenschutz -->
   <url>
     <loc>https://keller-und-knilche.at/datenschutz</loc>
-    <lastmod>2025-05-05</lastmod>
+    <lastmod>2025-05-07</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <!-- Nutzungsbedingungen -->
+  <url>
+    <loc>https://keller-und-knilche.at/nutzungsbedingungen</loc>
+    <lastmod>2025-05-07</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
