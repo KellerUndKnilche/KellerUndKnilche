@@ -177,20 +177,21 @@ require_once('../../includes/nav.php');
             <?php endif; ?>
           </tbody>
           </div>
+        </table>
       </div>
     </div>
   </div>
 </section>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function() {
     const btn = document.getElementById('toggle-upgrade-dropdown');
     const dropdown = document.getElementById('profile-upgrade-dropdown');
     btn.addEventListener('click', function() {
-        dropdown.classList.toggle('active');
-        btn.textContent = dropdown.classList.contains('active') ? 'Upgrades verbergen' : 'Upgrades anzeigen';
+      dropdown.classList.toggle('active');
+      btn.textContent = dropdown.classList.contains('active') ? 'Upgrades verbergen' : 'Upgrades anzeigen';
     });
-});
+  });
 </script>
 
 <?php require_once('../../includes/footer.php'); ?>
