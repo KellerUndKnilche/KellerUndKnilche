@@ -38,7 +38,19 @@ if (session_status() === PHP_SESSION_NONE) {
             <a class="nav-link" href="/login">Login</a>
           </li>
         <?php } ?>
-        <li class="nav-item">
+      </ul>
+      <ul class="navbar-nav ms-auto">
+                <li class="nav-item flex-grow-0 flex-shrink-0">
+          <a class="nav-link" href="https://github.com/KellerUndKnilche/KellerUndKnilche" target="_blank" rel="noopener noreferrer">
+            <img src="../assets/img/github-light.webp" 
+                 alt="GitHub Repo" 
+                 width="24" 
+                 height="24" 
+                 class="align-text-bottom me-1">
+            Weitere Infos oder Probleme?
+          </a>
+        </li>
+        <li class="nav-item ms-lg-auto flex-grow-0 flex-shrink-0">
             <div class="dropdown">
               <button class="btn btn-secondary dropdown-toggle" type="button" id="fontDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                 Schriftart ändern

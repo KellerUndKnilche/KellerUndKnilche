@@ -82,6 +82,12 @@ require_once('../../includes/nav.php');
 ?>
 <section class="login-section">
   <h2 class="visually-hidden">Login</h2>
+  <div class="loginNews-container bg-danger">
+    <p>
+      <strong>Ein Gleichgewichtszauber wurde gewirkt - alle Verbesserungen und Schätze wurden neu verteilt!</strong>
+    </p>
+  </div>
+    
   <div class="loginRegister-container">
       <form id="login-form" method="post" action="">
           <div> <label for="username">Benutzername</label> <input type="text" id="username" name="username" placeholder="Benutzername" value="<?php echo $username ?? ''; ?>" required> </div>

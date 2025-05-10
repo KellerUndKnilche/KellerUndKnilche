@@ -164,7 +164,13 @@ require_once('../../includes/nav.php');
             ?>
               <tr>
                 <td><?= htmlspecialchars($upgrade['name']) ?></td>
-                <td><?= $upgrade['level'] ?></td>
+                <td>
+                  <?php if ($upgrade['kategorie'] === 'Klick'): ?>
+                    &#10003;  <!-- Check für Klick Upgrades -->
+                  <?php else: ?>
+                    <?= $upgrade['level'] ?> 
+                  <?php endif; ?>
+                </td>
               </tr>
             <?php
                 endif;
