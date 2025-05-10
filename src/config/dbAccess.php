@@ -514,8 +514,8 @@
         if ($row = $result->fetch_assoc()) {
             $basispreis = (float)$row['basispreis'];
             $stmt->close();
-            // Preisformel: basispreis + (id^3 * level)
-            return $basispreis + (pow($upgradeId, 3) * $currentLevel);
+            // Preisformel: basispreis * 1,15^level
+            return $basispreis * pow(1.15, $currentLevel);
         } else {
             $stmt->close();
             error_log("calculateUpgradeCostPHP: Upgrade mit ID $upgradeId nicht gefunden.");
