@@ -285,6 +285,13 @@ async function ladeUpgrades() {
     upgrades.forEach(upg => {
         const zielContainer = kategorien[upg.kategorie];
         if (!zielContainer) return;
+        // Zeige Boost-Upgrades nur, wenn das Basis-Item gekauft wurde
+        if (upg.kategorie === 'Boost') {
+            const basisItem = upgrades.find(item => item.id === upg.ziel_id);
+            if (!basisItem || basisItem.level <= 0) {
+                return; // Basis-Item nicht gekauft, Boost nicht anzeigen
+            }
+        }
         displayChanges(upg, zielContainer);
     });
     updateProfileEarningRate();
@@ -337,6 +344,9 @@ async function kaufUpgrade(upgradeId) { // Funktion muss async sein für await
             // 3. Aktualisiere die Währungsanzeige sofort (optional, Intervall macht es auch)
             updateCurrencyDisplay(); // Entfernt: Wird durch Intervall erledigt
             
+            if(upgrade.level == 1 && upgrade.kategorie == 'Produktion') {
+                ladeUpgrades();
+            }
             // Optional: Erfolgsmeldung
             // console.log("Upgrade gekauft:", upgrade.name, "Neues Level:", result.newLevel);
 
