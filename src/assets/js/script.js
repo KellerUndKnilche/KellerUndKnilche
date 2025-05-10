@@ -281,7 +281,12 @@ async function ladeUpgrades() {
         'Boost': document.getElementById('boost-upgrades'),
         'Klick': document.getElementById('klick-upgrades')
     };
-    
+
+    // Container vor Befüllen löschen
+    Object.values(kategorien).forEach(container => {
+        if (container) container.innerHTML = '';
+    });
+
     upgrades.forEach(upg => {
         const zielContainer = kategorien[upg.kategorie];
         if (!zielContainer) return;
