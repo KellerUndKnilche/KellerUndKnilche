@@ -357,6 +357,12 @@ body {
     text-align: center;
 }
 
+@media (min-width: 992px) {
+  .navbar-nav {
+    justify-content: flex-start !important;
+  }
+}
+
 /* Footer Styling */
 footer {
     position: fixed; /* Fixiere den Footer unten */
