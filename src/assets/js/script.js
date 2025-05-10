@@ -48,48 +48,49 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }, 5000);
 
-    // currency/production Elements holen
-    const currencyElement = document.getElementById('currency');
-    const productionRateElement = document.getElementById('proSekunde');
-    const apiEndpoint = 'api/update_currency.php';
-
     // Nur wenn beide Elemente vorhanden sind, Interval starten
     if (currencyElement && productionRateElement) {
         updateInterval = setInterval(() => {
             updateCurrencyDisplay();
         }, 1000);
-
-        // Währungs‑Update-Funktion
-        async function updateCurrencyDisplay() {
-            try {
-                const response = await fetch(apiEndpoint);
-                if (!response.ok) {
-                    if (response.status === 401 || response.status === 403 || response.redirected) {
-                        clearInterval(updateInterval);
-                        return;
-                    }
-                    throw new Error(`HTTP ${response.status}`);
-                }
-                const data = await response.json();
-                if (data.success) {
-                    currencyElement.textContent = formatNumber(data.newAmount);
-                    currencyElement.dataset.rawAmount = data.newAmount;
-                    productionRateElement.textContent = data.productionPerSecond > 0
-                        ? `(${formatNumber(data.productionPerSecond)} BB/s)`
-                        : '';
-                } else if (data.message === 'Nicht eingeloggt') {
-                    clearInterval(updateInterval);
-                }
-            } catch (e) {
-                console.error('Fehler beim Abrufen der Währung:', e);
-            }
-        }
-
+        
+        
         window.addEventListener('unload', () => {
             clearInterval(updateInterval);
         });
     }
 });
+
+// Währungs‑Update-Funktion
+const apiEndpoint = 'api/update_currency.php';
+const currencyElement = document.getElementById('currency');
+const productionRateElement = document.getElementById('proSekunde');
+
+async function updateCurrencyDisplay() {
+    try {
+        const response = await fetch(apiEndpoint);
+        if (!response.ok) {
+            if (response.status === 401 || response.status === 403 || response.redirected) {
+                clearInterval(updateInterval);
+                return;
+            }
+            throw new Error(`HTTP ${response.status}`);
+        }
+        const data = await response.json();
+        if (data.success) {
+            currencyElement.textContent = formatNumber(data.newAmount);
+            currencyElement.dataset.rawAmount = data.newAmount;
+            productionRateElement.textContent = data.productionPerSecond > 0
+                ? `(${formatNumber(data.productionPerSecond)} BB/s)`
+                : '';
+        } else if (data.message === 'Nicht eingeloggt') {
+            clearInterval(updateInterval);
+        }
+    } catch (e) {
+        console.error('Fehler beim Abrufen der Währung:', e);
+    }
+}
+
 
 // Speichert die Upgrades bevor die Seite geschlossen wird
 window.addEventListener("beforeunload", () => {
@@ -212,7 +213,7 @@ function handleAutoClickerDetection() {
 function displayChanges(upg, zielContainer) {
     let effektText = "";
     if (upg.effektart === 'prozent') {
-        effektText = `+${parseFloat(upg.effektwert)}%`;
+        effektText = `+${parseFloat(upg.effektwert)}% für ${upg.ziel_name}`;
         effektText += upg.level === 1 ? ' ✓' : '';
 
         // Rekursiv auf das Ziel-Upgrade anwenden, falls vorhanden
@@ -225,11 +226,11 @@ function displayChanges(upg, zielContainer) {
         }
     } else {
         if (upg.kategorie === 'Klick') {
-            effektText = `+${parseFloat(upg.effektwert)}`;
+            effektText = `+${formatNumber(parseFloat(upg.effektwert))}`;
             effektText += '/Klick';
             effektText += upg.level > 0 ? ' ✓' : '';
         } else {
-            effektText = `+${(parseFloat(upg.effektwert) * getBoostMultiplier(upg.id)).toFixed(2)}`;
+            effektText = `+${formatNumber((parseFloat(upg.effektwert) * getBoostMultiplier(upg.id)).toFixed(2))}`;
             effektText += ` BB/s Level ${upg.level}`;
         }
     }
@@ -245,7 +246,7 @@ function displayChanges(upg, zielContainer) {
             div.classList.add('gekauft');
             div.textContent = `${upg.name} (${effektText})`;
         } else {
-            div.textContent = `${upg.name} (${effektText}) – ${kalkPreis(upg.basispreis, upg.level, upg.id)} BB`;
+            div.textContent = `${upg.name} (${effektText}) – ${formatNumber(kalkPreis(upg.basispreis, upg.level))} BB`;
             div.onclick = () => kaufUpgrade(upg.id);
         }
 
@@ -253,7 +254,7 @@ function displayChanges(upg, zielContainer) {
     } else {
         // Aktualisiere den Text, falls das Upgrade bereits existiert
         if (upg.kategorie === 'Produktion') {
-            let neuePreisText = `${upg.name} (${effektText}) – ${kalkPreis(upg.basispreis, upg.level, upg.id)} BB`;
+            let neuePreisText = `${upg.name} (${effektText}) – ${formatNumber(kalkPreis(upg.basispreis, upg.level))} BB`;
             upgradeDiv.textContent = neuePreisText;
         } else if (!upgradeDiv.classList.contains('gekauft')) {
             upgradeDiv.classList.add('gekauft');
@@ -297,7 +298,7 @@ async function kaufUpgrade(upgradeId) { // Funktion muss async sein für await
     }
 
     // Preisberechnung clientseitig nur zur Vorabprüfung (optional, aber gut für UX)
-    let clientSidePreisCheck = kalkPreis(upgrade.basispreis, upgrade.level, upgrade.id);
+    let clientSidePreisCheck = kalkPreis(upgrade.basispreis, upgrade.level);
     const currencyElement = document.getElementById('currency');
     const currentDisplayAmount = parseFloat(currencyElement.dataset.rawAmount) || 0;
 
@@ -334,7 +335,7 @@ async function kaufUpgrade(upgradeId) { // Funktion muss async sein für await
             }
 
             // 3. Aktualisiere die Währungsanzeige sofort (optional, Intervall macht es auch)
-            // updateCurrencyDisplay(); // Entfernt: Wird durch Intervall erledigt
+            updateCurrencyDisplay(); // Entfernt: Wird durch Intervall erledigt
             
             // Optional: Erfolgsmeldung
             // console.log("Upgrade gekauft:", upgrade.name, "Neues Level:", result.newLevel);
@@ -353,8 +354,8 @@ async function kaufUpgrade(upgradeId) { // Funktion muss async sein für await
     updateProfileEarningRate();
 }
 
-function kalkPreis(basispreis, level, id) {
-    return parseFloat(basispreis) + parseFloat(Math.pow(id, 3) * level);
+function kalkPreis(basispreis, level) {
+    return Math.round(parseFloat(basispreis) * Math.pow(1.15, level));
 }
 
 async function saveUpgrades() {

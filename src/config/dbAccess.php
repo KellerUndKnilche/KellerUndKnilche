@@ -269,6 +269,7 @@
                 u.effektwert,
                 u.kategorie,
                 u.ziel_id,
+                t.name AS ziel_name,
                 t.typ AS target_typ,
                 COALESCE(uu.level, 0) AS level
             FROM upgrades u
