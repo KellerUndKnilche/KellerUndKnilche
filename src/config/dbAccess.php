@@ -120,7 +120,7 @@
                 FROM users u
                 LEFT JOIN beute_batzen b ON u.id = b.user_id
                 LEFT JOIN user_upgrades up ON u.id = up.user_id
-                WHERE u.isLocked = 0
+                WHERE u.isLocked = 0 and b.amount > 0
                 GROUP BY u.id";
         $result = $db->query($sql);
         return $result->fetch_all(MYSQLI_ASSOC);
@@ -598,4 +598,11 @@
         }
     }
 
+    // Funktion um Admin und Nicht-Admins zu unterscheiden
+    function fetchAllNonAdminUsers($db) {
+        $stmt = $db->prepare("SELECT id, username, isLocked FROM users WHERE isAdmin = 0 ORDER BY username ASC");
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+    
 ?>
