@@ -14,11 +14,13 @@ require_once('includes/nav.php');
     <section class="game-area">
         <h2 class="visually-hidden">Spielbereich</h2>
         <!-- Währungsanzeige direkt in der game-area -->
+        <!--
         <div id="currency-display" class="currency-display">
             <span id="currency-label">Beute Batzen: </span>
             <span id="currency">0.00</span>
             <span id="proSekunde"></span>
         </div>
+        -->
         <img id="click_button" class="gameButton" src="/assets/img/gamearea_platzhalter.png" alt="Keller-Knopf"/>
     </section>
     
@@ -72,5 +74,3 @@ require_once('includes/nav.php');
         </div>
 </main>
 <?php require_once('includes/footer.php'); ?>
-<script src="./assets/js/sidePanels.js"></script>
-<script src="./assets/js/script.js"></script>

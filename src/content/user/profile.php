@@ -201,3 +201,4 @@ require_once('../../includes/nav.php');
 </script>
 
 <?php require_once('../../includes/footer.php'); ?>
+<script src="./assets/js/script.js"></script>
