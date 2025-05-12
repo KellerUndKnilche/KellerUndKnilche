@@ -94,7 +94,7 @@ require_once('../../includes/nav.php');
                                     return;
                                 }
 
-                                fetch('/src/content/user/user_search.php?q=' + encodeURIComponent(query))
+                                fetch('/content/user/user_search.php?q=' + encodeURIComponent(query))
                                 .then(response => response.json())
                                 .then(data => {
                                     suggestions.innerHTML = '';

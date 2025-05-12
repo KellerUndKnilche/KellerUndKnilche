@@ -388,6 +388,21 @@ footer .nav-item {
     text-align: center;
 }
 
+footer .nav-link {
+    text-decoration: underline;
+}
+
+footer #currency-display {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #ffd700;
+    text-align: center;
+    padding: auto;
+    margin: auto;
+    width: fit-content;
+    max-width: 90%;
+}
+
 /* Side Panels auf kleinen Schirmen */
 @media (max-width: 992px) {
     #side-panels {
@@ -417,7 +432,7 @@ footer .nav-item {
     #toggle-side-panels {
         position: fixed;
         align-self: center;
-        top: 83%;
+        top: 79%;
         left: 50%; /* Zentriere den Button horizontal */
         transform: translate(-50%, -50%); /* Zentriere den Button vollständig */
         z-index: 1000;
@@ -739,4 +754,32 @@ footer .nav-item {
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-10px);}
     to { opacity: 1; transform: translateY(0);}
+}
+
+/* Admin-Dashboard Anpassungen */
+.admin-card {
+    background-color: #52796f;
+    border: 2px solid #222;
+    color: #fff;
+}
+.admin-card .card-body {
+    color: #fff;
+}
+.admin-card-header {
+    background-color: #354f52;
+    color: #bada55;
+}
+
+/* Admin Tabelle Pagination Knopf*/
+.pagination .page-item.active .page-link {
+    background-color: #bada55;   /* gewünschte Hintergrundfarbe */
+    border-color:   #bada55;     /* passender Rahmen */
+    color:          #111;        /* Textfarbe */
+    z-index: 0;
+}
+
+.pagination .page-item .page-link:hover {
+    background-color: #ffd700;   /* gewünschte Hintergrundfarbe */
+    border-color:   #ffd700;     /* passender Rahmen */
+    color:          #111;        /* Textfarbe */
 }
