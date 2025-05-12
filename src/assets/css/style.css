@@ -740,3 +740,31 @@ footer .nav-item {
     from { opacity: 0; transform: translateY(-10px);}
     to { opacity: 1; transform: translateY(0);}
 }
+
+/* Admin-Dashboard Anpassungen */
+.admin-card {
+    background-color: #52796f;
+    border: 2px solid #222;
+    color: #fff;
+}
+.admin-card .card-body {
+    color: #fff;
+}
+.admin-card-header {
+    background-color: #354f52;
+    color: #bada55;
+}
+
+/* Admin Tabelle Pagination Knopf*/
+.pagination .page-item.active .page-link {
+    background-color: #bada55;   /* gewünschte Hintergrundfarbe */
+    border-color:   #bada55;     /* passender Rahmen */
+    color:          #111;        /* Textfarbe */
+    z-index: 0;
+}
+
+.pagination .page-item .page-link:hover {
+    background-color: #ffd700;   /* gewünschte Hintergrundfarbe */
+    border-color:   #ffd700;     /* passender Rahmen */
+    color:          #111;        /* Textfarbe */
+}
