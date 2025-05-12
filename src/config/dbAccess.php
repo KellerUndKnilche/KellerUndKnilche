@@ -598,4 +598,11 @@
         }
     }
 
+    // Funktion um Admin und Nicht-Admins zu unterscheiden
+    function fetchAllNonAdminUsers($db) {
+        $stmt = $db->prepare("SELECT id, username, isLocked FROM users WHERE isAdmin = 0 ORDER BY username ASC");
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+    
 ?>
