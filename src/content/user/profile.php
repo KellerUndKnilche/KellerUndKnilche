@@ -75,8 +75,6 @@ require_once('../../includes/nav.php');
 ?>
 
 <section class="profile-section">
-  <script src = ../../assets/js/script.js></script>
-
   <h2 class="visually-hidden">Mein Profil</h2>
   <div class="profile-wrapper">
     <h1 class="profile-title">Mein Profil</h1>
@@ -201,4 +199,3 @@ require_once('../../includes/nav.php');
 </script>
 
 <?php require_once('../../includes/footer.php'); ?>
-<script src="./assets/js/script.js"></script>

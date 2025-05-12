@@ -1,8 +1,10 @@
 <footer class="container-fluid bg-dark text-light mt-5">
+  <?php if (isset($_SESSION['user'])) { ?>
   <div id="currency-display" class="nav-item d-flex p-0 justify-content-center">
       <span id="currency">0.00</span>
       <span id="proSekunde" class="ms-1"></span>
   </div>
+  <?php } ?>
 <div class="d-lg-flex justify-content-center d-flex flex-wrap align-items-center">  
   <ul class="nav justify-content-center">
     <li class="nav-item">

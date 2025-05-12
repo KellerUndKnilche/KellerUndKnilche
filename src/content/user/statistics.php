@@ -31,7 +31,6 @@ $statistics = fetchUserStatistics($db);
   </div>
 </section>
 <?php require_once('../../includes/footer.php'); ?>
-<script src="../../../../assets/js/script.js"></script>
 <script>
 // Formatiert alle Elemente mit der Klasse "format-number"
 document.addEventListener('DOMContentLoaded', function() {
