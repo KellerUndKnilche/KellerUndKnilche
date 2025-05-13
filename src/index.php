@@ -29,6 +29,7 @@ require_once('includes/nav.php');
     <button id="toggle-side-panels" class="btn btn-primary d-lg-none">☰</button>
     
     <div id="side-panels" class="d-lg-flex flex-lg-column mt-4">
+        <!--
         <div class="side-panel mb-3">
             <h2>Stats</h2>
             <div class="stat-display mt-3 mb-3">
@@ -58,6 +59,7 @@ require_once('includes/nav.php');
                 </div>
             </div>
         </div>
+    -->
 
         <!-- Upgrades Panel -->
         <div class="side-panel">

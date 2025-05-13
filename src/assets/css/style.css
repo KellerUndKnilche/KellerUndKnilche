@@ -119,8 +119,9 @@ main {
 
 .side-panel {
     flex: 1; /* Kleinere Breite für Side Panels */
-    max-width: 300px;
-    max-height: 500px;
+    width: 81rem; /* Minimale Breite */
+    max-width: auto;
+    max-height: auto;
     background-color: #354f52;
     border: 2px solid #222;
     padding: 10px;
@@ -129,6 +130,7 @@ main {
     display: flex;
     flex-direction: column; /* Staple Inhalte untereinander */
     gap: 10px; /* Abstand zwischen den Elementen */
+    text-align: center;
 }
 
 @media (max-width: 992px) { /* Für kleinere Bildschirme */
