@@ -41,12 +41,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     ladeUpgrades();
 
-    // Upgrade‑Speicherung (nur wenn eingeloggt)
-    setInterval(() => {
-        if (window.isUserLoggedIn) {
-            saveUpgrades();
-        }
-    }, 5000);
+    // Upgrade-Speicherung im 5-Sekunden-Takt (API prüft Login)
+    setInterval(saveUpgrades, 5000);
 
     // Nur wenn beide Elemente vorhanden sind, Interval starten
     if (currencyElement && productionRateElement) {
