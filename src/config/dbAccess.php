@@ -145,11 +145,11 @@
                 LEFT JOIN user_upgrades up ON u.id = up.user_id AND up.level > 0
                 WHERE u.id = ?
             GROUP BY u.id, b.amount";
-    $stmt = $db->prepare($sql);
-    $stmt->bind_param("i", $userId);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    return $result->fetch_assoc() ?: ['username' => '', 'geld' => 0, 'upgrades' => 0];
+        $stmt = $db->prepare($sql);
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc() ?: ['username' => '', 'geld' => 0, 'upgrades' => 0];
     }
 
     // Berechnet den Rang eines Benutzers basierend auf seinen Upgrades

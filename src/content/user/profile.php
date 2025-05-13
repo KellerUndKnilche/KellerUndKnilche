@@ -1,5 +1,6 @@
 <?php 
 require_once('../../config/dbAccess.php');
+require_once('../../config/filters/filters.php');
 
 if (!isset($_SESSION['user'])) {
     header("Location: " . getBaseUrl() . "/login");
@@ -43,14 +44,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Check auf unique Username
-    if(isUsernameTakenByOther($db, $newUsername, $userId)) {
-        $errors[] = "Der Benutzername ist bereits vergeben.";
+    // Check auf unique Username und E-Mail, aber nur wenn sie geändert wurden
+    if ($newUsername !== $username && isUsernameTakenByOther($db, $newUsername, $userId)) {
+      $errors[] = "Der Benutzername ist bereits vergeben.";
+    }
+    if ($newEmail !== $email && isEmailTakenByOther($db, $newEmail, $userId)) {
+      $errors[] = "Die E-Mail-Adresse ist bereits vergeben.";
     }
 
-    // Check auf unique Username
-    if(isEmailTakenByOther($db, $newEmail, $userId)) {
-        $errors[] = "Die E-Mail-Adresse ist bereits vergeben.";
+    // Eingaben pruefen
+    if (empty($newUsername)) {
+        $errors[] = "Benutzername ist erforderlich.";
+    } // Nur alphanumerisch a-z 0-9, case insensitive
+    elseif (strlen($newUsername) < 3 || strlen($newUsername) > 20) {
+        $errors[] = "Benutzername muss zwischen 3 und 20 Zeichen lang sein.";
+    }
+    elseif (preg_match('/[^a-zA-Z0-9]/', $newUsername)) {
+        $errors[] = "Benutzername darf nur Buchstaben (keine Umlaute) und Zahlen enthalten.";
+    }
+    elseif (!isCleanUsername($newUsername)) {
+        $errors[] = "Benutzername ist verboten. Die Behörden wurden verständigt.";
     }
 
     // Wenn keine Fehler, dann updaten
@@ -73,7 +86,6 @@ require_once('../../includes/header.php');
 require_once('../../includes/nav.php');
 $userId = $_SESSION['user']['id'];
 $statistics = fetchSingleUserStatistics($db, $userId);
-
 $anzahlUpgrades = $statistics['upgrades'] ?? 0;
 ?>
 
