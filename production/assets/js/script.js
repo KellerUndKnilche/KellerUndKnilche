@@ -160,22 +160,17 @@ async function increaseCurrency() {
 
 // Funktion zum Berechnen des Boost-Multiplikators für ein bestimmtes Upgrade
 function getBoostMultiplier(targetUpgradeId) {
-    let multiplier = 1.0; // Startmultiplikator
-
+    // Additive Summierung aller Prozent-Boosts
+    let totalBoostPercent = 0;
     upgrades.forEach(boostUpg => {
-        // Prüfe, ob es ein Boost-Upgrade ist, das das Ziel-Upgrade beeinflusst und gekauft wurde (Level > 0)
-        if (boostUpg.kategorie === 'Boost' && boostUpg.ziel_id === targetUpgradeId && boostUpg.level > 0) {
-            if (boostUpg.effektart === 'prozent') {
-                // Addiere den prozentualen Boost zum Multiplikator
-                // Annahme: Jeder Level gibt den vollen Effektwert
-                const totalBoostPercent = parseFloat(boostUpg.effektwert) * boostUpg.level;
-                multiplier *= (1 + (totalBoostPercent / 100.0));
-            }
-            // Hier könnten 'absolut' Boosts behandelt werden, falls nötig
+        if (boostUpg.kategorie === 'Boost'
+            && boostUpg.ziel_id === targetUpgradeId
+            && boostUpg.level > 0
+            && boostUpg.effektart === 'prozent') {
+            totalBoostPercent += parseFloat(boostUpg.effektwert) * boostUpg.level;
         }
     });
-
-    return multiplier;
+    return 1 + (totalBoostPercent / 100.0);
 }
 
 function updateProfileEarningRate() {
@@ -432,18 +427,15 @@ function berechneBBProClick() {
 }
 
 function getBoostMultiplier(produktId) {
-    let multiplier = 1;
-
+    // Additive Summierung aller Prozent-Boosts
+    let totalBoostPercent = 0;
     upgrades.forEach(upg => {
-        if (
-            upg.kategorie === 'Boost' &&
-            upg.level > 0 &&
-            upg.effektart === 'prozent' &&
-            upg.ziel_id == produktId
-        ) {
-            multiplier *= 1 + (parseFloat(upg.effektwert) / 100);
+        if (upg.kategorie === 'Boost'
+            && upg.level > 0
+            && upg.effektart === 'prozent'
+            && upg.ziel_id == produktId) {
+            totalBoostPercent += parseFloat(upg.effektwert) * upg.level;
         }
     });
-
-    return multiplier;
+    return 1 + (totalBoostPercent / 100.0);
 }

@@ -431,22 +431,20 @@
         // Wende Boosts auf die Produktion an
         $totalProductionPerSecond = 0;
         foreach ($productionTargets as $targetId => $baseProductionForTarget) {
-            $currentProduction = $baseProductionForTarget; // Start mit Basisproduktion * Level
+            $currentProduction = $baseProductionForTarget;
 
             if (isset($boosts[$targetId])) {
+                // Additiv: alle Prozent-Boosts aufsummieren
+                $totalBoostPercent = 0;
                 foreach ($boosts[$targetId] as $boost) {
-                     // Annahme: Jeder Boost-Level gibt den vollen Effektwert.
-                     // Beispiel: Knochentraining Lvl 2 gibt 2 * 15% = 30% Boost
-                     $boostMultiplierTotal = $boost['effektwert'] * $boost['level'];
-
                     if ($boost['effektart'] === 'prozent') {
-                        // Erhöhe die *aktuelle* Produktion dieses Targets um den Prozentsatz des Boosts
-                        $currentProduction *= (1 + ($boostMultiplierTotal / 100.0));
+                        $totalBoostPercent += ($boost['effektwert'] * $boost['level']);
                     }
-                    // 'absolut' Boosts auf Produktion könnten hier addiert werden, falls implementiert
                 }
+                // Einmal anwenden statt mehrfach multiplizieren
+                $currentProduction *= (1 + ($totalBoostPercent / 100.0));
             }
-            $totalProductionPerSecond += $currentProduction; // Addiere die geboostete Produktion des Targets zur Gesamtsumme
+            $totalProductionPerSecond += $currentProduction;
         }
 
         // 2. Aktualisiere beute_batzen mit der Produktion der letzten Sekunde
