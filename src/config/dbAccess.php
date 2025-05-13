@@ -1,5 +1,16 @@
 <?php
+    // Session starten fuer 30 Tage
     if (session_status() === PHP_SESSION_NONE) {
+        // 30 Tage in Sekunden
+        ini_set('session.gc_maxlifetime', 2592000);
+        ini_set('session.cookie_lifetime', 2592000);
+        session_set_cookie_params([
+            'lifetime' => 2592000,
+            'path'     => '/',
+            'secure'   => true,
+            'httponly' => true,
+            'samesite' => 'Strict'
+        ]);
         session_start();
     }
     // Helper-Funktionen laden !!! nicht verändern
