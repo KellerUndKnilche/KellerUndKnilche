@@ -21,7 +21,7 @@ require_once('includes/nav.php');
             <span id="proSekunde"></span>
         </div>
         -->
-        <img id="click_button" class="gameButton" src="/assets/img/gamearea_platzhalter.png" alt="Keller-Knopf"/>
+        <img id="click_button" class="gameButton" src="/assets/img/dungeon.png" alt="Keller-Knopf"/>
     </section>
     
     
