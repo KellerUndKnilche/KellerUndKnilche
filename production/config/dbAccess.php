@@ -1,5 +1,16 @@
 <?php
+    // Session starten fuer 30 Tage
     if (session_status() === PHP_SESSION_NONE) {
+        // 30 Tage in Sekunden
+        ini_set('session.gc_maxlifetime', 2592000);
+        ini_set('session.cookie_lifetime', 2592000);
+        session_set_cookie_params([
+            'lifetime' => 2592000,
+            'path'     => '/',
+            'secure'   => true,
+            'httponly' => true,
+            'samesite' => 'Strict'
+        ]);
         session_start();
     }
     // Helper-Funktionen laden !!! nicht verändern
@@ -116,11 +127,11 @@
 
     // Funktion, um Benutzerstatistiken abzurufen
     function fetchUserStatistics($db) {
-        $sql = "SELECT u.username, b.amount AS geld, COALESCE(SUM(uu.level), 0) AS upgrades
+        $sql = "SELECT u.username, b.amount AS geld, COALESCE(SUM(up.level), 0) AS upgrades
                 FROM users u
                 LEFT JOIN beute_batzen b ON u.id = b.user_id
                 LEFT JOIN user_upgrades up ON u.id = up.user_id AND up.level > 0
-                WHERE u.isLocked = 0 AND b.amount > 0
+                WHERE u.isLocked = 0 AND b.amount > 0 OR up.level > 0
                 GROUP BY u.id";
         $result = $db->query($sql);
         return $result->fetch_all(MYSQLI_ASSOC);

@@ -79,9 +79,9 @@ require_once('../../includes/header.php');
 require_once('../../includes/nav.php');
 ?>
 <section class="registration-section">
-    <h2 class="visually-hidden">Registrierung</h2>
+    <h1 class="visually-hidden">Registrierung</h1>
     <div class="loginRegister-container">
-        <h2>Registrierung</h2>
+        <h1>Registrierung</h1>
         <form method="post" action="">
             <div class="mb-3">
                 <label for="username" class="form-label">Benutzername</label>

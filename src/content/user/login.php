@@ -71,7 +71,7 @@ require_once('../../includes/header.php');
 require_once('../../includes/nav.php');
 ?>
 <section class="login-section">
-  <h2 class="visually-hidden">Login</h2>
+  <h1 class="visually-hidden">Login</h1>
   <div class="loginNews-container bg-danger">
     <p>
       <strong>Ein Gleichgewichtszauber wurde gewirkt - alle Verbesserungen und Schätze wurden neu verteilt!</strong>
@@ -79,6 +79,7 @@ require_once('../../includes/nav.php');
   </div>
     
   <div class="loginRegister-container">
+    <h1>Anmelden</h1>
       <form id="login-form" method="post" action="">
           <div> <label for="username">Benutzername</label> <input type="text" id="username" name="username" placeholder="Benutzername" value="<?php echo $username ?? ''; ?>" required> </div>
 

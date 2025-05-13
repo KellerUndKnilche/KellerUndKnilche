@@ -32,16 +32,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             if (fetchUserLocked($db, $user['id']) == 1) {
                 $errors[] = "Ihr Konto ist gesperrt. Bitte wenden Sie sich an den Support.";
             } else {
-                session_set_cookie_params([
-                    'lifetime' => 2592000, // 30 Tage in Sekunden
-                    'path' => '/',
-                    'secure' => true,
-                    'httponly' => true, // Stellt sicher, dass das Cookie nicht über JavaScript zugänglich ist
-                    'samesite' => 'Strict'
-                ]);
-                if (session_status() === PHP_SESSION_NONE) {
-                    session_start();
-                }
                 // User Information in Session speichern
                 $_SESSION["user"] = [
                     "id" => $user["id"],
@@ -81,7 +71,7 @@ require_once('../../includes/header.php');
 require_once('../../includes/nav.php');
 ?>
 <section class="login-section">
-  <h2 class="visually-hidden">Login</h2>
+  <h1 class="visually-hidden">Login</h1>
   <div class="loginNews-container bg-danger">
     <p>
       <strong>Ein Gleichgewichtszauber wurde gewirkt - alle Verbesserungen und Schätze wurden neu verteilt!</strong>
@@ -89,6 +79,7 @@ require_once('../../includes/nav.php');
   </div>
     
   <div class="loginRegister-container">
+    <h1>Anmelden</h1>
       <form id="login-form" method="post" action="">
           <div> <label for="username">Benutzername</label> <input type="text" id="username" name="username" placeholder="Benutzername" value="<?php echo $username ?? ''; ?>" required> </div>
 
