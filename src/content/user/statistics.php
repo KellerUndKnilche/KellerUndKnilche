@@ -16,6 +16,7 @@ $statistics = fetchUserStatistics($db);
                   <th scope="col">Benutzername</th>
                   <th scope="col">Geld</th>
                   <th scope="col">Upgrades</th>
+                  <th scope="col">Rang</th>
               </tr>
           </thead>
           <tbody>
@@ -24,6 +25,7 @@ $statistics = fetchUserStatistics($db);
                       <th scope="row"><?php echo htmlspecialchars($stat['username']); ?></th>
                       <td><span class="format-number" data-value="<?php echo round($stat['geld'], 2); ?>"></span> Batzen</td>
                       <td><?php echo htmlspecialchars($stat['upgrades']); ?></td>
+                      <td><?php echo berechneRang($stat['upgrades']); ?></td>
                   </tr>
               <?php endforeach; ?>
           </tbody>

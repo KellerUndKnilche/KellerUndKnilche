@@ -147,6 +147,7 @@ main {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Dynamisches Grid */
     gap: 10px;
+    font-weight: bold;
 }
 
 .upgrades-list div {
@@ -155,16 +156,24 @@ main {
     border: 2px solid #555;
     cursor: pointer;
     transition: background-color 0.3s;
+    color: #000 !important;
 }
 
 .upgrades-list div:hover {
     background-color: #84a98c;
+    color: #ff0000 !important;
+    border: 2px solid #ff0000 !important;
 }
 
 .upgrades-list .gekauft {
     background-color: #354f52; /* Gekaufte Upgrades haben eine andere Farbe */
-    opacity: 0.6;
+    opacity: 0.4;
     pointer-events: none; /* Verhindert erneutes Klicken auf das Upgrade */
+}
+
+.upgrades-list .klick-upgrade {
+    background-color: #52796f;
+    color: #fff !important;
 }
 
 /* Login und Registrierung Styling */

@@ -1,5 +1,6 @@
 <?php 
 require_once('../../config/dbAccess.php');
+require_once('../../config/filters/filters.php');
 
 if (!isset($_SESSION['user'])) {
     header("Location: " . getBaseUrl() . "/login");
@@ -21,7 +22,6 @@ $userId = $_SESSION['user']['id'];
 $username = $_SESSION['user']['username'];
 $email = $_SESSION['user']['email'];
 $last_login = $_SESSION['user']['last_login'];
-$rank = $_SESSION['user']['rank'] ?? 'Kellermeister';
 $userUpgrades = getUserUpgrades($db, $userId);
 
 $successMsg = "";
@@ -44,14 +44,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Check auf unique Username
-    if(isUsernameTakenByOther($db, $newUsername, $userId)) {
-        $errors[] = "Der Benutzername ist bereits vergeben.";
+    // Check auf unique Username und E-Mail, aber nur wenn sie geändert wurden
+    if ($newUsername !== $username && isUsernameTakenByOther($db, $newUsername, $userId)) {
+      $errors[] = "Der Benutzername ist bereits vergeben.";
+    }
+    if ($newEmail !== $email && isEmailTakenByOther($db, $newEmail, $userId)) {
+      $errors[] = "Die E-Mail-Adresse ist bereits vergeben.";
     }
 
-    // Check auf unique Username
-    if(isEmailTakenByOther($db, $newEmail, $userId)) {
-        $errors[] = "Die E-Mail-Adresse ist bereits vergeben.";
+    // Eingaben pruefen
+    if (empty($newUsername)) {
+        $errors[] = "Benutzername ist erforderlich.";
+    } // Nur alphanumerisch a-z 0-9, case insensitive
+    elseif (strlen($newUsername) < 3 || strlen($newUsername) > 20) {
+        $errors[] = "Benutzername muss zwischen 3 und 20 Zeichen lang sein.";
+    }
+    elseif (preg_match('/[^a-zA-Z0-9]/', $newUsername)) {
+        $errors[] = "Benutzername darf nur Buchstaben (keine Umlaute) und Zahlen enthalten.";
+    }
+    elseif (!isCleanUsername($newUsername)) {
+        $errors[] = "Benutzername ist verboten. Die Behörden wurden verständigt.";
     }
 
     // Wenn keine Fehler, dann updaten
@@ -72,6 +84,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 require_once('../../includes/header.php');
 require_once('../../includes/nav.php');
+$userId = $_SESSION['user']['id'];
+$statistics = fetchSingleUserStatistics($db, $userId);
+$anzahlUpgrades = $statistics['upgrades'] ?? 0;
 ?>
 
 <section class="profile-section">
@@ -112,7 +127,7 @@ require_once('../../includes/nav.php');
 
     <div class="rank-display">
       <p><strong>Rang:</strong></p>
-      <div class="rank-badge"><?php echo $rank; ?> 🏆</div>
+      <div class="rank-badge"><?php echo berechneRang($anzahlUpgrades); ?></div>
     </div>
 
     <?php if (!empty($last_login) && strtotime($last_login)): ?>
@@ -125,12 +140,12 @@ require_once('../../includes/nav.php');
     <!-- Profil-Stats -->
     <div class="profile-stats">
       <div class="stat-item">
-        <p class="stat-label">Heroes Vanquished</p>
-        <p class="stat-value">1,342</p>
+        <p class="stat-label">Vermöbelte Helden</p>
+        <p class="stat-value"> <?php echo (round($statistics['geld'] ?? 0)/100000); ?></p>
       </div>
       <div class="stat-item">
-        <p class="stat-label">Batzen earned</p>
-        <p class="stat-value">8,675</p>
+        <p class="stat-label">Allzeit-Batzen</p>
+        <p class="stat-value"> <?php echo round($statistics['geld'] ?? 0, 2); ?></p>
       </div>
       <div class="stat-item">
         <p class="stat-label ">BB/Click</p>

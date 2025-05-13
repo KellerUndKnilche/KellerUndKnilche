@@ -137,6 +137,41 @@
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    // Funktion, um die Statistiken eines Benutzers abzurufen
+    function fetchSingleUserStatistics($db, $userId) {
+        $sql = "SELECT u.username, b.amount AS geld, COALESCE(SUM(up.level), 0) AS upgrades
+                FROM users u
+                LEFT JOIN beute_batzen b ON u.id = b.user_id
+                LEFT JOIN user_upgrades up ON u.id = up.user_id AND up.level > 0
+                WHERE u.id = ?
+            GROUP BY u.id, b.amount";
+        $stmt = $db->prepare($sql);
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc() ?: ['username' => '', 'geld' => 0, 'upgrades' => 0];
+    }
+
+    // Berechnet den Rang eines Benutzers basierend auf seinen Upgrades
+    function berechneRang($anzahlUpgrades) {
+        if ($anzahlUpgrades >= 2000) return "CEO des Kellers";
+        if ($anzahlUpgrades >= 1500) return "Kellermeister";
+        if ($anzahlUpgrades >= 1000) return "Apokalyptischer Verwalter";
+        if ($anzahlUpgrades >= 800) return "Excel-Dämon";
+        if ($anzahlUpgrades >= 600) return "Batzenbeschwörer";
+        if ($anzahlUpgrades >= 500) return "Grabgraf";
+        if ($anzahlUpgrades >= 400) return "Schattenfürst";
+        if ($anzahlUpgrades >= 300) return "Keller-Veteran";
+        if ($anzahlUpgrades >= 250) return "Geistbändiger";
+        if ($anzahlUpgrades >= 200) return "Knochenpolierer";
+        if ($anzahlUpgrades >= 150) return "Grabschläger";
+        if ($anzahlUpgrades >= 100) return "Kettenschwinger";
+        if ($anzahlUpgrades >= 50)  return "Kellerwäscher";
+        if ($anzahlUpgrades >= 10)  return "Batzen-Bettler";
+        if ($anzahlUpgrades >= 1)   return "Frischfleisch";
+        return "Ex-Knilch";
+    }
+
     // Funktion, um einen neuen Benutzer zu registrieren
     function registerUser($db, $username, $email, $password) {
         if (userExists($db, $username, $email)) {

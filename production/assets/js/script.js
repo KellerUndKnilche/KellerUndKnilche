@@ -237,11 +237,24 @@ function displayChanges(upg, zielContainer) {
         const div = document.createElement('div');
         div.dataset.upgradeId = upg.id;
 
+        // highlight Basis-Upgrades (Produktion) nach eigener ID
+        if (upg.kategorie === 'Produktion') {
+            const hue = (upg.id * 137) % 360;
+            div.style.backgroundColor = `hsl(${hue},70%,85%)`;
+        }
+
+        // highlight Boost-Upgrades nach basis target
+        if (upg.kategorie === 'Boost') {
+            const hue = (parseInt(upg.ziel_id, 10) * 137) % 360;
+            div.style.backgroundColor = `hsl(${hue},70%,85%)`;
+        }
+
         // Inhalt je nach Kaufstatus
         if ((upg.kategorie == 'Klick' || upg.kategorie == 'Boost') && upg.level > 0) {
             div.classList.add('gekauft');
             div.textContent = `${upg.name} (${effektText})`;
         } else {
+            if(upg.kategorie === 'Klick') div.classList.add('klick-upgrade');
             div.textContent = `${upg.name} (${effektText}) – ${formatNumber(kalkPreis(upg.basispreis, upg.level))} BB`;
             div.onclick = () => kaufUpgrade(upg.id);
         }
