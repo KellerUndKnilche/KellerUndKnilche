@@ -42,11 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ladeUpgrades();
 
     // Upgrade‑Speicherung (nur wenn eingeloggt)
-    setInterval(() => {
-        if (window.isUserLoggedIn) {
-            saveUpgrades();
-        }
-    }, 5000);
+    setInterval(saveUpgrades, 5000);
 
     // Nur wenn beide Elemente vorhanden sind, Interval starten
     if (currencyElement && productionRateElement) {
@@ -132,7 +128,11 @@ async function increaseCurrency() {
     // 5. Wenn keine Strafe und Limit nicht überschritten, Klick registrieren
     try {
         const response = await fetch('api/register_click.php', {
-            method: 'POST' // POST ist besser, da es den Serverstatus ändert
+            method: 'POST', // POST ist besser, da es den Serverstatus ändert
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                token: window.hmacToken //HMAC-Token für Authentifizierung mitsenden
+            })
         });
         if (!response.ok) {
             // Fehlerbehandlung, wenn Benutzer nicht eingeloggt ist o.ä.
@@ -329,7 +329,8 @@ async function kaufUpgrade(upgradeId) { // Funktion muss async sein für await
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 action: 'buyUpgrade',
-                upgradeId: upgradeId
+                upgradeId: upgradeId,
+                token: window.hmacToken //HMAC-Token für Authentifizierung mitsenden    
             })
         });
         const result = await res.json();
@@ -381,7 +382,8 @@ async function saveUpgrades() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 action: 'saveUpgrades',
-                upgrades: upgrades.map(u => ({ id: u.id, level: u.level }))
+                upgrades: upgrades.map(u => ({ id: u.id, level: u.level })),
+                token: window.hmacToken // HMAC-Token mitsenden 
             })
         });
         const data = await res.json();

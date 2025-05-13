@@ -1,14 +1,30 @@
 <?php
 require_once('../../config/dbAccess.php');
+require_once('../../config/hmac.php');
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
 // JSON-Daten einlesen
-$data = json_decode(file_get_contents("php://input"), true);
+$input = json_decode(file_get_contents('php://input'), true);
+$token = $input['token'] ?? '';
+$decoded = base64_decode($token);
+
+// Sicherstellen, dass der Token korrekt dekodiert und aufgeteilt werden kann
+$parts = explode('|', $decoded);
+if (count($parts) !== 3) {
+    echo json_encode(['success' => false, 'message' => 'Ungültiger Token-Format.']);
+    exit;
+}
+list($uid, $timestamp, $hmac) = $parts;
+$data = "$uid|$timestamp";
+if (!is_string($hmac) || !hash_equals(generateHmac($data), $hmac) || abs(time() - $timestamp) > 30 || $uid != $_SESSION['user']['id']) {
+    echo json_encode(['success' => false, 'message' => 'Ungültiger oder abgelaufener Token.']);
+    exit;
+}
 
 // Standardwerte setzen
-$action = $data['action'] ?? null;
+$action = $input['action'] ?? null;
 $userId = $_SESSION['user']['id'] ?? null;
 session_write_close();
 
@@ -25,7 +41,7 @@ if(!$userId) {
 
 switch ($action) {
     case 'saveUpgrades':
-        $upgrades = $data['upgrades'] ?? null;
+        $upgrades = $input['upgrades'] ?? null;
         if (!$upgrades) {
             echo json_encode(['success' => false]);
             exit;
@@ -35,7 +51,15 @@ switch ($action) {
             echo json_encode(['success' => false]);
             exit;
         }
-        echo json_encode(['success' => true]);
+        $newTimestamp = time();
+        $newData = "$userId|$newTimestamp";
+        $newHmac = generateHmac($newData);
+        $newToken = base64_encode("$newData|$newHmac");
+        echo json_encode([
+            'success' => true,
+            'newAmount' => $newAmount,
+            'newToken' => $newToken
+        ]);
         exit;
 
     case 'getUpgrades':
@@ -45,13 +69,21 @@ switch ($action) {
         exit;
 
     case 'buyUpgrade':
-        $upgradeId = $data['upgradeId'] ?? null;
+        $upgradeId = $input['upgradeId'] ?? null;
         if (!$upgradeId || !is_numeric($upgradeId)) {
             echo json_encode(['success' => false, 'message' => 'Ungültige Upgrade-ID.']);
             exit;
         }
         $result = purchaseUpgradeTransaction($db, $userId, (int)$upgradeId);
-        echo json_encode($result);
+        $newTimestamp = time();
+        $newData = "$userId|$newTimestamp";
+        $newHmac = generateHmac($newData);
+        $newToken = base64_encode("$newData|$newHmac");
+        echo json_encode([
+            'success' => true,
+            'newAmount' => $newAmount, 
+            'newToken' => $newToken
+        ]);
         exit;
 
     default:

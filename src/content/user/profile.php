@@ -24,6 +24,18 @@ $last_login = $_SESSION['user']['last_login'];
 $rank = $_SESSION['user']['rank'] ?? 'Kellermeister';
 $userUpgrades = getUserUpgrades($db, $userId);
 
+// HMAC-Token generieren und an das Frontend übergeben
+require_once('../../config/hmac.php');
+$timestamp = time();
+$data = "$userId|$timestamp";
+$hmac = generateHmac($data);
+$token = base64_encode("$data|$hmac");
+?>
+<script>
+window.hmacToken = "<?= $token ?>";
+</script>
+<?php
+
 $successMsg = "";
 $errors = [];
 

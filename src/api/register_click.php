@@ -1,10 +1,15 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 // Setzt den Cookie-Pfad explizit auf '/', um sicherzustellen, dass das Cookie gelesen werden kann
 session_set_cookie_params(['path' => '/']); 
 session_start();
 
 // Konfiguration und Datenbankzugriff einbinden
 require_once __DIR__ . '/../config/dbAccess.php'; // Pfad anpassen falls nötig
+require_once(__DIR__ . '../config/hmac.php');
 
 header('Content-Type: application/json');
 
@@ -12,6 +17,21 @@ header('Content-Type: application/json');
 if (!isset($_SESSION['user']['id'])) {
     http_response_code(401); // Unauthorized
     echo json_encode(['success' => false, 'message' => 'Nicht eingeloggt']);
+    exit;
+}
+
+$input = json_decode(file_get_contents('php://input'), true);
+$token = $input['token'] ?? '';
+$decoded = base64_decode($token);
+list($uid, $timestamp, $hmac) = explode('|', $decoded);
+$data = "$uid|$timestamp";
+if (
+    !hash_equals(generateHmac($data), $hmac) ||
+    abs(time() - $timestamp) > 30 ||
+    $uid != $_SESSION['user']['id']
+) {
+    http_response_code(403);
+    echo json_encode(['success' => false, 'message' => 'Ungültiger oder abgelaufener Token.']);
     exit;
 }
 
@@ -60,10 +80,15 @@ if (!$success) {
 // 3. Neuen Gesamtbetrag abrufen
 $newTotalAmount = getCurrentCurrency($db, $userId); // Diese Funktion existiert bereits in dbAccess.php
 
-// 4. Erfolgsantwort mit neuem Betrag senden
+// 4. Erfolgsantwort mit neuem Betrag und neuem Token senden
+$newTimestamp = time();
+$newData = "$userId|$newTimestamp";
+$newHmac = generateHmac($newData);
+$newToken = base64_encode("$newData|$newHmac");
 echo json_encode([
-    'success'   => true,
-    'newAmount' => round($newTotalAmount, 2)
+    'success' => true,
+    'newAmount' => round($newTotalAmount, 2),
+    'newToken' => $newToken
 ]);
 
 ?>
