@@ -8,6 +8,7 @@
 
     <?php // SEO Meta-Tags ?>
     <meta name="description" content="<?php echo isset($pageDescription) ? htmlspecialchars($pageDescription) : 'Keller & Knilche – Gewinne maximieren, Helden minimieren.'; ?>">
+    <meta name="robots" content="index, follow">
     <link rel="canonical" href="<?php echo htmlspecialchars((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']==='on'?'https':'http').'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']); ?>">
 
     <!-- Open Graph -->
