@@ -17,3 +17,9 @@ RewriteRule ^/$ index.php [L,QSA]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^([A-Za-z0-9_-]+)/?$ $1.php [L,QSA]
+
+# Zugriff auf .env und andere sensible Dateien blockieren
+# Blocke alle Dot-Files (z.B. .git, .env.example, .htpasswd, .DS_Store, .gitignore, etc.)
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>
