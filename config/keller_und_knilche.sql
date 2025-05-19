@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 13, 2025 at 04:09 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: May 16, 2025 at 12:07 AM
+-- Server version: 10.11.11-MariaDB-hz2
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `kellerundknilchetest`
+-- Database: `keller_knilche_main_db`
 --
 
 -- --------------------------------------------------------
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `beute_batzen` (
   `user_id` int(11) NOT NULL,
-  `amount` decimal(65,2) NOT NULL DEFAULT 0.00
+  `amount` bigint(50) UNSIGNED DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -130,27 +130,27 @@ INSERT INTO `upgrades` (`id`, `name`, `basispreis`, `effektart`, `effektwert`, `
 (33, 'Schwarze Aura', 800000, 'prozent', 200.00, 'Boost', 4),
 (34, 'Konditioniert für Spuk', 1600000, 'prozent', 500.00, 'Boost', 4),
 (35, 'Geister-Tsunami', 3200000, 'prozent', 1000.00, 'Boost', 4),
-(36, 'Dämonenvertrag', 500000, 'prozent', 100.00, 'Boost', 5),
-(37, 'Blutschwur der Faulen', 1000000, 'prozent', 250.00, 'Boost', 5),
-(38, 'Höllischer Halbtagsjob', 2000000, 'prozent', 500.00, 'Boost', 5),
-(39, 'Dämonen-Aufzucht', 4000000, 'prozent', 1000.00, 'Boost', 5),
-(40, 'Inferno-Bindung', 8000000, 'prozent', 2000.00, 'Boost', 5),
-(41, 'Teufelsbeschwörung', 16000000, 'prozent', 5000.00, 'Boost', 5),
-(42, 'Dämonen-Energieschub', 32000000, 'prozent', 10000.00, 'Boost', 5),
-(43, 'Höllenhund-Rudelschule', 5000000, 'prozent', 100.00, 'Boost', 6),
-(44, 'Feueratem-Training', 10000000, 'prozent', 250.00, 'Boost', 6),
-(45, 'Infernaler Aufmarsch', 20000000, 'prozent', 500.00, 'Boost', 6),
-(46, 'Hundekommando-Feuer', 40000000, 'prozent', 1000.00, 'Boost', 6),
-(47, 'Höllenhund-Renntraining', 80000000, 'prozent', 2000.00, 'Boost', 6),
-(48, 'Feuer-Pulverisierung', 160000000, 'prozent', 5000.00, 'Boost', 6),
-(49, 'Teufelsfeuer-Angriff', 320000000, 'prozent', 10000.00, 'Boost', 6),
-(50, 'Schattenmeisterei', 50000000, 'prozent', 100.00, 'Boost', 7),
-(51, 'Dunkelheitsdoktorat', 100000000, 'prozent', 250.00, 'Boost', 7),
-(52, 'Herrschaft des Grauens', 200000000, 'prozent', 500.00, 'Boost', 7),
-(53, 'Todeshauch', 400000000, 'prozent', 1000.00, 'Boost', 7),
-(54, 'Dunkle Verschmelzung', 800000000, 'prozent', 2000.00, 'Boost', 7),
-(55, 'Schattenschwemme', 1600000000, 'prozent', 5000.00, 'Boost', 7),
-(56, 'Schreckensherrschaft', 3200000000, 'prozent', 10000.00, 'Boost', 7),
+(36, 'Dämonenvertrag', 500000, 'prozent', 10.00, 'Boost', 5),
+(37, 'Blutschwur der Faulen', 1000000, 'prozent', 25.00, 'Boost', 5),
+(38, 'Höllischer Halbtagsjob', 2000000, 'prozent', 50.00, 'Boost', 5),
+(39, 'Dämonen-Aufzucht', 4000000, 'prozent', 100.00, 'Boost', 5),
+(40, 'Inferno-Bindung', 8000000, 'prozent', 200.00, 'Boost', 5),
+(41, 'Teufelsbeschwörung', 16000000, 'prozent', 500.00, 'Boost', 5),
+(42, 'Dämonen-Energieschub', 32000000, 'prozent', 1000.00, 'Boost', 5),
+(43, 'Höllenhund-Rudelschule', 5000000, 'prozent', 10.00, 'Boost', 6),
+(44, 'Feueratem-Training', 10000000, 'prozent', 25.00, 'Boost', 6),
+(45, 'Infernaler Aufmarsch', 20000000, 'prozent', 50.00, 'Boost', 6),
+(46, 'Hundekommando-Feuer', 40000000, 'prozent', 100.00, 'Boost', 6),
+(47, 'Höllenhund-Renntraining', 80000000, 'prozent', 200.00, 'Boost', 6),
+(48, 'Feuer-Pulverisierung', 160000000, 'prozent', 500.00, 'Boost', 6),
+(49, 'Teufelsfeuer-Angriff', 320000000, 'prozent', 1000.00, 'Boost', 6),
+(50, 'Schattenmeisterei', 50000000, 'prozent', 10.00, 'Boost', 7),
+(51, 'Dunkelheitsdoktorat', 100000000, 'prozent', 25.00, 'Boost', 7),
+(52, 'Herrschaft des Grauens', 200000000, 'prozent', 50.00, 'Boost', 7),
+(53, 'Todeshauch', 400000000, 'prozent', 100.00, 'Boost', 7),
+(54, 'Dunkle Verschmelzung', 800000000, 'prozent', 200.00, 'Boost', 7),
+(55, 'Schattenschwemme', 1600000000, 'prozent', 500.00, 'Boost', 7),
+(56, 'Schreckensherrschaft', 3200000000, 'prozent', 1000.00, 'Boost', 7),
 (57, 'Muskelkater Finger', 50, 'absolut', 1.00, 'Klick', 57),
 (58, 'Verstauchte Skeletthand', 140, 'absolut', 2.00, 'Klick', 58),
 (59, 'Dämmergriff', 392, 'absolut', 4.00, 'Klick', 59),
