@@ -24,7 +24,7 @@ jobs:
         run: |
           echo "$SSH_KEY" > key
           chmod 600 key
-          rsync -avz --delete --exclude='.env' --exclude='bad-words.txt' --exclude='impressum.php' --exclude='datenschutz.php' -e "ssh -i key -p $SSH_PORT -o StrictHostKeyChecking=no" ./production/ $REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR
+          rsync -avz --delete --exclude='.env' --exclude='bad-words.txt' --exclude='impressum.php' --exclude='datenschutz.php' --exclude='54018686b4bf4597a7cc8ef316d33c1c.txt' -e "ssh -i key -p $SSH_PORT -o StrictHostKeyChecking=no" ./production/ $REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR
           # -a Archivmodus
           # -v verbose
           # -z Kompression
@@ -33,6 +33,7 @@ jobs:
           # --exclude='bad-words.txt': schließt bad-words.txt aus
           # --exclude='impressum.php': schließt impressum.php aus -> individuelle Anpassung
           # --exclude='datenschutz.php': schließt datenschutz.php aus -> individuelle Anpassung
+          # --exclude='54018686b4bf4597a7cc8ef316d33c1c.txt' -> Bing-SEO
           # -p $SSH_PORT: Port für SSH-Verbindung
           # -o StrictHostKeyChecking=no: überspringt Host-Key-Überprüfung
           # -e "ssh -i key -o StrictHostKeyChecking=no": SSH mit angegebenen Schlüssel
