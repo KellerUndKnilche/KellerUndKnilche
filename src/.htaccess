@@ -23,3 +23,7 @@ RewriteRule ^([A-Za-z0-9_-]+)/?$ $1.php [L,QSA]
 <FilesMatch "^\.">
   Require all denied
 </FilesMatch>
+
+<FilesMatch "bad-words.txt">
+  Require all denied
+</FilesMatch>

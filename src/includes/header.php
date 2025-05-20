@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
     <meta name="google-site-verification" content="SCdSYTNXmmyjRRt0STf3Fpfv749wHQQ0DVs86xIFWQE" />
 
-    <?php // SEO Meta-Tags ?>
+    <!-- SEO Meta-Tags -->
     <meta name="description" content="<?php echo isset($pageDescription) ? htmlspecialchars($pageDescription) : 'Keller & Knilche – Gewinne maximieren, Helden minimieren.'; ?>">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="<?php echo htmlspecialchars((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']==='on'?'https':'http').'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']); ?>">
