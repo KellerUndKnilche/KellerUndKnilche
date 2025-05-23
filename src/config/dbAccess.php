@@ -648,5 +648,27 @@
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
-    
+
+    function deleteUserAccount($db, $userId) {
+        if (!isset($userId) || $userId == null) {
+            return false;
+        }
+
+        $stmt = $db->prepare("DELETE FROM users WHERE id = ?");
+        if (!$stmt) {
+            error_log("Fehler beim Vorbereiten der Abfrage: " . $db->error);
+            return false;
+        }
+
+        $stmt->bind_param("i", $userId);
+
+        if ($stmt->execute()) {
+            $stmt->close();
+            return true;
+        } else {
+            error_log("Fehler beim Löschen des Benutzers: " . $stmt->error);
+            $stmt->close();
+            return false;
+        }
+    }
 ?>

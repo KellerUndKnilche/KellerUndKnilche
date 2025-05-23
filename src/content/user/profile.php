@@ -28,7 +28,7 @@ $successMsg = "";
 $errors = [];
 
 // Formulardaten verarbeiten
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_profile'])) {
     $newUsername = trim($_POST['username']);
     $newEmail = trim($_POST['email']);
     $newPassword = trim($_POST['password']);
@@ -82,6 +82,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+// Account löschen
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_account'])) {
+    $deletePassword = trim($_POST['delete_password'] ?? '');
+    $deleteConfirm = $_POST['delete_confirm'] ?? '';
+
+    if (empty($deletePassword)) {
+        $errors[] = "Bitte gib dein Passwort zum Löschen ein.";
+    } elseif ($deleteConfirm !== 'JA, ACCOUNT ENDGÜLTIG LÖSCHEN') {
+        $errors[] = "Bitte bestätige die Löschung exakt wie gefordert.";
+    } else {
+        // Passwort prüfen
+        $user = fetchUserByUsername($db, $username);
+        if (!$user || !password_verify($deletePassword, $user['password_hash'])) {
+            $errors[] = "Das Passwort ist falsch.";
+        } else {
+            // Account löschen
+            if (deleteUserAccount($db, $userId)) {
+                // Remember-Me-Cookies löschen
+                setcookie("user_id", "", time() - 3600, "/");
+                setcookie("username", "", time() - 3600, "/");
+                session_destroy();
+                header("Location: /index.php");
+                exit();
+            } else {
+                $errors[] = "Fehler beim Löschen des Accounts.";
+            }
+        }
+    }
+}
+
+
 require_once('../../includes/header.php');
 require_once('../../includes/nav.php');
 $userId = $_SESSION['user']['id'];
@@ -122,8 +153,35 @@ $anzahlUpgrades = $statistics['upgrades'] ?? 0;
       <input type="password" name="password_confirm" id="password_confirm">
 
 
-      <button type="submit">Profil speichern</button>
+      <button type="submit" name="save_profile">Profil speichern</button>
     </form>
+
+
+    <button id="show-delete-form" class="danger-button" type="button">Account löschen</button>
+
+    <form method="POST" class="delete-account-form" id="delete-account-form">
+      <h3>Account löschen</h3>
+      <p class="warning">Achtung: Dieser Vorgang ist <strong>nicht umkehrbar</strong>! Alle Daten werden gelöscht.</p>
+      
+      <label for="delete_password">Passwort zur Bestätigung</label>
+      <input type="password" name="delete_password" id="delete_password" required>
+
+      <label for="delete_confirm">Bitte tippe <strong>JA, ACCOUNT ENDGÜLTIG LÖSCHEN</strong> zur Bestätigung</label>
+      <input type="text" name="delete_confirm" id="delete_confirm" placeholder="JA, ACCOUNT ENDGÜLTIG LÖSCHEN" required autocomplete="off">
+
+      <button type="submit" name="delete_account" class="delete-button">Account unwiderruflich löschen</button>
+    </form>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const showBtn = document.getElementById('show-delete-form');
+      const form = document.getElementById('delete-account-form');
+      showBtn.addEventListener('click', function () {
+        form.classList.add('active');
+        showBtn.style.display = 'none';
+      });
+    });
+    </script>
 
     <div class="rank-display">
       <p><strong>Rang:</strong></p>
