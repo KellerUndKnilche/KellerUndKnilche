@@ -871,3 +871,10 @@ footer #currency-display {
   background: #522a2a;
   color: #ff9999;
 }
+
+.no-copy {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}

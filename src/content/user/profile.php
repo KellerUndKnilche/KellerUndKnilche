@@ -166,9 +166,8 @@ $anzahlUpgrades = $statistics['upgrades'] ?? 0;
       <label for="delete_password">Passwort zur Bestätigung</label>
       <input type="password" name="delete_password" id="delete_password" required>
 
-      <label for="delete_confirm">Bitte tippe <strong>JA, ACCOUNT ENDGÜLTIG LÖSCHEN</strong> zur Bestätigung</label>
+      <label for="delete_confirm">Bitte tippe <strong class="no-copy">JA, ACCOUNT ENDGÜLTIG LÖSCHEN</strong> zur Bestätigung</label>
       <input type="text" name="delete_confirm" id="delete_confirm" placeholder="JA, ACCOUNT ENDGÜLTIG LÖSCHEN" required autocomplete="off">
-
       <button type="submit" name="delete_account" class="delete-button">Account unwiderruflich löschen</button>
     </form>
 
