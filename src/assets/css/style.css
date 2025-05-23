@@ -878,3 +878,66 @@ footer #currency-display {
   -moz-user-select: none;
   -ms-user-select: none;
 }
+
+
+/* +X BB Animation */
+.currency-float {
+  position: absolute;
+  pointer-events: none;
+  font-weight: bold;
+  color: #ffd700;
+  text-shadow: 0 0 4px #222;
+  animation: floatUp 1s ease-out forwards;
+  z-index: 999;
+  font-size: 1.2rem;
+}
+
+@keyframes floatUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-40px) scale(1.2);
+  }
+}
+
+/* Währung blinkt/pulsiert */
+#currency.pulse {
+  animation: pulseCurrency 0.4s ease-out;
+}
+
+@keyframes pulseCurrency {
+  0% {
+    transform: scale(1);
+    color: #fff;
+  }
+  50% {
+    transform: scale(1.2);
+    color: #ffd700;
+  }
+  100% {
+    transform: scale(1);
+    color: inherit;
+  }
+}
+
+.flash-red {
+  animation: flashRed 0.3s ease forwards;
+}
+
+@keyframes flashRed {
+  0%   { 
+    transform: scale(1);
+    color: red; 
+}
+  50%  { 
+    color: #b00;
+    transform: scale(1.2);
+ }
+  100% { 
+    color: red; 
+    transform: scale(1);
+}
+}
