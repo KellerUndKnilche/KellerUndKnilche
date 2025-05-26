@@ -794,3 +794,150 @@ footer #currency-display {
     border-color:   #ffd700;     /* passender Rahmen */
     color:          #111;        /* Textfarbe */
 }
+
+/* Account Delete Form*/
+.delete-account-form {
+  background: #3b1f1f; /* dunkles Rotbraun */
+  border: 2px solid #222;
+  padding: 1.5em;
+  margin-top: 1.5em;
+  border-radius: 8px;
+  max-width: 400px;
+  display: none;
+  color: #f5f5f5;
+}
+
+.delete-account-form.active {
+  display: block;
+}
+
+.delete-account-form h3 {
+  color: #ff4d4d;
+  margin-top: 0;
+}
+
+.delete-account-form .warning {
+  color: #ff6666;
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+
+.delete-account-form label {
+  display: block;
+  margin-top: 1em;
+  font-weight: 500;
+}
+
+.delete-account-form input[type="password"],
+.delete-account-form input[type="text"] {
+  width: 100%;
+  padding: 0.5em;
+  margin-top: 0.3em;
+  border: 1px solid #555;
+  border-radius: 4px;
+  background-color: #2d2d2d;
+  color: #fff;
+}
+
+.delete-account-form .delete-button {
+  background: #800000; /* dunkles Rot */
+  color: #fff;
+  border: none;
+  padding: 0.7em 1.2em;
+  border-radius: 4px;
+  margin-top: 1.2em;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.delete-account-form .delete-button:hover {
+  background: #a00000;
+}
+
+.danger-button {
+  background: #3b1f1f;
+  color: #ff4d4d;
+  border: 2px solid #222;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  margin-top: 2em;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s, color 0.2s;
+}
+
+.danger-button:hover {
+  background: #522a2a;
+  color: #ff9999;
+}
+
+.no-copy {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+
+/* +X BB Animation */
+.currency-float {
+  position: absolute;
+  pointer-events: none;
+  font-weight: bold;
+  color: #ffd700;
+  text-shadow: 0 0 4px #222;
+  animation: floatUp 1s ease-out forwards;
+  z-index: 999;
+  font-size: 1.2rem;
+}
+
+@keyframes floatUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-40px) scale(1.2);
+  }
+}
+
+/* Währung blinkt/pulsiert */
+#currency.pulse {
+  animation: pulseCurrency 0.4s ease-out;
+}
+
+@keyframes pulseCurrency {
+  0% {
+    transform: scale(1);
+    color: #fff;
+  }
+  50% {
+    transform: scale(1.2);
+    color: #ffd700;
+  }
+  100% {
+    transform: scale(1);
+    color: inherit;
+  }
+}
+
+.flash-red {
+  animation: flashRed 0.3s ease forwards;
+}
+
+@keyframes flashRed {
+  0%   { 
+    transform: scale(1);
+    color: red; 
+}
+  50%  { 
+    color: #b00;
+    transform: scale(1.2);
+ }
+  100% { 
+    color: red; 
+    transform: scale(1);
+}
+}

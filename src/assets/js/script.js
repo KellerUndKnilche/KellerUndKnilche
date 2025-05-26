@@ -37,7 +37,7 @@ function formatNumber(number) {
 document.addEventListener("DOMContentLoaded", () => {
     const clickButton = document.getElementById("click_button");
     if (clickButton) {
-        clickButton.addEventListener("click", increaseCurrency);
+       clickButton.addEventListener("click", (e) => increaseCurrency(e));
     }
     ladeUpgrades();
 
@@ -74,8 +74,18 @@ async function updateCurrencyDisplay() {
         }
         const data = await response.json();
         if (data.success) {
+            const oldAmount = parseFloat(currencyElement.dataset.rawAmount) || 0;
             currencyElement.textContent = formatNumber(data.newAmount);
             currencyElement.dataset.rawAmount = data.newAmount;
+
+            if (oldAmount > data.newAmount) {
+                currencyElement.classList.add('flash-red');
+                setTimeout(() => currencyElement.classList.remove('flash-red'), 150);
+            } else {
+                currencyElement.classList.add('pulse');
+                setTimeout(() => currencyElement.classList.remove('pulse'), 150);
+            }
+            
             productionRateElement.textContent = data.productionPerSecond > 0
                 ? `(${formatNumber(data.productionPerSecond)} BB/s)`
                 : '';
@@ -100,7 +110,7 @@ window.addEventListener("beforeunload", () => {
 });
 
 // Währung erhöhen
-async function increaseCurrency() { 
+async function increaseCurrency(event) {
     const now = new Date().getTime();
 
     // 1. Prüfen, ob eine Strafe aktiv ist
@@ -130,32 +140,51 @@ async function increaseCurrency() {
         const response = await fetch('api/register_click.php', {
             method: 'POST' // POST ist besser, da es den Serverstatus ändert
         });
+
         if (!response.ok) {
             // Fehlerbehandlung, wenn Benutzer nicht eingeloggt ist o.ä.
             if (response.status === 401 || response.status === 403) {
-                 console.warn('Klick nicht registriert: Nicht eingeloggt oder Zugriff verweigert.');
-                 // Hier könnte man ggf. das Update-Intervall stoppen, falls noch nicht geschehen
-                 // clearInterval(updateInterval);
+                console.warn('Klick nicht registriert: Nicht eingeloggt oder Zugriff verweigert.');
+                // Hier könnte man ggf. das Update-Intervall stoppen, falls noch nicht geschehen
+                // clearInterval(updateInterval);
             } else {
                 throw new Error(`HTTP Fehler beim Klicken! Status: ${response.status}`);
             }
             return; // Beende Funktion bei Fehler
         }
+
         const data = await response.json();
 
         if (data.success) {
-            // Rohwert speichern und mit formatNumber-Abkürzung anzeigen
+            // 6. Betrag aktualisieren & anzeigen
             const currencyElement = document.getElementById('currency');
             if (currencyElement) {
                 currencyElement.dataset.rawAmount = data.newAmount;
                 currencyElement.textContent = formatNumber(data.newAmount);
+                currencyElement.classList.add('pulse');
+                setTimeout(() => currencyElement.classList.remove('pulse'), 150);
             }
+
+            // 7. "+X BB" Animation an Mausposition einblenden
+            const delta = data.delta ?? 1; // Muss von der API kommen
+            showFloatingCurrency(event.pageX, event.pageY, delta);
         } else {
             console.error('API Fehler beim Klicken:', data.message);
         }
+
     } catch (error) {
         console.error('Fehler beim Senden des Klicks:', error);
     }
+}
+
+function showFloatingCurrency(x, y, delta) {
+    const floatElem = document.createElement('div');
+    floatElem.className = 'currency-float';
+    floatElem.textContent = `+${delta} BB`;
+    document.body.appendChild(floatElem);
+    floatElem.style.left = `${x}px`;
+    floatElem.style.top = `${y}px`;
+    setTimeout(() => floatElem.remove(), 1000);
 }
 
 // Funktion zum Berechnen des Boost-Multiplikators für ein bestimmtes Upgrade
