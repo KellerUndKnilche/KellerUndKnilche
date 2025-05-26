@@ -75,3 +75,11 @@ erDiagram
     upgrades ||--o{ user_upgrades : "gehört zu"
     targets ||--o{ upgrades : "definiert"
 ```
+
+## Verwendete Drittbibliotheken
+
+Dieses Projekt nutzt folgende Open-Source-Dienste und Bibliotheken:
+
+- [PHPMailer](https://github.com/PHPMailer/PHPMailer) – Versenden von E-Mails (Lizenz: LGPL 2.1)
+- [Bootstrap](https://github.com/twbs/bootstrap) – Frontend-Framework (Lizenz: MIT)
+- [Composer](https://github.com/composer/composer) – PHP-Paketverwaltung (Lizenz: MIT)
