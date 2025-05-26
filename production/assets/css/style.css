@@ -143,6 +143,33 @@ main {
     }
 }
 
+/* Filter Controls für Side Panel */
+.filter-controls {
+    text-align: center;
+}
+
+.filter-controls .btn {
+    background-color: #354f52;
+    border-color: #52796f;
+    color: #fff;
+    font-size: 0.9rem;
+    padding: 8px 16px;
+    transition: all 0.3s ease;
+}
+
+.filter-controls .btn:hover {
+    background-color: #84a98c;
+    border-color: #84a98c;
+    color: #fff;
+}
+
+.filter-controls .btn.active {
+    background-color: #bada55;
+    border-color: #bada55;
+    color: #2f3e46;
+    font-weight: bold;
+}
+
 .upgrades-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Dynamisches Grid */
@@ -175,6 +202,14 @@ main {
     background-color: #52796f;
     color: #fff !important;
 }
+
+/* Versteckte Upgrades */
+.upgrade-hidden {
+    display: none !important;
+}
+
+
+
 
 /* Login und Registrierung Styling */
 body {
@@ -794,3 +829,304 @@ footer #currency-display {
     border-color:   #ffd700;     /* passender Rahmen */
     color:          #111;        /* Textfarbe */
 }
+
+/* Account Delete Form*/
+.delete-account-form {
+  background: #3b1f1f; /* dunkles Rotbraun */
+  border: 2px solid #222;
+  padding: 1.5em;
+  margin-top: 1.5em;
+  border-radius: 8px;
+  max-width: 400px;
+  display: none;
+  color: #f5f5f5;
+}
+
+.delete-account-form.active {
+  display: block;
+}
+
+.delete-account-form h3 {
+  color: #ff4d4d;
+  margin-top: 0;
+}
+
+.delete-account-form .warning {
+  color: #ff6666;
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+
+.delete-account-form label {
+  display: block;
+  margin-top: 1em;
+  font-weight: 500;
+}
+
+.delete-account-form input[type="password"],
+.delete-account-form input[type="text"] {
+  width: 100%;
+  padding: 0.5em;
+  margin-top: 0.3em;
+  border: 1px solid #555;
+  border-radius: 4px;
+  background-color: #2d2d2d;
+  color: #fff;
+}
+
+.delete-account-form .delete-button {
+  background: #800000; /* dunkles Rot */
+  color: #fff;
+  border: none;
+  padding: 0.7em 1.2em;
+  border-radius: 4px;
+  margin-top: 1.2em;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.delete-account-form .delete-button:hover {
+  background: #a00000;
+}
+
+.danger-button {
+  background: #3b1f1f;
+  color: #ff4d4d;
+  border: 2px solid #222;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  margin-top: 2em;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s, color 0.2s;
+}
+
+.danger-button:hover {
+  background: #522a2a;
+  color: #ff9999;
+}
+
+.no-copy {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+
+/* +X BB Animation */
+.currency-float {
+  position: absolute;
+  pointer-events: none;
+  font-weight: bold;
+  color: #ffd700;
+  text-shadow: 0 0 4px #222;
+  animation: floatUp 1s ease-out forwards;
+  z-index: 999;
+  font-size: 1.2rem;
+}
+
+@keyframes floatUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-40px) scale(1.2);
+  }
+}
+
+/* Währung blinkt/pulsiert */
+#currency.pulse {
+  animation: pulseCurrency 0.4s ease-out;
+}
+
+@keyframes pulseCurrency {
+  0% {
+    transform: scale(1);
+    color: #fff;
+  }
+  50% {
+    transform: scale(1.2);
+    color: #ffd700;
+  }
+  100% {
+    transform: scale(1);
+    color: inherit;
+  }
+}
+
+.flash-red {
+  animation: flashRed 0.3s ease forwards;
+}
+
+@keyframes flashRed {
+  0%   { 
+    transform: scale(1);
+    color: red; 
+}
+  50%  { 
+    color: #b00;
+    transform: scale(1.2);
+ }
+  100% { 
+    color: red; 
+    transform: scale(1);
+}
+}
+
+/* Hilfe-Popup Styling */
+.help-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.help-popup {
+    background-color: #354f52;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    color: #ffffff;
+    animation: helpPopupFadeIn 0.3s ease-out;
+}
+
+.help-header {
+    background-color: #2f3e46;
+    padding: 20px 25px 15px;
+    border-radius: 10px 10px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #52796f;
+}
+
+.help-header h3 {
+    margin: 0;
+    color: #bada55;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.help-close {
+    background: none;
+    border: none;
+    color: #cad2c5;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.help-close:hover {
+    background-color: #52796f;
+    color: #ffffff;
+}
+
+.help-content {
+    padding: 25px;
+}
+
+.help-section {
+    margin-bottom: 25px;
+}
+
+.help-section:last-child {
+    margin-bottom: 0;
+}
+
+.help-section h4 {
+    color: #84a98c;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.help-section p {
+    line-height: 1.6;
+    margin-bottom: 8px;
+    color: #cad2c5;
+}
+
+.help-section p:last-child {
+    margin-bottom: 0;
+}
+
+.help-section strong {
+    color: #ffffff;
+}
+
+#helpButton {
+    border-color: #52796f;
+    color: #52796f;
+    transition: all 0.3s ease;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+#helpButton:hover {
+    background-color: #52796f;
+    border-color: #52796f;
+    color: #ffffff;
+}
+
+@keyframes helpPopupFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Responsive Design für das Hilfe-Popup */
+@media (max-width: 768px) {
+    .help-popup {
+        margin: 10px;
+        max-height: 90vh;
+    }
+    
+    .help-header {
+        padding: 15px 20px 10px;
+    }
+    
+    .help-header h3 {
+        font-size: 1.3rem;
+    }
+    
+    .help-content {
+        padding: 20px;
+    }
+    
+    .help-section h4 {
+        font-size: 1.1rem;
+    }
+    
+    #helpButton {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+}
+
