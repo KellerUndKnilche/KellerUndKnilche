@@ -34,5 +34,6 @@
     <?php endif; ?>
     <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg" sizes="any">
     <script src="/assets/js/fontSwitcher.js" defer></script>
+    <script src="/assets/js/helpPopup.js" defer></script>
 </head>
 <body>

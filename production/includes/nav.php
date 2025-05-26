@@ -40,6 +40,11 @@ if (session_status() === PHP_SESSION_NONE) {
         <?php } ?>
       </ul>
       <ul class="navbar-nav ms-auto">
+        <li class="nav-item flex-grow-0 flex-shrink-0">
+          <button class="btn btn-outline-info" type="button" id="helpButton">
+            ❓ Hilfe
+          </button>
+        </li>
                 <li class="nav-item flex-grow-0 flex-shrink-0">
           <a class="nav-link" href="https://github.com/KellerUndKnilche/KellerUndKnilche" target="_blank" rel="noopener noreferrer">
             <img src="../assets/img/github-light.webp" 
@@ -67,6 +72,46 @@ if (session_status() === PHP_SESSION_NONE) {
     </div>
   </div>
 </nav>
+
+<!-- Hilfe Popup -->
+<!-- Hilfe Popup -->
+<div id="helpOverlay" class="help-overlay" style="display: none;">
+  <div class="help-popup">
+    <div class="help-header">
+      <h3>Willkommen in den Tiefen von Keller & Knilche!</h3>
+      <button id="closeHelp" class="help-close">&times;</button>
+    </div>
+    <div class="help-content">
+      <div class="help-section">
+        <h4>🔴 Klick dich reich:</h4>
+        <p><strong>Klicke auf das Kellerbild</strong>, um Batzen (unsere Währung) zu scheffeln. Jeder beherzte Klick bringt dir Beute – ein echter Held würd’s nicht tun, aber du bist ja der Kellermeister!</p>
+      </div>
+      
+      <div class="help-section">
+        <h4>📈 Untote investieren:</h4>
+        <p><strong>Automatische Produktion:</strong> Stelle düstere Kreaturen wie Gerippe oder Dämonen an – sie verdienen auch Batzen, wenn du schläfst (solange diese Keller & Knilche offen ist).</p>
+        <p><strong>Verflucht guter Klick:</strong> Kauf dir Knochenverstärker und Nekro-Finger, um mit jedem Klick mehr Gold aus deinem Kellerboden zu stampfen.</p>
+      </div>
+      
+      <div class="help-section">
+        <h4>👑 Fortschritt & Aufstieg:</h4>
+        <p><strong>Statistiken:</strong> Verfolge deine Dominanz über die Heldenwelt in den Statistiken. Wer hat Angst vor deinem Totentanz?</p>
+        <p><strong>Ränge & Profil:</strong> Jedes Upgrade bringt dich einem neuen Rang näher – vom „Kellerwäscher“ bis zum „CEO des Kellers“.</p>
+      </div>
+      
+      <div class="help-section">
+        <h4>🕯️ Keller-Meister-Tipp:</h4>
+        <p>Investiere zuerst in günstige automatische Upgrades – damit du auch Gold verdienst, wenn du gerade nicht malst, zockst oder die Menschheit ignorierst.</p>
+      </div>
+      
+      <div class="help-section">
+        <h4>📜 Noch Fragen?</h4>
+        <p>Ein echter Keller fragt nicht, aber falls du doch welche hast: Check unser <a href="/faq">FAQ</a> oder beschwöre uns per <a href="mailto:mail@kellerundknilche.at">Runenpost</a>.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
   // HttpOnly-Cookies in JS nicht lesbar –> serverseitig Login‑Status injizieren
   window.isUserLoggedIn = <?php echo isset($_SESSION['user']) ? 'true' : 'false'; ?>;
