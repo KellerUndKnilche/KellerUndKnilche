@@ -4,6 +4,7 @@ const MAX_CLICKS_IN_WINDOW = 20; // Maximal 20 Klicks pro Sekunde erlaubt
 let penaltyEndTime = 0; // Zeitpunkt, zu dem die Strafe endet
 let upgrades = [];
 let updateInterval; // Variable für die Intervall-ID deklarieren
+let hidePurchasedUpgrades = false; // Zustand für das Ausblenden gekaufter Upgrades
 
 // Hilfsfunktion zum Formatieren großer Zahlen
 function formatNumber(number) {
@@ -40,6 +41,25 @@ document.addEventListener("DOMContentLoaded", () => {
        clickButton.addEventListener("click", (e) => increaseCurrency(e));
     }
     ladeUpgrades();
+
+    // Toggle Button Event Listener für gekaufte Upgrades
+    const toggleButton = document.getElementById("toggle-purchased-upgrades");
+    if (toggleButton) {
+        toggleButton.addEventListener("click", () => {
+            hidePurchasedUpgrades = !hidePurchasedUpgrades;
+            toggleButton.textContent = hidePurchasedUpgrades ? "Gekaufte anzeigen" : "Gekaufte ausblenden";
+            
+            // Alle gekauften Upgrades (Klick und Boost mit level > 0) ein-/ausblenden
+            const purchasedUpgrades = document.querySelectorAll('.gekauft');
+            purchasedUpgrades.forEach(upgrade => {
+                if (hidePurchasedUpgrades) {
+                    upgrade.classList.add('upgrade-hidden');
+                } else {
+                    upgrade.classList.remove('upgrade-hidden');
+                }
+            });
+        });
+    }
 
     // Upgrade-Speicherung im 5-Sekunden-Takt (API prüft Login)
     setInterval(saveUpgrades, 5000);
@@ -276,6 +296,10 @@ function displayChanges(upg, zielContainer) {
         // Inhalt je nach Kaufstatus
         if ((upg.kategorie == 'Klick' || upg.kategorie == 'Boost') && upg.level > 0) {
             div.classList.add('gekauft');
+            // Wenn ausblenden aktiviert ist, auch die upgrade-hidden Klasse hinzufügen
+            if (hidePurchasedUpgrades) {
+                div.classList.add('upgrade-hidden');
+            }
             div.textContent = `${upg.name} (${effektText})`;
         } else {
             if(upg.kategorie === 'Klick') div.classList.add('klick-upgrade');
@@ -291,6 +315,10 @@ function displayChanges(upg, zielContainer) {
             upgradeDiv.textContent = neuePreisText;
         } else if (!upgradeDiv.classList.contains('gekauft')) {
             upgradeDiv.classList.add('gekauft');
+            // Wenn ausblenden aktiviert ist, auch die upgrade-hidden Klasse hinzufügen
+            if (hidePurchasedUpgrades) {
+                upgradeDiv.classList.add('upgrade-hidden');
+            }
             upgradeDiv.textContent = `${upg.name} (${effektText})`;
         }
     }

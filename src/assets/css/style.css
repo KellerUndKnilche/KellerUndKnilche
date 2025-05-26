@@ -143,6 +143,33 @@ main {
     }
 }
 
+/* Filter Controls für Side Panel */
+.filter-controls {
+    text-align: center;
+}
+
+.filter-controls .btn {
+    background-color: #354f52;
+    border-color: #52796f;
+    color: #fff;
+    font-size: 0.9rem;
+    padding: 8px 16px;
+    transition: all 0.3s ease;
+}
+
+.filter-controls .btn:hover {
+    background-color: #84a98c;
+    border-color: #84a98c;
+    color: #fff;
+}
+
+.filter-controls .btn.active {
+    background-color: #bada55;
+    border-color: #bada55;
+    color: #2f3e46;
+    font-weight: bold;
+}
+
 .upgrades-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Dynamisches Grid */
@@ -175,6 +202,14 @@ main {
     background-color: #52796f;
     color: #fff !important;
 }
+
+/* Versteckte Upgrades */
+.upgrade-hidden {
+    display: none !important;
+}
+
+
+
 
 /* Login und Registrierung Styling */
 body {
@@ -941,3 +976,4 @@ footer #currency-display {
     transform: scale(1);
 }
 }
+
