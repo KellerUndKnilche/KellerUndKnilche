@@ -3,3 +3,7 @@
 
 # unangebrachte Dateien
 bad-words.txt
+
+# temporäre Lock-Files
+src/locks/
+production/locks/

@@ -14,18 +14,50 @@ session_write_close();
 
 // Server-side Mutex für Race Condition Prevention
 function acquireUpgradeLock($userId) {
-    $lockFile = sys_get_temp_dir() . "/upgrade_lock_" . $userId;
+    // Lock-Verzeichnis im Projekt erstellen falls es nicht existiert
+    $lockDir = __DIR__ . '/../../locks';
+    if (!is_dir($lockDir)) {
+        if (!mkdir($lockDir, 0755, true) && !is_dir($lockDir)) {
+            // Fallback: System-Temp-Verzeichnis verwenden
+            $lockDir = sys_get_temp_dir();
+        }
+    }
+    
+    // User-spezifischer Lock-File Pfad
+    $lockFile = $lockDir . "/upgrade_lock_" . $userId;
     $handle = fopen($lockFile, 'w');
+    
+    // Non-blocking Lock mit Timeout
     if ($handle && flock($handle, LOCK_EX | LOCK_NB)) {
+        // Lock erfolgreich erworben
+        fwrite($handle, "Locked by user $userId at " . date('Y-m-d H:i:s'));
         return $handle;
+    }
+    
+    // Lock fehlgeschlagen
+    if ($handle) {
+        fclose($handle);
     }
     return false;
 }
 
-function releaseUpgradeLock($handle) {
+function releaseUpgradeLock($handle, $userId = null) {
     if ($handle) {
         flock($handle, LOCK_UN);
         fclose($handle);
+        
+        // Lock-File automatisch löschen wenn userId verfügbar
+        if ($userId) {
+            $lockDir = __DIR__ . '/../../locks';
+            // Fallback für System-Temp wenn eigenes Verzeichnis nicht verfügbar
+            if (!is_dir($lockDir)) {
+                $lockDir = sys_get_temp_dir();
+            }
+            $lockFile = $lockDir . "/upgrade_lock_" . $userId;
+            if (file_exists($lockFile)) {
+                unlink($lockFile);
+            }
+        }
     }
 }
 
@@ -56,12 +88,12 @@ switch ($action) {
         }
 
         if (!saveUserUpgrades($db, $userId, $upgrades)) {
-            releaseUpgradeLock($lockHandle);
+            releaseUpgradeLock($lockHandle, $userId);
             echo json_encode(['success' => false]);
             exit;
         }
 
-        releaseUpgradeLock($lockHandle);
+        releaseUpgradeLock($lockHandle, $userId);
         echo json_encode(['success' => true]);
         exit;
 
@@ -89,7 +121,7 @@ switch ($action) {
             $result = purchaseUpgradeTransaction($db, $userId, (int)$upgradeId);
             echo json_encode($result);
         } finally {
-            releaseUpgradeLock($lock);
+            releaseUpgradeLock($lock, $userId);
         }
         exit;
 
