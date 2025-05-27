@@ -296,7 +296,7 @@
     function updateUserUpgrade($db, $userId, $upgradeId, $level) {
         $stmt = $db->prepare("INSERT INTO user_upgrades (user_id, upgrade_id, level) VALUES (?, ?, ?) 
                               ON DUPLICATE KEY UPDATE level = ?");
-        $stmt->bind_param("isii", $userId, $upgradeId, $level, $level);
+        $stmt->bind_param("iiii", $userId, $upgradeId, $level, $level);
         return $stmt->execute();
     }
 
@@ -340,19 +340,22 @@
 
     // Funktion, um die Levels eines Upgrades zu speichern
     function saveUserUpgrades($db, $userId, $upgrades) {
-        // Insert oder Update, falls Zeile schon existiert
-        $stmt = $db->prepare("
-            INSERT INTO user_upgrades (user_id, upgrade_id, level)
-            VALUES (?, ?, ?)
-            ON DUPLICATE KEY UPDATE level = VALUES(level)
-        ");
-        foreach ($upgrades as $upgrade) {
-            $stmt->bind_param("iii", $userId, $upgrade['id'], $upgrade['level']);
-            $stmt->execute();
+    $stmt = $db->prepare("
+        INSERT INTO user_upgrades (user_id, upgrade_id, level)
+        VALUES (?, ?, ?)
+        ON DUPLICATE KEY UPDATE level = VALUES(level)
+    ");
+    if (!$stmt) return false;
+    foreach ($upgrades as $upgrade) {
+        $stmt->bind_param("iii", $userId, $upgrade['id'], $upgrade['level']);
+        if (!$stmt->execute()) {
+            $stmt->close();
+            return false;
         }
-        $stmt->close();
-        return true;
     }
+    $stmt->close();
+    return true;
+}
 
     /**
      * Berechnet die aktuelle Einkommensrate pro Sekunde für einen Benutzer
