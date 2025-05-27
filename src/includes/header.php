@@ -26,6 +26,12 @@
     <?php if (isset($pageTitle) && ($pageTitle === 'Registrierung' || $pageTitle === 'Login')): ?>
     <link rel="stylesheet" href="/assets/css/loginRegister.css">
     <?php endif; ?>
+    <?php if (isset($pageTitle) && $pageTitle === 'Profil'): ?>
+    <link rel="stylesheet" href="/assets/css/profil.css">
+    <?php endif; ?>
+    <?php if (isset($pageTitle) && $pageTitle === 'Admin Armaturenbrett'): ?>
+    <link rel="stylesheet" href="/assets/css/admin.css">
+    <?php endif; ?>
     <?php if (isset($pageTitle) && $pageTitle === 'Datenschutz'): ?>
     <link rel="stylesheet" href="/assets/css/datenschutz.css">
     <?php endif; ?>
