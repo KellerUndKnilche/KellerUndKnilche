@@ -296,7 +296,7 @@
     function updateUserUpgrade($db, $userId, $upgradeId, $level) {
         $stmt = $db->prepare("INSERT INTO user_upgrades (user_id, upgrade_id, level) VALUES (?, ?, ?) 
                               ON DUPLICATE KEY UPDATE level = ?");
-        $stmt->bind_param("isii", $userId, $upgradeId, $level, $level);
+        $stmt->bind_param("iiii", $userId, $upgradeId, $level, $level);
         return $stmt->execute();
     }
 

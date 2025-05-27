@@ -121,7 +121,7 @@ async function updateCurrencyDisplay() {
 
 // Speichert die Upgrades bevor die Seite geschlossen wird
 window.addEventListener("beforeunload", () => {
-    if (window.isUserLoggedIn) {
+    if (window.isUserLoggedIn && pendingSaves.size === 0) {
         const payload = JSON.stringify({
             action: 'saveUpgrades',
             upgrades: upgrades.map(u => ({ id: u.id, level: u.level }))
@@ -405,20 +405,6 @@ async function kaufUpgrade(upgradeId) { // Funktion muss async sein für await
             // 1. Aktualisiere das Level im lokalen upgrades-Array
             upgrade.level = result.newLevel; 
 
-            const saveRes = await fetch('../../content/game/upgrades.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    action: 'saveUpgrades',
-                    upgrades: [{ id: upgradeId, level: result.newLevel }]
-                })
-            });
-            const saveResult = await saveRes.json();
-
-            if (!saveResult.success) {
-                throw new Error('Speichern fehlgeschlagen');
-            }
-
             // 2. Aktualisiere die Anzeige für dieses Upgrade
             const containerId = `${upgrade.kategorie.toLowerCase()}-upgrades`;
             const containerElement = document.getElementById(containerId);
@@ -427,7 +413,7 @@ async function kaufUpgrade(upgradeId) { // Funktion muss async sein für await
             }
 
             // 3. Aktualisiere die Währungsanzeige sofort (optional, Intervall macht es auch)
-            updateCurrencyDisplay(); // Entfernt: Wird durch Intervall erledigt
+            updateCurrencyDisplay();
             
             if(upgrade.level == 1 && upgrade.kategorie == 'Produktion') {
                 await ladeUpgrades();
