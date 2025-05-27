@@ -294,6 +294,16 @@ footer #currency-display {
     color: #ffffff;
 }
 
+.help-section a {
+    color: #e8d271;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+.help-section a:hover {
+    color: #84a98c;
+    text-decoration: underline;
+}
+
 #helpButton {
     border-color: #52796f;
     color: #52796f;

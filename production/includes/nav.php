@@ -105,7 +105,7 @@ if (session_status() === PHP_SESSION_NONE) {
       
       <div class="help-section">
         <h4>📜 Noch Fragen?</h4>
-        <p>Ein echter Keller fragt nicht, aber falls du doch welche hast: Check unser <a href="/faq">FAQ</a> oder beschwöre uns per <a href="mailto:mail@kellerundknilche.at">Runenpost</a>.</p>
+        <p>Ein echter Keller fragt nicht, aber falls du doch welche hast: Beschwöre uns per <a href="mailto:mail@kellerundknilche.at">Runenpost</a>.</p>
       </div>
     </div>
   </div>
