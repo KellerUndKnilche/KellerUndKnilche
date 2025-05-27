@@ -1,12 +1,14 @@
 /* Allgemeine Schriftart */
 body {
-    background-color: #111;
-    color: #fff;
-    margin: 0; /* Entferne Standard-Margin */
-    padding: 0; /* Entferne Standard-Padding */
+    background-color: #2f3e46;
+    color: #cad2c5;
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Stelle sicher, dass der Inhalt die gesamte Höhe einnimmt */
+    justify-content: center; 
+    align-items: center;     
+    min-height: 100vh;       
+    margin: 0;               
+    padding: 20px;
 }
 
 header {
@@ -31,145 +33,7 @@ main {
     gap: 20px;
 }
 
-/* Login und Registrierung Styling */
-body {
-    background-color: #2f3e46; 
-    display: flex;
-    justify-content: center; 
-    align-items: center;     
-    min-height: 100vh;       
-    margin: 0;               
-    padding: 20px;
-    color: #cad2c5;        
-}
 
-.loginRegister-container {
-    background-color: #354f52; 
-    padding: 40px;            
-    border-radius: 8px;      
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
-    width: 100%;               
-    max-width: 750px;          
-    color: #ffffff;
-    text-align: center;      
-}
-  
-.loginRegister-container h2 {
-    margin-top: 0;
-    margin-bottom: 30px;
-    font-size: 2em;
-    color: #ffffff;
-}
-  
-.loginRegister-container input[type="text"],
-.loginRegister-container input[type="password"],
-.loginRegister-container input[type="email"] {
-    width: 100%;
-    padding: 15px;
-    margin-bottom: 20px;
-    border: 1px solid #52796f;
-    background-color: #e0e0e0; 
-    color: #333;              
-    border-radius: 5px;
-    font-size: 1em;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    display: block;
-}
-
-.loginRegister-container input[type="text"]:focus,
-.loginRegister-container input[type="password"]:focus,
-.loginRegister-container input[type="email"]:focus {
-    outline: none;
-    border-color: #84a98c;
-    box-shadow: 0 0 8px rgba(132, 169, 140, 0.4);
-}
-
-.loginRegister-container label {
-    display: block; 
-    text-align: center; 
-    font-size: 1.1em;
-    margin-bottom: 5px; 
-}
-
-.remember-me label {
-     display: inline;
-     text-align: center;
-     margin-bottom: 0;
-     font-weight: normal;
-}
-  
-.remember-me {
-    display: flex;
-    align-items: center;
-    justify-content: center; 
-    margin-top: -5px;
-    margin-bottom: 20px;
-}
-  
-.remember-me input[type="checkbox"] {
-    margin-right: 8px;
-    width: auto;           
-    transform: scale(1.2);   
-    accent-color: #52796f;  
-    cursor: pointer;
-}
-  
-.loginRegister-container button {
-    width: 100%;
-    padding: 15px;
-    background-color: #52796f; 
-    border: none;
-    color: #fff;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1.1em;
-    font-weight: bold;
-    margin-top: 10px;
-    transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.2s ease;
-}
-  
-.loginRegister-container button:hover {
-    background-color: #84a98c; 
-}
-  
-.loginRegister-container button:active {
-    background-color: #415a55; 
-    transform: translateY(2px); 
-}
-  
-.loginRegister-container button:focus,
-.loginRegister-container button:focus-visible {
-    outline: none; 
-    box-shadow: 0 0 0 3px rgba(132, 169, 140, 0.5); 
-}
-  
-.loginRegister-container p { 
-    margin-top: 25px;
-    margin-bottom: 0;
-    font-size: 1em;
-}
-  
-.loginRegister-container a {
-    color: #FFF9D0; 
-    text-decoration: none; 
-    font-weight: bold;
-    transition: color 0.3s ease, text-decoration 0.3s ease;
-}
-  
-.loginRegister-container a:hover,
-.loginRegister-container a:focus {
-    color: #ffffff;           
-    text-decoration: underline; 
-    outline: none;           
-}
-
-/* Auf mobilen Geräten unter Navbar genug Abstand schaffen */
-@media (max-width: 992px) {
-    .registration-section {
-        padding-top: 50px; /* Höhe der Navbar ausgleichen */
-        padding-bottom: 150px; /* Abstand nach unten */
-    }
-}
   
 .error {
     color: #ff6b6b;          

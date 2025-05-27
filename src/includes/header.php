@@ -23,6 +23,9 @@
     <?php if (isset($pageTitle) && $pageTitle === 'Keller & Knilche - Gewinne maximieren, Helden minimieren'): ?>
     <link rel="stylesheet" href="/assets/css/homepage.css">
     <?php endif; ?>
+    <?php if (isset($pageTitle) && ($pageTitle === 'Registrierung' || $pageTitle === 'Login')): ?>
+    <link rel="stylesheet" href="/assets/css/loginRegister.css">
+    <?php endif; ?>
     <?php if (isset($pageTitle) && $pageTitle === 'Datenschutz'): ?>
     <link rel="stylesheet" href="/assets/css/datenschutz.css">
     <?php endif; ?>

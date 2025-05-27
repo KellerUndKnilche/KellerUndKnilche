@@ -35,16 +35,6 @@
     max-width: 90%;
 }
 
-/* Innerhalb der Spielzone über dem Button zentrieren */
-.game-area {
-    position: relative; /* bereits gesetzt, stellt Bezugspunkt */
-    /* Staple Währung und Bild untereinander */
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-}
-
 .game-area .currency-display {
     position: static !important;    /* kein Overlay mehr */
     transform: none !important;
@@ -59,17 +49,48 @@
     margin-top: 10px;
 }
 
+/* Pulse Animation für alle Game Area Größen */
+@keyframes floatingPulse {
+    0%, 100% {
+        box-shadow: 0 9px #999, 0 0 0 0 rgba(186, 218, 85, 0.3);
+    }
+    50% {
+        box-shadow: 0 9px #999, 0 0 0 8px rgba(186, 218, 85, 0);
+    }
+}
+
+/* Spezielle Pulse für floating Game Area */
+@keyframes floatingPulseDesktop {
+    0%, 100% {
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(186, 218, 85, 0.3);
+    }
+    50% {
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), 0 0 0 10px rgba(186, 218, 85, 0);
+    }
+}
+
 .game-area {
     flex: 2;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
     background-color: #222;
     border: 2px solid #444;
-    border: none;
     border-radius: 15px;
     box-shadow: 0 9px #999;
     padding: 15px 25px;
+    transition: all 0.3s ease;
+    animation: floatingPulse 3s infinite; /* Pulse für alle Größen */
 }
-  
-.game-area:hover {background-color: #444}
+
+.game-area:hover {
+    background-color: #444;
+    transform: translateY(-2px);
+    box-shadow: 0 11px #999;
+    animation: none; /* Stoppe Animation beim Hover */
+}
 
 .game-area:active {
     background-color: #555;
@@ -77,18 +98,108 @@
     transform: translateY(4px);
 }
 
+/* Floating Animation für Desktop */
+@media screen and (min-width: 1200px) {
+    .game-area {
+        animation: floatingPulseDesktop 3s infinite; /* Spezielle Animation für floating */
+    }
+    
+    .game-area:hover {
+        transform: translateY(-50%) scale(1.05);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        animation: none; /* Stoppe Animation beim Hover */
+    }
+    
+    .game-area:active {
+        transform: translateY(-50%) scale(0.98);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+}
+
 .game-area img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Bildverhältnis beibehalten und den Container füllen */
+    object-fit: contain;
     display: block;
+}
+
+@media screen and (min-width: 992px) {
+    .game-area {
+        width: 300px;
+        height: 300px;
+    }
+}
+
+/* Layout-Optimierung für verschiedene Bildschirmgrößen */
+@media screen and (min-width: 1200px) {
+    /* Für größere Bildschirme (Desktop): Floating Game Area */
+    main.container {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        gap: 30px;
+        align-items: start;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding-bottom: 80px; /* Platz für Navbar */
+    }
+    
+    .game-area {
+        position: fixed;
+        left: 30px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 300px;
+        height: 300px;
+        margin: 0;
+        z-index: 500;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    }
+    
+    #side-panels {
+        margin-left: 350px; /* Platz für die floating Game Area */
+        min-width: 300px;
+        margin-bottom: 80px; /* Zusätzlicher Platz für Navbar */
+    }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    /* Für mittelgroße Bildschirme (16:9): Kompakteres Bild */
+    .game-area {
+        width: 250px;
+        height: 250px;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    /* Für ultrawide: Optimiertes Layout mit mehr Platz */
+    main.container {
+        max-width: none; 
+        margin: 0 20px;
+    }
+    
+    .game-area {
+        left: 5%; /* Prozentuale Positionierung für bessere Flexibilität */
+        width: 400px;
+        height: 400px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+    
+    #side-panels {
+        margin-left: 480px;
+        margin-right: 80px;
+    }
+
+    .side-panel {
+        flex: 1;
+        max-width: 300px; /* Feste Breite für Side Panels */
+    }
 }
 
 .side-panel {
     flex: 1; /* Kleinere Breite für Side Panels */
-    width: 81rem; /* Minimale Breite */
-    max-width: auto;
-    max-height: auto;
+    max-width: 100%;
+    margin-left: 10%;
     background-color: #354f52;
     border: 2px solid #222;
     padding: 10px;
@@ -103,6 +214,7 @@
 @media (max-width: 992px) { /* Für kleinere Bildschirme */
     .side-panel {
         display: none; /* Standardmäßig ausgeblendet */
+        margin-left: 0%;
     }
 
     .side-panel.active {
@@ -332,4 +444,52 @@
         width: 100%; /* Volle Breite auf mobilen Geräten */
         max-width: none;
     }
+}
+
+/* Welcome Panel */
+.welcome-panel {
+    position: fixed;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 600px;
+    height: auto;
+    background-color: #354f52;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Links farbe */
+    
+}
+
+.welcome-panel h2 {
+    color: #bada55;
+    margin-bottom: 20px;
+}
+
+.welcome-panel a {
+    color: #e8d271;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.welcome-panel a:hover {
+    text-decoration: underline;
+}
+
+.welcomeButton {
+    background-color: #52796f;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
