@@ -185,6 +185,10 @@ CREATE TABLE `users` (
   `acceptedTerms` tinyint(4) NOT NULL DEFAULT 0,
   `registrationDate` timestamp NOT NULL DEFAULT current_timestamp(),
   `last_login` timestamp NULL DEFAULT NULL
+  `isActive` tinyint(1) NOT NULL DEFAULT 0,
+  `activationCode` varchar(255) DEFAULT NULL,
+  `activationAt` datetime DEFAULT NULL,
+  `activationExpiry` datetime DEFAULT NULL 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
