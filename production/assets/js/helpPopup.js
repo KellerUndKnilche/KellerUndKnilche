@@ -34,3 +34,20 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
+// Globale Funktion für Text-Links und andere Auslöser
+function toggleHelpOverlay() {
+    const helpOverlay = document.getElementById("helpOverlay");
+    
+    if (helpOverlay) {
+        if (helpOverlay.style.display === "flex") {
+            // Popup schließen
+            helpOverlay.style.display = "none";
+            document.body.style.overflow = "auto";
+        } else {
+            // Popup öffnen
+            helpOverlay.style.display = "flex";
+            document.body.style.overflow = "hidden";
+        }
+    }
+}

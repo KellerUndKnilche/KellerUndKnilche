@@ -1,0 +1,283 @@
+/* Profil Styling */
+.profile-section {
+    margin-top: 20px;
+    margin-bottom: 50px; /* Platz für Footer */
+}
+
+.profile-wrapper {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 30px;
+    text-align: center;
+}
+
+.profile-title {
+    font-size: 2.4rem;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+.profile-form {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.profile-form input {
+    width: 80%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #888;
+    background-color: #cad2c5;
+    color: #000;
+}
+
+.profile-form button {
+    padding: 10px 20px;
+    background-color: #52796f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.profile-form button:hover {
+    background-color: #84a98c;
+}
+
+.profile-input-label {
+    font-size: 1.1rem;
+    margin-top: 10px;
+    margin-bottom: -5px;
+    color: #ffffff;
+}
+
+
+.error-box, .success-box {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    max-width: 600px;
+    margin: 0 auto 20px;
+    text-align: center;
+}
+
+.error-box {
+    background-color: #b00020;
+    color: white;
+    width: 80%;
+}
+.error-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.success-box {
+    background-color: #2e7d32;
+    color: white;
+    width: 80%;
+}
+
+.rank-display {
+    margin-top: 30px;
+}
+
+.rank-badge {
+    display: inline-block;
+    background-color: #354f52;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    border-radius: 30px;
+    color: #fff;
+    margin-top: -10px;
+}
+
+.last-login {
+    margin-top: 10px;
+    font-size: 0.85rem;
+    color: #bbb;
+}
+
+.profile-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.stat-item {
+    background-color: #52796f;
+    padding: 15px;
+    border-radius: 10px;
+    color: white;
+}
+
+.stat-label {
+    font-weight: bold;
+    font-size: 0.95rem;
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    font-size: 1.3rem;
+    margin-bottom: -5px;
+}
+
+/* Tabelle für Benutzer-Upgrades im profil.php */
+.profile-upgrade-table {
+    width: 100%;
+    max-width: 700px;
+    margin: 20px 0;
+    border-collapse: collapse;
+    background-color: #354f52;
+    color: #fff;
+    border: 1px solid #666;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.profile-upgrade-table th,
+.profile-upgrade-table td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid #444;
+}
+
+.profile-upgrade-table th {
+    background-color: #2f3e46;
+    color: #bada55;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.profile-upgrade-table tr:hover {
+    background-color: #52796f;
+}
+
+.profile-upgrade-dropdown-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 40px 0;
+}
+
+.upgrade-dropdown-btn {
+    background-color: #52796f;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 28px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-bottom: 18px;
+    transition: background 0.2s;
+}
+
+.upgrade-dropdown-btn:hover {
+    background-color: #84a98c;
+}
+
+.profile-upgrade-dropdown {
+    display: none;
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    animation: fadeIn 0.3s;
+}
+
+.profile-upgrade-dropdown.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px);}
+    to { opacity: 1; transform: translateY(0);}
+}
+
+/* Account Delete Form*/
+.delete-account-form {
+  background: #3b1f1f; /* dunkles Rotbraun */
+  border: 2px solid #222;
+  padding: 1.5em;
+  margin-top: 1.5em;
+  border-radius: 8px;
+  max-width: 400px;
+  display: none;
+  color: #f5f5f5;
+}
+
+.delete-account-form.active {
+  display: block;
+}
+
+.delete-account-form h3 {
+  color: #ff4d4d;
+  margin-top: 0;
+}
+
+.delete-account-form .warning {
+  color: #ff6666;
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+
+.delete-account-form label {
+  display: block;
+  margin-top: 1em;
+  font-weight: 500;
+}
+
+.delete-account-form input[type="password"],
+.delete-account-form input[type="text"] {
+  width: 100%;
+  padding: 0.5em;
+  margin-top: 0.3em;
+  border: 1px solid #555;
+  border-radius: 4px;
+  background-color: #2d2d2d;
+  color: #fff;
+}
+
+.delete-account-form .delete-button {
+  background: #800000; /* dunkles Rot */
+  color: #fff;
+  border: none;
+  padding: 0.7em 1.2em;
+  border-radius: 4px;
+  margin-top: 1.2em;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.delete-account-form .delete-button:hover {
+  background: #a00000;
+}
+
+.danger-button {
+  background: #3b1f1f;
+  color: #ff4d4d;
+  border: 2px solid #222;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  margin-top: 2em;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s, color 0.2s;
+}
+
+.danger-button:hover {
+  background: #522a2a;
+  color: #ff9999;
+}
+
+.no-copy {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
