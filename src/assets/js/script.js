@@ -5,6 +5,7 @@ let penaltyEndTime = 0; // Zeitpunkt, zu dem die Strafe endet
 let upgrades = [];
 let updateInterval; // Variable für die Intervall-ID deklarieren
 let hidePurchasedUpgrades = false; // Zustand für das Ausblenden gekaufter Upgrades
+let pendingSaves = new Set(); // Set für ausstehende Speichervorgänge
 
 // Hilfsfunktion zum Formatieren großer Zahlen
 function formatNumber(number) {
@@ -385,6 +386,10 @@ async function kaufUpgrade(upgradeId) { // Funktion muss async sein für await
 
     // Sende Kaufanfrage an den Server
     try {
+
+        pendingSaves.add(upgradeId); // Füge Upgrade-ID zu den ausstehenden Saves hinzu
+        
+        //Sendet die Anfrage an den Server
         const res = await fetch('content/game/upgrades.php', { // Korrekter Pfad relativ zu index.php
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -400,6 +405,20 @@ async function kaufUpgrade(upgradeId) { // Funktion muss async sein für await
             // 1. Aktualisiere das Level im lokalen upgrades-Array
             upgrade.level = result.newLevel; 
 
+            const saveRes = await fetch('../../content/game/upgrades.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    action: 'saveUpgrades',
+                    upgrades: [{ id: upgradeId, level: result.newLevel }]
+                })
+            });
+            const saveResult = await saveRes.json();
+
+            if (!saveResult.success) {
+                throw new Error('Speichern fehlgeschlagen');
+            }
+
             // 2. Aktualisiere die Anzeige für dieses Upgrade
             const containerId = `${upgrade.kategorie.toLowerCase()}-upgrades`;
             const containerElement = document.getElementById(containerId);
@@ -411,7 +430,7 @@ async function kaufUpgrade(upgradeId) { // Funktion muss async sein für await
             updateCurrencyDisplay(); // Entfernt: Wird durch Intervall erledigt
             
             if(upgrade.level == 1 && upgrade.kategorie == 'Produktion') {
-                ladeUpgrades();
+                await ladeUpgrades();
             }
             // Optional: Erfolgsmeldung
             // console.log("Upgrade gekauft:", upgrade.name, "Neues Level:", result.newLevel);
@@ -424,6 +443,9 @@ async function kaufUpgrade(upgradeId) { // Funktion muss async sein für await
     } catch (error) {
         console.error("Fehler beim Senden der Kaufanfrage:", error);
         alert("Ein Netzwerkfehler ist beim Kauf aufgetreten.");
+        await ladeUpgrades();
+    }finally {
+        pendingSaves.delete(upgradeId); 
     }
 
     // Profil-Earning-Tabelle aktualisieren
@@ -436,6 +458,13 @@ function kalkPreis(basispreis, level) {
 
 async function saveUpgrades() {
     if (!window.isUserLoggedIn) return;
+
+    // Wenn noch Saves ausstehen, verzögere die Synchro
+    if (pendingSaves.size > 0) {
+        console.log('Verzögere Sync - ausstehende Saves:', Array.from(pendingSaves));
+        return;
+    }
+
     try {
         const res = await fetch('../../content/game/upgrades.php', {
             method: 'POST',
