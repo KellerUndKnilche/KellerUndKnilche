@@ -11,6 +11,7 @@ require_once('includes/nav.php');
 </header>
 <main class="container">
     
+    <?php if (isset($_SESSION['user'])): ?>
     <section class="game-area">
         <h2 class="visually-hidden">Spielbereich</h2>
         <!-- Währungsanzeige direkt in der game-area -->
@@ -23,10 +24,22 @@ require_once('includes/nav.php');
         -->
         <img id="click_button" class="gameButton" src="/assets/img/dungeon.png" alt="Keller-Knopf" draggable="false" ondragstart="return false;"/>
     </section>
-    
-    
+    <?php endif; ?>
+
     <!-- Toggle Button fuer Side Panels -->
     <button id="toggle-side-panels" class="btn btn-primary d-lg-none">☰</button>
+    
+    <?php if (!isset($_SESSION['user'])): ?>
+    <!-- Landing Page / Instructions falls nicht eingeloggt - außerhalb der Side Panels -->
+    <div class="welcome-panel mt-4">
+        <h2>Willkommen, Möchtegern - Kellermeister!</h2>
+        <p>In <strong>Keller & Knilche</strong> verwandelst du ein stinkendes Verlies in eine goldsprudelnde Monsterfabrik. Klicke auf den dicken Knopf, verdiene Batzen und zeig diesen selbstgerechten Knilchen, wo der Gruftstaub liegt!</p>
+        <p>Erstelle dir einen Account, um deinen düsteren Fortschritt zu sichern und geheime Schattenfunktionen freizuschalten!</p>
+        <p><em>Neu hier? Klicke auf den <strong>❓ Hilfe</strong> Button in der Navigation oder <a href="javascript:void(0);" onclick="toggleHelpOverlay()">hier</a> für eine erste Geisterführung.</em></p>
+        <a href="/registrierung" class="btn btn-primary welcomeButton">Zum Kellerpakt – Jetzt registrieren</a>
+        <a href="/login" class="btn btn-secondary welcomeButton">Rückkehr in den Keller – Anmelden</a>
+    </div>
+    <?php endif; ?>
     
     <div id="side-panels" class="d-lg-flex flex-lg-column mt-4">
         <!--
@@ -60,7 +73,7 @@ require_once('includes/nav.php');
             </div>
         </div>
     -->
-
+        <?php if (isset($_SESSION['user'])): ?>
         <!-- Upgrades Panel -->
         <div class="side-panel">
             <h2>Aufrüstungen</h2>
@@ -81,5 +94,7 @@ require_once('includes/nav.php');
             <h3>Klick-Verstärker</h3>
             <div id="klick-upgrades" class="upgrades-list"></div>
         </div>
+        <?php endif; ?>
+    </div>
 </main>
 <?php require_once('includes/footer.php'); ?>

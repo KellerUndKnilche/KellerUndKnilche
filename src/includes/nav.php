@@ -74,7 +74,6 @@ if (session_status() === PHP_SESSION_NONE) {
 </nav>
 
 <!-- Hilfe Popup -->
-<!-- Hilfe Popup -->
 <div id="helpOverlay" class="help-overlay" style="display: none;">
   <div class="help-popup">
     <div class="help-header">
