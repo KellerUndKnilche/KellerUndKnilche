@@ -11,7 +11,7 @@ require_once('includes/nav.php');
 </header>
 <main class="container">
     
-    <?php if (isset($_SESSION['user_id'])): ?>
+    <?php if (isset($_SESSION['user'])): ?>
     <section class="game-area">
         <h2 class="visually-hidden">Spielbereich</h2>
         <!-- Währungsanzeige direkt in der game-area -->
@@ -29,7 +29,7 @@ require_once('includes/nav.php');
     <!-- Toggle Button fuer Side Panels -->
     <button id="toggle-side-panels" class="btn btn-primary d-lg-none">☰</button>
     
-    <?php if (!isset($_SESSION['user_id'])): ?>
+    <?php if (!isset($_SESSION['user'])): ?>
     <!-- Landing Page / Instructions falls nicht eingeloggt - außerhalb der Side Panels -->
     <div class="welcome-panel mt-4">
         <h2>Willkommen, Möchtegern - Kellermeister!</h2>
@@ -73,7 +73,7 @@ require_once('includes/nav.php');
             </div>
         </div>
     -->
-        <?php if (isset($_SESSION['user_id'])): ?>
+        <?php if (isset($_SESSION['user'])): ?>
         <!-- Upgrades Panel -->
         <div class="side-panel">
             <h2>Aufrüstungen</h2>
