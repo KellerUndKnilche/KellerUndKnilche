@@ -91,6 +91,14 @@ if (session_status() === PHP_SESSION_NONE) {
         <p><strong>Automatische Produktion:</strong> Stelle düstere Kreaturen wie Gerippe oder Dämonen an – sie verdienen auch Batzen, wenn du schläfst (solange diese Keller & Knilche offen ist).</p>
         <p><strong>Verflucht guter Klick:</strong> Kauf dir Knochenverstärker und Nekro-Finger, um mit jedem Klick mehr Gold aus deinem Kellerboden zu stampfen.</p>
       </div>
+
+      <div class="help-section">
+        <h4>💀 Verbessere dich zum Obermotz:</h4>
+        <p><strong>Passive Produktion:</strong> Deine Grundknechte wie Gerippe & Co schuften brav im Hintergrund – einmal kaufen, dauerhafte Beute.</p>
+        <p><strong>Verstärker:</strong> Sobald du eine Basis-Aufrüstung hast, kannst du es mit schaurigen Boni verstärken. Die tauchen magisch erst auf, wenn die Basis-Aufrüstung gekauft wurde (außerdem im passenden Farbgewand).</p>
+        <p><strong>Klick-Verstärker:</strong> Für alle, die ihre Maus ruinieren wollen – jeder Klick bringt mehr Batzen, je besser dein Fingerwerkzeug.</p>
+        <p>Nutze die Filter-Knöpfe über der Liste, um z. B. nur leistbare oder bereits gekaufte Verbesserungen zu zeigen. Wer braucht schon einen unordentlichen Keller?</p>
+      </div>
       
       <div class="help-section">
         <h4>👑 Fortschritt & Aufstieg:</h4>

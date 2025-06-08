@@ -4,7 +4,8 @@ const MAX_CLICKS_IN_WINDOW = 20; // Maximal 20 Klicks pro Sekunde erlaubt
 let penaltyEndTime = 0; // Zeitpunkt, zu dem die Strafe endet
 let upgrades = [];
 let updateInterval; // Variable für die Intervall-ID deklarieren
-let hidePurchasedUpgrades = false; // Zustand für das Ausblenden gekaufter Upgrades
+let hidePurchasedUpgrades = true; // Zustand für das Ausblenden gekaufter Upgrades (standardmäßig ausgeblendet)
+let showAffordableOnly = false; // Zustand für das Anzeigen nur leistbarer Upgrades
 let pendingSaves = new Set(); // Set für ausstehende Speichervorgänge
 
 // Hilfsfunktion zum Formatieren großer Zahlen
@@ -46,6 +47,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // Toggle Button Event Listener für gekaufte Upgrades
     const toggleButton = document.getElementById("toggle-purchased-upgrades");
     if (toggleButton) {
+        // Setze den initialen Button-Text entsprechend dem Standard-Zustand
+        toggleButton.textContent = hidePurchasedUpgrades ? "Gekaufte anzeigen" : "Gekaufte ausblenden";
+        
         toggleButton.addEventListener("click", () => {
             hidePurchasedUpgrades = !hidePurchasedUpgrades;
             toggleButton.textContent = hidePurchasedUpgrades ? "Gekaufte anzeigen" : "Gekaufte ausblenden";
@@ -59,6 +63,18 @@ document.addEventListener("DOMContentLoaded", () => {
                     upgrade.classList.remove('upgrade-hidden');
                 }
             });
+        });
+    }
+
+    // Toggle Button Event Listener für nur leistbare Upgrades
+    const toggleAffordableButton = document.getElementById("toggle-affordable-only");
+    if (toggleAffordableButton) {
+        toggleAffordableButton.addEventListener("click", () => {
+            showAffordableOnly = !showAffordableOnly;
+            toggleAffordableButton.textContent = showAffordableOnly ? "Alle anzeigen" : "Nur leistbare anzeigen";
+            
+            // Alle Upgrades überprüfen und entsprechend filtern
+            aktualisiereLeitstbarkeitsFilter();
         });
     }
 
@@ -110,6 +126,14 @@ async function updateCurrencyDisplay() {
             productionRateElement.textContent = data.productionPerSecond > 0
                 ? `(${formatNumber(data.productionPerSecond)} BB/s)`
                 : '';
+            
+            // Aktualisiere Leistbarkeitsfilter wenn aktiv
+            if (showAffordableOnly) {
+                aktualisiereLeitstbarkeitsFilter();
+            }
+            
+            // Aktualisiere immer die Upgrade-Hervorhebung
+            aktualisiereUpgradeHervorhebung();
         } else if (data.message === 'Nicht eingeloggt') {
             clearInterval(updateInterval);
         }
@@ -297,7 +321,7 @@ function displayChanges(upg, zielContainer) {
         // Inhalt je nach Kaufstatus
         if ((upg.kategorie == 'Klick' || upg.kategorie == 'Boost') && upg.level > 0) {
             div.classList.add('gekauft');
-            // Wenn ausblenden aktiviert ist, auch die upgrade-hidden Klasse hinzufügen
+            // Gekaufte Upgrades sind standardmäßig ausgeblendet
             if (hidePurchasedUpgrades) {
                 div.classList.add('upgrade-hidden');
             }
@@ -316,13 +340,21 @@ function displayChanges(upg, zielContainer) {
             upgradeDiv.textContent = neuePreisText;
         } else if (!upgradeDiv.classList.contains('gekauft')) {
             upgradeDiv.classList.add('gekauft');
-            // Wenn ausblenden aktiviert ist, auch die upgrade-hidden Klasse hinzufügen
+            // Gekaufte Upgrades sind standardmäßig ausgeblendet
             if (hidePurchasedUpgrades) {
                 upgradeDiv.classList.add('upgrade-hidden');
             }
             upgradeDiv.textContent = `${upg.name} (${effektText})`;
         }
     }
+    
+    // Leistbarkeitsfilter nach jeder Upgrade-Aktualisierung anwenden
+    if (showAffordableOnly) {
+        aktualisiereLeitstbarkeitsFilter();
+    }
+    
+    // Upgrade-Hervorhebung nach jeder Upgrade-Aktualisierung anwenden
+    aktualisiereUpgradeHervorhebung();
 } 
 
 async function ladeUpgrades() {
@@ -362,6 +394,14 @@ async function ladeUpgrades() {
         displayChanges(upg, zielContainer);
     });
     updateProfileEarningRate();
+    
+    // Leistbarkeitsfilter nach dem Laden aller Upgrades anwenden
+    if (showAffordableOnly) {
+        aktualisiereLeitstbarkeitsFilter();
+    }
+    
+    // Upgrade-Hervorhebung nach dem Laden aller Upgrades anwenden
+    aktualisiereUpgradeHervorhebung();
 }
 
 async function kaufUpgrade(upgradeId) { // Funktion muss async sein für await
@@ -440,6 +480,71 @@ async function kaufUpgrade(upgradeId) { // Funktion muss async sein für await
 
 function kalkPreis(basispreis, level) {
     return Math.round(parseFloat(basispreis) * Math.pow(1.15, level));
+}
+
+// Überprüft, ob ein Upgrade leistbar ist
+function istUpgradeLeistbar(upgrade) {
+    const currencyElement = document.getElementById('currency');
+    const currentAmount = parseFloat(currencyElement?.dataset?.rawAmount) || 0;
+    const upgradeCost = kalkPreis(upgrade.basispreis, upgrade.level);
+    return currentAmount >= upgradeCost;
+}
+
+// Aktualisiert den Filter für leistbare Upgrades
+function aktualisiereLeitstbarkeitsFilter() {
+    if (!showAffordableOnly) {
+        // Alle nicht-leistbaren Klassen entfernen
+        document.querySelectorAll('.upgrade-not-affordable').forEach(upgrade => {
+            upgrade.classList.remove('upgrade-not-affordable');
+            upgrade.classList.remove('upgrade-hidden');
+        });
+        return;
+    }
+
+    // Durch alle Upgrades iterieren und Leistbarkeit prüfen
+    upgrades.forEach(upgrade => {
+        const upgradeDiv = document.querySelector(`[data-upgrade-id="${upgrade.id}"]`);
+        if (!upgradeDiv) return;
+
+        const isAffordable = istUpgradeLeistbar(upgrade);
+        const isPurchased = upgradeDiv.classList.contains('gekauft');
+        
+        if (!isAffordable && !isPurchased) {
+            // Nicht leistbar und nicht gekauft -> ausblenden
+            upgradeDiv.classList.add('upgrade-hidden');
+            upgradeDiv.classList.add('upgrade-not-affordable');
+        } else {
+            // Leistbar oder gekauft -> anzeigen (außer wenn gekaufte ausgeblendet sind)
+            upgradeDiv.classList.remove('upgrade-not-affordable');
+            if (!hidePurchasedUpgrades || !isPurchased) {
+                upgradeDiv.classList.remove('upgrade-hidden');
+            }
+        }
+    });
+}
+
+// Aktualisiert die visuelle Hervorhebung für leistbare Upgrades
+function aktualisiereUpgradeHervorhebung() {
+    upgrades.forEach(upgrade => {
+        const upgradeDiv = document.querySelector(`[data-upgrade-id="${upgrade.id}"]`);
+        if (!upgradeDiv) return;
+
+        const isAffordable = istUpgradeLeistbar(upgrade);
+        const isPurchased = upgradeDiv.classList.contains('gekauft');
+        
+        // Entferne zuerst alle Hervorhebungsklassen
+        upgradeDiv.classList.remove('upgrade-affordable', 'upgrade-not-affordable');
+        
+        if (!isPurchased) {
+            if (isAffordable) {
+                // Leistbar und nicht gekauft -> grüne Hervorhebung
+                upgradeDiv.classList.add('upgrade-affordable');
+            } else {
+                // Nicht leistbar und nicht gekauft -> gedimmt
+                upgradeDiv.classList.add('upgrade-not-affordable');
+            }
+        }
+    });
 }
 
 async function saveUpgrades() {

@@ -14,7 +14,7 @@
     color: #bada55;
     text-shadow: 2px 2px #000;
     padding-top: 50px;
-    padding-bottom: auto; 
+    padding-bottom: 0px !important;
     text-align: center !important;
 }
 
@@ -287,6 +287,95 @@
     display: none !important;
 }
 
+/* Nicht leistbare Upgrades */
+.upgrade-not-affordable {
+    opacity: 0.5 !important;
+    filter: grayscale(50%);
+    pointer-events: none;
+    cursor: not-allowed !important;
+}
+
+/* Leistbare Upgrades - Dauerhaft grüner Rahmen mit responsivem Puls */
+.upgrade-affordable {
+    position: relative;
+    border: 2px solid #4caf50 !important;
+    box-shadow: 0 0 0 1px rgba(76, 175, 80, 0.5), 0 0 8px rgba(76, 175, 80, 0.3);
+    animation: affordablePulse 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+    transition: all 0.2s ease;
+}
+
+.upgrade-affordable:hover {
+    animation: affordablePulseHover 1s infinite cubic-bezier(0.4, 0, 0.6, 1);
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.8), 0 0 20px rgba(76, 175, 80, 0.6);
+}
+
+@keyframes affordablePulse {
+    0%, 100% {
+        box-shadow: 0 0 0 1px rgba(76, 175, 80, 0.5), 0 0 8px rgba(76, 175, 80, 0.3);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.7), 0 0 20px rgba(76, 175, 80, 0.5);
+        transform: scale(1.005);
+    }
+}
+
+@keyframes affordablePulseHover {
+    0%, 100% {
+        box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.8), 0 0 20px rgba(76, 175, 80, 0.6);
+        transform: scale(1.005);
+    }
+    50% {
+        box-shadow: 0 0 0 4px rgba(76, 175, 80, 1), 0 0 30px rgba(76, 175, 80, 0.8);
+        transform: scale(1.015);
+    }
+}
+
+/* Zusätzlicher grüner Hintergrund-Schein für leistbare Upgrades */
+.upgrade-affordable::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, 
+        rgba(76, 175, 80, 0.08), 
+        rgba(129, 199, 132, 0.12), 
+        rgba(76, 175, 80, 0.08)
+    );
+    border-radius: inherit;
+    z-index: -1;
+    animation: affordableGlow 2s infinite ease-in-out;
+    transition: opacity 0.2s ease;
+}
+
+.upgrade-affordable:hover::before {
+    animation: affordableGlowHover 1s infinite ease-in-out;
+}
+
+@keyframes affordableGlow {
+    0%, 100% {
+        opacity: 0.3;
+        filter: blur(0px);
+    }
+    50% {
+        opacity: 0.6;
+        filter: blur(1px);
+    }
+}
+
+@keyframes affordableGlowHover {
+    0%, 100% {
+        opacity: 0.6;
+        filter: blur(1px);
+    }
+    50% {
+        opacity: 0.9;
+        filter: blur(2px);
+    }
+}
+
 /* Side Panels auf kleinen Schirmen */
 @media (max-width: 992px) {
     #side-panels {
@@ -448,24 +537,29 @@
 
 /* Welcome Panel */
 .welcome-panel {
-    position: fixed;
     text-align: center;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     width: 90%;
     max-width: 600px;
     height: auto;
     background-color: #354f52;
     border-radius: 10px;
-    padding: 20px;
+    padding: 15px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
+    margin: 0px auto 120px auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* Links farbe */
-    
+}
+
+@media screen and (min-width: 992px) {
+    .welcome-panel {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+        margin: 0;
+    }
 }
 
 .welcome-panel h2 {

@@ -31,11 +31,11 @@ require_once('includes/nav.php');
     
     <?php if (!isset($_SESSION['user'])): ?>
     <!-- Landing Page / Instructions falls nicht eingeloggt - außerhalb der Side Panels -->
-    <div class="welcome-panel mt-4">
-        <h2>Willkommen, Möchtegern - Kellermeister!</h2>
-        <p>In <strong>Keller & Knilche</strong> verwandelst du ein stinkendes Verlies in eine goldsprudelnde Monsterfabrik. Klicke auf den dicken Knopf, verdiene Batzen und zeig diesen selbstgerechten Knilchen, wo der Gruftstaub liegt!</p>
-        <p>Erstelle dir einen Account, um deinen düsteren Fortschritt zu sichern und geheime Schattenfunktionen freizuschalten!</p>
-        <p><em>Neu hier? Klicke auf den <strong>❓ Hilfe</strong> Button in der Navigation oder <a href="javascript:void(0);" onclick="toggleHelpOverlay()">hier</a> für eine erste Geisterführung.</em></p>
+    <div class="welcome-panel">
+        <h2>Willkommen, Kellerpraktikant!</h2>
+        <p>In <strong>Keller & Knilche</strong> verwandelst du einen stinkenden Keller in eine goldsprudelnde Monsterfabrik. Klicke auf den dicken Knopf, verdiene Batzen und zeig diesen selbstgerechten Knilchen, wo der Gruftstaub liegt!</p>
+        <p>Erstelle dir ein Konto, um deinen düsteren Fortschritt zu sichern und geheime Schattenfunktionen freizuschalten!</p>
+        <p><em>Neu hier? Klicke auf den <strong>❓ Hilfe</strong> Knopf in der Navigation oder <a href="javascript:void(0);" onclick="toggleHelpOverlay()">hier</a> für eine erste Geisterführung.</em></p>
         <a href="/registrierung" class="btn btn-primary welcomeButton">Zum Kellerpakt – Jetzt registrieren</a>
         <a href="/login" class="btn btn-secondary welcomeButton">Rückkehr in den Keller – Anmelden</a>
     </div>
@@ -78,10 +78,13 @@ require_once('includes/nav.php');
         <div class="side-panel">
             <h2>Aufrüstungen</h2>
 
-            <!-- Toggle Button für gekaufte Ein-Level-Upgrades -->
+            <!-- Toggle Buttons für Filter -->
             <div class="filter-controls mb-3">
                 <button id="toggle-purchased-upgrades" class="btn btn-sm btn-outline-secondary">
-                    Gekaufte ausblenden
+                    Gekaufte anzeigen
+                </button>
+                <button id="toggle-affordable-only" class="btn btn-sm btn-outline-success">
+                    Nur leistbare anzeigen
                 </button>
             </div>
 
