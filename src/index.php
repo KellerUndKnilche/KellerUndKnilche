@@ -81,7 +81,7 @@ require_once('includes/nav.php');
             <!-- Toggle Buttons für Filter -->
             <div class="filter-controls mb-3">
                 <button id="toggle-purchased-upgrades" class="btn btn-sm btn-outline-secondary">
-                    Gekaufte ausblenden
+                    Gekaufte anzeigen
                 </button>
                 <button id="toggle-affordable-only" class="btn btn-sm btn-outline-success">
                     Nur leistbare anzeigen

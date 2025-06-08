@@ -4,7 +4,7 @@ const MAX_CLICKS_IN_WINDOW = 20; // Maximal 20 Klicks pro Sekunde erlaubt
 let penaltyEndTime = 0; // Zeitpunkt, zu dem die Strafe endet
 let upgrades = [];
 let updateInterval; // Variable für die Intervall-ID deklarieren
-let hidePurchasedUpgrades = false; // Zustand für das Ausblenden gekaufter Upgrades
+let hidePurchasedUpgrades = true; // Zustand für das Ausblenden gekaufter Upgrades (standardmäßig ausgeblendet)
 let showAffordableOnly = false; // Zustand für das Anzeigen nur leistbarer Upgrades
 let pendingSaves = new Set(); // Set für ausstehende Speichervorgänge
 
@@ -47,6 +47,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // Toggle Button Event Listener für gekaufte Upgrades
     const toggleButton = document.getElementById("toggle-purchased-upgrades");
     if (toggleButton) {
+        // Setze den initialen Button-Text entsprechend dem Standard-Zustand
+        toggleButton.textContent = hidePurchasedUpgrades ? "Gekaufte anzeigen" : "Gekaufte ausblenden";
+        
         toggleButton.addEventListener("click", () => {
             hidePurchasedUpgrades = !hidePurchasedUpgrades;
             toggleButton.textContent = hidePurchasedUpgrades ? "Gekaufte anzeigen" : "Gekaufte ausblenden";
@@ -318,7 +321,7 @@ function displayChanges(upg, zielContainer) {
         // Inhalt je nach Kaufstatus
         if ((upg.kategorie == 'Klick' || upg.kategorie == 'Boost') && upg.level > 0) {
             div.classList.add('gekauft');
-            // Wenn ausblenden aktiviert ist, auch die upgrade-hidden Klasse hinzufügen
+            // Gekaufte Upgrades sind standardmäßig ausgeblendet
             if (hidePurchasedUpgrades) {
                 div.classList.add('upgrade-hidden');
             }
@@ -337,7 +340,7 @@ function displayChanges(upg, zielContainer) {
             upgradeDiv.textContent = neuePreisText;
         } else if (!upgradeDiv.classList.contains('gekauft')) {
             upgradeDiv.classList.add('gekauft');
-            // Wenn ausblenden aktiviert ist, auch die upgrade-hidden Klasse hinzufügen
+            // Gekaufte Upgrades sind standardmäßig ausgeblendet
             if (hidePurchasedUpgrades) {
                 upgradeDiv.classList.add('upgrade-hidden');
             }
