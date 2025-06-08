@@ -78,10 +78,13 @@ require_once('includes/nav.php');
         <div class="side-panel">
             <h2>Aufrüstungen</h2>
 
-            <!-- Toggle Button für gekaufte Ein-Level-Upgrades -->
+            <!-- Toggle Buttons für Filter -->
             <div class="filter-controls mb-3">
                 <button id="toggle-purchased-upgrades" class="btn btn-sm btn-outline-secondary">
                     Gekaufte ausblenden
+                </button>
+                <button id="toggle-affordable-only" class="btn btn-sm btn-outline-success">
+                    Nur leistbare anzeigen
                 </button>
             </div>
 
