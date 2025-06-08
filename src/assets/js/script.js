@@ -128,6 +128,9 @@ async function updateCurrencyDisplay() {
             if (showAffordableOnly) {
                 aktualisiereLeitstbarkeitsFilter();
             }
+            
+            // Aktualisiere immer die Upgrade-Hervorhebung
+            aktualisiereUpgradeHervorhebung();
         } else if (data.message === 'Nicht eingeloggt') {
             clearInterval(updateInterval);
         }
@@ -346,6 +349,9 @@ function displayChanges(upg, zielContainer) {
     if (showAffordableOnly) {
         aktualisiereLeitstbarkeitsFilter();
     }
+    
+    // Upgrade-Hervorhebung nach jeder Upgrade-Aktualisierung anwenden
+    aktualisiereUpgradeHervorhebung();
 } 
 
 async function ladeUpgrades() {
@@ -390,6 +396,9 @@ async function ladeUpgrades() {
     if (showAffordableOnly) {
         aktualisiereLeitstbarkeitsFilter();
     }
+    
+    // Upgrade-Hervorhebung nach dem Laden aller Upgrades anwenden
+    aktualisiereUpgradeHervorhebung();
 }
 
 async function kaufUpgrade(upgradeId) { // Funktion muss async sein für await
@@ -506,6 +515,30 @@ function aktualisiereLeitstbarkeitsFilter() {
             upgradeDiv.classList.remove('upgrade-not-affordable');
             if (!hidePurchasedUpgrades || !isPurchased) {
                 upgradeDiv.classList.remove('upgrade-hidden');
+            }
+        }
+    });
+}
+
+// Aktualisiert die visuelle Hervorhebung für leistbare Upgrades
+function aktualisiereUpgradeHervorhebung() {
+    upgrades.forEach(upgrade => {
+        const upgradeDiv = document.querySelector(`[data-upgrade-id="${upgrade.id}"]`);
+        if (!upgradeDiv) return;
+
+        const isAffordable = istUpgradeLeistbar(upgrade);
+        const isPurchased = upgradeDiv.classList.contains('gekauft');
+        
+        // Entferne zuerst alle Hervorhebungsklassen
+        upgradeDiv.classList.remove('upgrade-affordable', 'upgrade-not-affordable');
+        
+        if (!isPurchased) {
+            if (isAffordable) {
+                // Leistbar und nicht gekauft -> grüne Hervorhebung
+                upgradeDiv.classList.add('upgrade-affordable');
+            } else {
+                // Nicht leistbar und nicht gekauft -> gedimmt
+                upgradeDiv.classList.add('upgrade-not-affordable');
             }
         }
     });
