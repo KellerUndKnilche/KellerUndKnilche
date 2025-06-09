@@ -110,6 +110,8 @@ async function updateCurrencyDisplay() {
             throw new Error(`HTTP ${response.status}`);
         }
         const data = await response.json();
+        console.log(data);
+        console.log(data.message);
         if (data.success) {
             const oldAmount = parseFloat(currencyElement.dataset.rawAmount) || 0;
             currencyElement.textContent = formatNumber(data.newAmount);
@@ -136,6 +138,10 @@ async function updateCurrencyDisplay() {
             aktualisiereUpgradeHervorhebung();
         } else if (data.message === 'Nicht eingeloggt') {
             clearInterval(updateInterval);
+        } else if (data.message === 'Account wurde gesperrt') {
+            clearInterval(updateInterval);
+            alert('Dein Account wurde gesperrt. Bitte kontaktiere den Support.');
+            window.location.href = '/profil'; // Weiterleitung zur Startseite
         }
     } catch (e) {
         console.error('Fehler beim Abrufen der Währung:', e);

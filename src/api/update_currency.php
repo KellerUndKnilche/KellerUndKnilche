@@ -14,9 +14,9 @@ if (!isset($_SESSION['user']['id'])) {
     exit;
 }
 
-if (fetchUserLocked($db, $userId);) {
+if (fetchUserLocked($db, $_SESSION['user']['id'])) {
     session_destroy();
-    echo json_encode(['success' => false, 'message' => 'Account wurde gesperrt.']);
+    echo json_encode(['success' => false, 'message' => 'Account wurde gesperrt']);
     exit;
 }
 
