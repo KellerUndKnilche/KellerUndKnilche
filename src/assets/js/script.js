@@ -141,7 +141,7 @@ async function updateCurrencyDisplay() {
         } else if (data.message === 'Account wurde gesperrt') {
             clearInterval(updateInterval);
             alert('Dein Account wurde gesperrt. Bitte kontaktiere den Support.');
-            window.location.href = '/profil'; // Weiterleitung zur Startseite
+            window.location.href = '/impressum'; // Weiterleitung zum Impressum
         }
     } catch (e) {
         console.error('Fehler beim Abrufen der Währung:', e);
