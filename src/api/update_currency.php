@@ -14,6 +14,12 @@ if (!isset($_SESSION['user']['id'])) {
     exit;
 }
 
+if (fetchUserLocked($db, $userId);) {
+    session_destroy();
+    echo json_encode(['success' => false, 'message' => 'Account wurde gesperrt.']);
+    exit;
+}
+
 $userId = $_SESSION['user']['id']; // Holt die ID aus dem User-Array
 
 // Globale $db-Variable aus dbAccess.php verwenden
