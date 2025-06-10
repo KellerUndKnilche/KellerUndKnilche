@@ -137,3 +137,90 @@ body {
         padding-bottom: 150px; /* Abstand nach unten */
     }
 }
+
+/* Benachrichtigungen */
+
+.login-notification {
+    background-color: #52796f;
+    color: #ffffff;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    border-left: 4px solid #84a98c;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1rem;
+    max-width: 750px;
+}
+
+.login-notification .notification-content {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.login-notification .notification-text {
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.login-notification .notification-close {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.4rem;
+    cursor: pointer;
+    padding: 0;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    margin-left: 15px;
+    transition: all 0.2s ease;
+}
+
+.login-notification .notification-close:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+/* Verschiedene Typen - einfach über Hintergrundfarbe */
+.login-notification.type-info {
+    background-color: #52796f;
+    border-left-color: #84a98c;
+}
+
+.login-notification.type-warning {
+    background-color: #6b5b73;
+    border-left-color: #a594a8;
+}
+
+.login-notification.type-success {
+    background-color: #4a6741;
+    border-left-color: #7ba86f;
+}
+
+.login-notification.type-danger {
+    background-color: #6b4a4a;
+    border-left-color: #a87676;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .login-notification {
+        padding: 12px 15px;
+        margin-bottom: 15px;
+        font-size: 0.95rem;
+    }
+    
+    .login-notification .notification-close {
+        width: 24px;
+        height: 24px;
+        font-size: 1.2rem;
+        margin-left: 10px;
+    }
+}
