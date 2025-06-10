@@ -1,5 +1,6 @@
 <?php
 require_once('../../config/dbAccess.php');
+require_once('../../includes/LoginNotifications.php');
 
 // Prüfen, ob der Benutzer bereits eingeloggt ist
 if (isset($_SESSION["user"])) {
@@ -72,11 +73,9 @@ require_once('../../includes/nav.php');
 ?>
 <section class="login-section">
   <h1 class="visually-hidden">Login</h1>
-  <div class="loginNews-container bg-danger">
-    <p>
-      <strong>Ein Gleichgewichtszauber wurde gewirkt - alle Verbesserungen und Schätze wurden neu verteilt!</strong>
-    </p>
-  </div>
+  
+  <!-- Zentral verwaltete Benachrichtigungen siehe LoginNotifications.php -->
+  <?php echo LoginNotifications::renderAllNotifications(); ?>
     
   <div class="loginRegister-container">
     <h1>Anmelden</h1>
@@ -93,4 +92,16 @@ require_once('../../includes/nav.php');
       <p>Noch keinen Account? <a href="/registrierung">Jetzt registrieren</a></p>
   </div>
 </section>
+
+<script>
+// Benachrichtigung schließen
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.notification-close').forEach(button => {
+        button.addEventListener('click', function() {
+            this.closest('.login-notification').remove();
+        });
+    });
+});
+</script>
+
 <?php require_once('../../includes/footer.php'); ?>
