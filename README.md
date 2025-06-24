@@ -39,41 +39,52 @@ Technisch setzen wir auf **HTML, CSS/Bootstrap, PHP und Javascript**. Spielstän
 erDiagram
     users {
         id int PK
-        username varchar
-        email varchar
-        password_hash varchar
+        username varchar(50) UK
+        email varchar(100) UK
+        password_hash varchar(255)
         isAdmin tinyint
         isLocked tinyint
+        acceptedTerms tinyint
+        registrationDate timestamp
         last_login timestamp
+        isActive tinyint
+        activationCode varchar(255)
+        activationAt datetime
+        activationExpiry datetime
     }
+    
     beute_batzen {
-        user_id int PK
+        user_id int PK,FK
         amount bigint
     }
+    
     targets {
         id int PK
-        name varchar
-        typ string  "enum: Produktion, Klick, Sonstiges"
+        name varchar(100)
+        typ enum "Produktion, Klick, Sonstiges"
     }
+    
     upgrades {
         id int PK
-        name varchar
-        basispreis int
-        effektart string  "enum: prozent, absolut"
+        name varchar(100)
+        basispreis bigint
+        effektart enum "prozent, absolut"
         effektwert double
-        kategorie string  "enum: Produktion, Boost, Klick"
+        kategorie enum "Produktion, Boost, Klick"
         ziel_id int FK
     }
+    
     user_upgrades {
-        user_id int PK
-        upgrade_id int PK
+        user_id int PK,FK
+        upgrade_id int PK,FK
         level int
     }
 
-    users ||--o| beute_batzen : "hat"
-    users ||--o{ user_upgrades : "legt an"
-    upgrades ||--o{ user_upgrades : "gehört zu"
-    targets ||--o{ upgrades : "definiert"
+    %% Beziehungen
+    users ||--|| beute_batzen : "hat Währung"
+    users ||--o{ user_upgrades : "besitzt Upgrades"
+    upgrades ||--o{ user_upgrades : "wird gekauft"
+    targets ||--o{ upgrades : "definiert Ziel für"
 ```
 
 ## Verwendete Drittbibliotheken
